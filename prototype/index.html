@@ -334,6 +334,20 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 .vspec .mg{width:70px;height:54px;stroke:var(--fg);fill:none;stroke-width:2}
 .vph{display:grid;grid-template-columns:7fr 5fr;gap:20px;align-items:end}.vph .ph{aspect-ratio:16/10}.vph .ph:last-child{aspect-ratio:4/5}
 @media(max-width:900px){.vtop,.vph{grid-template-columns:1fr}.vspec{grid-template-columns:1fr 1fr}}
+
+body{overflow-x:hidden}
+.fullbleed{width:100vw;margin-left:calc(50% - 50vw)}
+.hero3{background:var(--fill);margin-top:0;padding:24px 0 30px;margin-bottom:8px}
+.h3in{display:grid;grid-template-columns:6fr 6fr;gap:48px;align-items:center;padding:0 clamp(24px,5vw,96px);max-width:1800px;margin:0 auto}
+.h3in h1{font-size:clamp(34px,3.7vw,60px);line-height:1.04;text-wrap:balance;max-width:none}
+.h3in p.lead{margin:20px 0 0;font-size:18px;color:var(--mut)}
+.stage.cmp .scene,.stage.one .scene{padding-bottom:58px;box-sizing:border-box}
+.stage.cmp .scene{height:500px}.stage.one .scene{height:560px}
+.stage.cmp:not(.ex) .bld{transform:scale(1.04)}
+.sinfo{flex-wrap:nowrap;align-items:flex-start;min-height:96px}
+.sinfo>div{min-width:0}.sinfo h4{min-height:56px}.sinfo .btn{flex:none}
+.stage.cmp .rail{min-height:46px}
+@media(max-width:900px){.h3in{grid-template-columns:1fr;gap:20px}.stage.cmp .scene{height:520px}}
 </style>
 </head>
 <body>
@@ -552,7 +566,7 @@ function stg(k,i){const el=document.querySelector('.stage[data-k="'+k+'"]');if(!
  if(S.clad){el.querySelectorAll('.lyr.cl i:not(.w)').forEach(c=>c.className='p'+(i%10))}
  if(S.frame){const f=el.querySelector('.lyr.fr');f.classList.toggle('m',i>=4);f.style.setProperty('--fw',(1+i%4*.7)+'px')}}
 function stgLbl(el){const sc=el.querySelector('.scene').getBoundingClientRect();
- el.querySelectorAll('.lbl').forEach(l=>{const L=el.querySelectorAll('.lyr')[+l.dataset.l].getBoundingClientRect();l.style.left=Math.min(L.right-sc.left+8,sc.width-l.offsetWidth-4)+'px';l.style.top=(L.top-sc.top+18)+'px'})}
+ el.querySelectorAll('.lbl').forEach(l=>{const L=el.querySelectorAll('.lyr')[+l.dataset.l].getBoundingClientRect();l.style.left=Math.min(L.right-sc.left+8,sc.width-l.offsetWidth-4)+'px';l.style.top=(L.top-sc.top+10+(3-(+l.dataset.l))*30)+'px'})}
 function stgMode(k,ex){const el=document.querySelector('.stage[data-k="'+k+'"]');el.classList.toggle('ex',!!ex);el.classList.toggle('hl-fr',!!ex&&k==='met');
  el.querySelectorAll('.seg button').forEach((b,j)=>b.classList.toggle('on',j===ex));setTimeout(()=>stgLbl(el),ex?1600:0)}
 function pickInit(){if($('#scn')){lightPick(1);setTimeout(()=>lightNight(1),500)}if($('#sph'))serPick(0);if($('#sv'))sectPick(0);if($('#mn'))mxPick(0)}
@@ -604,7 +618,7 @@ function render(){
  if(id==='map'){$('#app').innerHTML=mapPage();scrollTo(0,0);return}
  const t=T[id];
  if(id==='home'){
-  $('#app').innerHTML=`<div class="hero2"><div><h1>Навесные фасадные системы Краспан на Северо-Западе</h1><p class="lead">Официальный представитель</p></div><div>${stageHTML('nfs',1)}</div></div><p class="note">Первый экран: фасад собирается из слоёв при загрузке. Наведение на значок меняет облицовку, клик открывает страницу системы. Кнопка «В разрезе» раскладывает фасад на стену, утеплитель, каркас и облицовку</p>`+blocks({b:t.b.slice(1)});
+  $('#app').innerHTML=`<div class="fullbleed hero3"><div class="h3in"><div><h1>Навесные фасадные системы Краспан на Северо-Западе</h1><p class="lead">Официальный представитель</p></div><div>${stageHTML('nfs',1)}</div></div></div><p class="note">Первый экран: фасад собирается из слоёв при загрузке. Наведение на значок меняет облицовку, клик открывает страницу системы. Кнопка «В разрезе» раскладывает фасад на стену, утеплитель, каркас и облицовку</p>`+blocks({b:t.b.slice(1)});
  }else{
   $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${t.t}</div><div class="head"><h1>${t.t}</h1></div><p class="note">Цель страницы: ${t.goal}</p>`+blocks(t);
  }
