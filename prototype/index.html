@@ -321,6 +321,19 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 @media(max-width:820px){.steps{grid-template-columns:1fr 1fr}.cgrid{grid-template-columns:1fr}}
 .ogrid.o4{grid-template-columns:repeat(4,1fr)}.tiles.c4{grid-template-columns:repeat(4,1fr);gap:18px}.cgrid{grid-template-columns:1fr 1fr}.cgrid .spec .pr{grid-template-columns:120px 1fr}
 @media(max-width:820px){.ogrid.o4,.tiles.c4{grid-template-columns:1fr 1fr}.cgrid{grid-template-columns:1fr}}
+
+.vars .vh{margin:0 0 4px;font-size:16px;font-weight:500}
+.var{padding:40px 0 44px;border-top:1px solid var(--line)}.var:first-of-type{border-top:0;padding-top:20px}
+.vtop{display:grid;grid-template-columns:5fr 7fr;gap:36px;align-items:start}
+.vtop h3{margin:0;font-size:clamp(32px,4.2vw,54px);font-weight:300;line-height:1.05;letter-spacing:-.01em}
+.vtop .vn{font-size:13px;color:var(--mut);margin-bottom:8px}
+.vtop p{margin:0;font-size:17px;line-height:1.45;max-width:560px}.vtop p b{font-weight:600}
+.vspec{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--fg);border-bottom:1px solid var(--fg);margin:26px 0}
+.vspec>div{padding:16px 18px;border-left:1px solid var(--line);font-size:14px;display:grid;gap:8px;align-content:start}.vspec>div:first-child{border-left:0;padding-left:0}
+.vspec small{color:var(--mut);font-size:12.5px;line-height:1.35}.vspec .vb{font-size:20px;font-weight:300}
+.vspec .mg{width:70px;height:54px;stroke:var(--fg);fill:none;stroke-width:2}
+.vph{display:grid;grid-template-columns:7fr 5fr;gap:20px;align-items:end}.vph .ph{aspect-ratio:16/10}.vph .ph:last-child{aspect-ratio:4/5}
+@media(max-width:900px){.vtop,.vph{grid-template-columns:1fr}.vspec{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -491,8 +504,12 @@ const MT={
 function mountOf(a,b){const t=a+' '+b;
  if(/регулир/i.test(t))return['adj','Консольно-регулируемое'];if(/Консол/i.test(t))return['consol','Консольное'];if(/Настен/i.test(t))return['wall','Настенное'];
  if(/Мачт|Парков/i.test(t))return['mast','На мачте или опоре'];if(/Встраив/i.test(t))return['rec','Встраиваемое'];if(/Потолоч/i.test(t))return['ceil','Потолочное'];return['pend','Подвесное']}
-function serHTML(L){window.SERIES=L.series;
- return `<div class="ser"><div class="sl">${L.series.map(([a,b],j)=>`<button class="${j?'':'on'}" onmouseenter="serPick(${j})" onfocus="serPick(${j})" onclick="serPick(${j})">${a}<small>${b}</small></button>`).join('')}</div><div class="sp"><div class="ph"><span id="sph"></span></div><div class="mt"><svg viewBox="0 0 90 70" id="smsv"></svg><div><b id="smn"></b><br><span style="color:var(--mut);font-size:12.5px">Способ крепления</span></div></div></div></div>`}
+function serHTML(L,i){const c=LC[i];
+ const tv=c.t?(c.t[0]===null?'до '+fmt(c.t[1])+' °C':fmt(c.t[0])+' … '+fmt(c.t[1])+' °C'):null;
+ return `<div class="vars"><h3 class="vh">Варианты исполнения: ${L.series.length}</h3>`+L.series.map(([a,b],j)=>{const m=mountOf(a,b);const parts=b.split(/[,:]\s*/);const head=parts[0],rest=parts.slice(1).join(', ');
+ return `<div class="var"><div class="vtop"><div><div class="vn">Вариант ${j+1} из ${L.series.length}</div><h3>${a}</h3></div><p><b>${head}</b>${rest?' — '+rest:''}</p></div>
+ <div class="vspec"><div><small>Тип крепления</small><svg viewBox="0 0 90 70" class="mg">${MT[m[0]]}</svg><span>${m[1]}</span></div><div><small>Стабильная работа в диапазоне</small>${tv?`<span class="vb">${tv}</span>`:bar(60)}</div><div><small>Защита корпуса</small><span class="vb">${c.ip}</span></div><div><small>Способ монтажа</small>${bar(85)}${bar(60)}</div></div>
+ <div class="vph"><div class="ph"><span>Фото: ${a}, вид 1</span></div><div class="ph"><span>Фото: ${a}, вид 2</span></div></div></div>`}).join('')+`</div>`}
 function serPick(j){const S=window.SERIES;if(!S||!$('#sph'))return;const [a,b]=S[j];const m=mountOf(a,b);
  $('#sph').textContent='Фото: '+a;$('#smsv').innerHTML=MT[m[0]];$('#smn').textContent=m[1];
  document.querySelectorAll('.sl button').forEach((e,k)=>e.classList.toggle('on',k===j))}
@@ -503,7 +520,7 @@ const FN={
  objs9:()=>`<div class="ogrid">${[0,1,2,3,4,5,6,7].map(j=>`<div><div class="ph"><span>Фото объекта</span></div><b>Название объекта</b><small>Город · система</small></div>`).join('')}</div>`,
  reqs:()=>`<div class="cgrid"><div class="spec">${prow([['Адрес','Санкт-Петербург, адрес'],['Телефон','+7 (000) 000-00-00'],['Почта','info@mail.ru'],['Режим работы','Пн–Пт, 9:00–18:00'],['Реквизиты',bar(60)]])}</div><div class="ph"><span>Карта проезда</span></div></div>`};
 const D={
- light:i=>{const L=LGT[i];return [['Где применяют','Типы объектов, для которых это направление',null,{raw:uses(L.use.slice(0,6))}],['Серии: '+L.series.length,'Слева серии, справа фото выбранной серии и способ её крепления. Отдельных страниц у серий нет',null,{raw:serHTML(L)}]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{raw:cards([['objs',L.obj.split(' · ')[0],'Объект']]),go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Соседние направления',null,{raw:strip('light',i)}],FORM])},
+ light:i=>{const L=LGT[i];return [['Где применяют','Типы объектов, для которых это направление',null,{raw:uses(L.use.slice(0,6))}],['Варианты исполнения','',null,{raw:serHTML(L,i),wide:1}]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{raw:cards([['objs',L.obj.split(' · ')[0],'Объект']]),go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Соседние направления',null,{raw:strip('light',i)}],FORM])},
  nfs:i=>[['Из чего собирается','Облицовка и металлокаркас, из которых собрана система',null,{raw:cardsPlus([['cld-'+i,CLD[i],'Облицовка'],['met-1',MET[1],'Металлокаркас']])}],['Как крепится','Схема узла: способ крепления панели к каркасу',null,{raw:schem('Схема узла',['Облицовка','Крепёж','Профиль каркаса','Кронштейн','Утеплитель'])}],['Где применять','Типы зданий и условия',null,{raw:uses(['Жилые здания','Общественные здания','Промышленные объекты'])}],['Параметры','Толщина, вес, размеры',null,{raw:'<div class="spec">'+prow([['Толщина',bar(30)],['Размеры панели',bar(50)],['Вес, кг/м²',bar(35)],['Высота здания',bar(45)]])+'</div>'}],['Объект с этой системой','Фото объекта и подпись',null,{raw:cards([['objs','Название объекта','Город']]) ,go:[['objs','Все объекты']]}],['Другие системы','Соседние системы',null,{raw:strip('nfs',i)}],FORM],
  met:i=>[['Схема узла','Кронштейн, профиль, анкер, прокладка, крепитель утеплителя',null,{raw:schem('Схема узла',['Кронштейн','Профиль','Анкер','Прокладка','Крепитель утеплителя'])}],['Материал и исполнение','Сталь оцинкованная, коррозионно-стойкая или алюминий',null,{raw:'<div class="spec">'+prow([['Материал',MATS[i%4]],['Толщина профиля',bar(30)],['Защитное покрытие',bar(45)]])+'</div>'}],['С какими облицовками работает','Ссылки на облицовки',null,{raw:cards([['cld-0',CLD[0],'Облицовка'],['cld-4',CLD[4],'Облицовка'],['cld-7',CLD[7],'Облицовка']])}],['Где применять','Высота здания, тип стены, межэтажные перекрытия',null,{raw:uses(['Низкие здания','Высотные здания','Перекрытия'])}],['Другие каркасы','Соседние каркасы',null,{raw:strip('met',i)}],FORM],
  cld:i=>[['Фото и фактура','Крупное фото панели и две фактуры вблизи',null,{raw:'<div class="uses" style="grid-template-columns:2fr 1fr 1fr"><div><div class="ph" style="aspect-ratio:4/3"><span>Панель на фасаде</span></div></div><div><div class="ph"><span>Фактура</span></div></div><div><div class="ph"><span>Фактура</span></div></div></div>'}],['Из чего состоит панель','Слои: лицевая поверхность, основа, тыльная сторона',null,{raw:layers([['Лицевая поверхность',44],['Основа',64],['Тыльная сторона',44]])}],['Параметры','Толщина, ширина, длина, вес',null,{raw:'<div class="spec">'+prow([['Толщина',bar(30)],['Ширина',bar(45)],['Длина',bar(60)],['Вес, кг/м²',bar(35)]])+'</div>'}],['Цвета и текстуры','RAL, NCS и «Поликолор»',null,{raw:colors()}],['Какие каркасы подходят','Каркасы, на которых крепится эта облицовка',null,{raw:cards([['met-1',MET[1],'Каркас'],['met-2',MET[2],'Каркас'],['met-3',MET[3],'Каркас']])}],['Готовая система','Навесная система с этой облицовкой',null,{raw:cards([['nfs-'+i,NFS[i],'Система']])}],['Другие облицовки','Соседние облицовки',null,{raw:strip('cld',i)}],FORM]};
