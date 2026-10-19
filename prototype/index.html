@@ -252,6 +252,49 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 .ac.on .acx{opacity:1;transition:opacity .4s .3s;pointer-events:auto}.ac.on .acv{opacity:0}
 .acx h4{margin:0 0 4px;font-size:20px;font-weight:300;line-height:1.25}.acx p{margin:0 0 14px;color:var(--mut);font-size:13px}
 @media(max-width:900px){.pass,.sect{grid-template-columns:1fr}.pp{position:static}.sysg{grid-template-columns:repeat(2,1fr)}.mx{grid-template-columns:1fr 1fr}.mx .ch,.mx .rhd{grid-column:1/-1}.acc{flex-direction:column;height:auto}.ac{flex:none;height:54px}.ac.on{height:300px}.ac .acv span{writing-mode:horizontal-tb;transform:none}.ac .acv{align-items:center;justify-content:flex-start;padding:0 12px}}
+
+/* ---- освещение: сцена */
+.sbar{display:flex;justify-content:flex-end;margin-bottom:10px}
+.seg2{display:flex;border:1px solid var(--fg)}
+.seg2 button{border:0;background:none;padding:8px 14px;font:500 13px Geologica,system-ui,sans-serif;cursor:pointer;color:var(--fg)}
+.seg2 button.on{background:var(--fg);color:#fff}
+.scn{border:1px solid var(--fg);background:#fff;transition:background .7s;--fg:#1b1d1f;--bg:#fff;--line:#d3d7db}
+.scn svg{display:block;width:100%;height:auto;stroke:var(--fg);fill:none;stroke-width:1.5}
+.scn .fl{fill:var(--bg)}
+.scn text{stroke:none;font:12.5px Geologica,system-ui,sans-serif;text-anchor:middle;fill:var(--fg)}
+.scn .z{cursor:pointer;outline:none}
+.scn .cone{fill:rgba(200,16,46,.10);stroke:var(--acc);stroke-dasharray:3 4;opacity:0;transition:opacity .7s}
+.scn.lit .z .cone{opacity:.8;transition-delay:var(--d)}
+.scn.lit .z.on .cone{opacity:1;fill:rgba(200,16,46,.24);transition-delay:0s}
+.scn .pn{fill:var(--bg)}
+.scn .z.on .pn{fill:var(--acc);stroke:var(--acc)}
+.scn .z.on .pt{fill:#fff}
+.scn .ul{stroke:var(--line);stroke-width:2}
+.scn .z.on .ul{stroke:var(--acc);stroke-width:3}
+.scn .z.on .lb{font-weight:600}
+.scn .fire{stroke:var(--acc)}
+.scn.night{background:#15171a;--fg:#e8ebee;--bg:#15171a;--line:#3b4045}
+.scn.night .cone{fill:rgba(255,120,140,.14)}
+.scn.night.lit .z.on .cone{fill:rgba(255,120,140,.34)}
+.linfo{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-top:16px}
+.linfo h4{margin:0;font-size:24px;font-weight:300}.linfo p{margin:2px 0 0;color:var(--mut);font-size:13.5px}
+/* ---- освещение: страница направления */
+.lamp{position:relative}.lamp .ph{aspect-ratio:16/11}
+.glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(200,16,46,.30),transparent 66%);animation:gl 2s .3s both}
+@keyframes gl{from{opacity:0}to{opacity:1}}
+.big{font-size:30px;font-weight:300;line-height:1}
+.big small{font-size:13px;color:var(--mut);margin-left:8px;font-weight:400}
+.tt{position:relative;height:10px;background:var(--panel)}.tt i{position:absolute;top:0;bottom:0;background:var(--fg)}
+.tl{position:relative;height:16px;font-size:11px;color:var(--mut);margin-top:4px}.tl span{position:absolute}
+.tm small{display:block;margin-top:6px;color:var(--fg);font-size:13px}
+.ser{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:30px}
+.sl button{display:block;width:100%;text-align:left;padding:12px 14px;border:1px solid var(--line);margin-top:-1px;background:none;font:500 14px Geologica,system-ui,sans-serif;cursor:pointer;color:var(--fg)}
+.sl button.on{border-color:var(--fg);background:var(--fill);position:relative;z-index:1}
+.sl small{display:block;color:var(--mut);font-size:12.5px;margin-top:2px;font-weight:400}
+.sp .ph{aspect-ratio:16/10}
+.mt{display:flex;gap:16px;align-items:center;padding-top:12px;margin-top:12px;border-top:1px solid var(--line);font-size:14px}
+.mt svg{width:90px;height:70px;stroke:var(--fg);fill:none;stroke-width:2;flex:none}
+@media(max-width:900px){.ser{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -335,7 +378,7 @@ cld:{t:'Облицовочные материалы',goal:'Рассказать 
  FORM]},
 light:{t:'Освещение FOS',goal:'Рассказать про светильники FOS Group: какие бывают и для каких условий. Продукция сопутствующая, поэтому страница короткая.',b:[
  ['Вступление',null,null,{text:'Светодиодные светильники FOS Group — производитель из Красноярска, работает с 2016 года. Поставляем вместе с фасадными системами и отдельно'}],
- ['Направления: 8 карточек','Фото светильника, название направления и одна строка, для чего оно','Клик открывает страницу направления',{tiles:LTILES,to:'light',big:1}],
+ ['Где нужен свет: 8 направлений','Схема объектов. Ночью лампы загораются по очереди. Наведение выделяет направление и показывает его название, клик открывает страницу направления. Кнопки «Ночью» и «Днём» включают и выключают свет','',{scene:1,wide:1}],
  FORM]},
 objs:{t:'Объекты',goal:'Показать, что компания работает: реальные объекты.',b:[
  ['Сетка объектов','Фото, название, город, какая система применена. Без отдельных страниц.','Клик увеличивает фото.'],
@@ -380,8 +423,55 @@ const PASS={
 const LEAD3={nfs:i=>'Готовая система: облицовка '+CLD[i]+' на металлокаркасе. Справа в паспорте — из чего собрана, на фасаде слева — как выглядит',
  met:i=>'Каркас под облицовку: '+(i>3?'для межэтажных перекрытий':'L-образный')+', '+MATS[i%4],
  cld:i=>'Облицовочный материал для навесного фасада. Слева видно, как он выглядит на здании'};
+
+const LZ=[7,0,5,6,1,2,3,4];
+const LSH=['Улицы и дороги','Цеха и склады','Горячие цеха','Химия','Взрывоопасные зоны','Железная дорога','Офисы и магазины','Парки и скверы'];
+const ZD=[
+ /*0 улицы*/`<path class="cone" d="M96 244L56 340H138Z"/><rect class="fl" x="48" y="322" width="54" height="18" rx="4"/><circle class="fl" cx="62" cy="340" r="5"/><circle class="fl" cx="90" cy="340" r="5"/><path d="M24 340V240Q24 232 34 232H96"/><rect class="fl" x="86" y="232" width="22" height="8"/>`,
+ /*1 цеха*/`<path class="fl" d="M10 340V270L40 250V270L70 250V270L100 250V270L130 250V340Z"/>`+[34,72,110].map(x=>`<path d="M${x} 270V288"/><path class="fl" d="M${x-9} 298L${x+9} 298L${x+4} 288H${x-4}Z"/><path class="cone" d="M${x-9} 298L${x-24} 340H${x+24}L${x+9} 298Z"/>`).join(''),
+ /*2 горячие*/`<rect class="fl" x="14" y="240" width="90" height="100"/><rect class="fl" x="58" y="110" width="22" height="130"/><path class="fire" d="M69 108c-9-12 5-16 0-32 11 8 15 20 7 32"/><path d="M104 280H122"/><rect class="fl" x="120" y="274" width="16" height="12"/><path class="cone" d="M128 286L100 340H146Z"/>`,
+ /*3 химия*/`<rect class="fl" x="12" y="250" width="54" height="90" rx="14"/><rect class="fl" x="82" y="280" width="54" height="60" rx="14"/><path d="M66 302H82"/><path d="M109 280V252"/><circle class="fl" cx="109" cy="245" r="7"/><path class="cone" d="M109 252L78 340H140Z"/>`,
+ /*4 Ex*/`<rect class="fl" x="14" y="270" width="64" height="70" rx="16"/><path d="M110 270V340"/><path class="fl" d="M110 226L134 270H86Z"/><text x="110" y="263">Ex</text><path d="M24 270V236H54"/><rect class="fl" x="48" y="233" width="18" height="7"/><path class="cone" d="M57 240L28 340H90Z"/>`,
+ /*5 рельсы*/`<rect class="fl" x="0" y="318" width="52" height="16"/><path d="M0 334H148M0 340H148"/>`+[8,24,40,56,72,88,104,120,136].map(x=>`<path d="M${x} 334V343"/>`).join('')+`<path d="M112 340V208"/><rect class="fl" x="98" y="202" width="28" height="9"/><path class="cone" d="M104 211L24 340H116Z"/>`,
+ /*6 офисы*/`<rect class="fl" x="14" y="190" width="120" height="150"/>`+[0,1,2,3].map(r=>[0,1,2].map(c=>`<rect class="fl" x="${28+c*34}" y="${204+r*29}" width="22" height="17"/>`).join('')).join('')+`<rect class="fl" x="62" y="314" width="24" height="26"/><circle class="fl" cx="74" cy="302" r="5"/><path class="cone" d="M74 307L38 340H110Z"/>`,
+ /*7 парки*/`<circle class="fl" cx="28" cy="286" r="24"/><path d="M28 310V340"/><circle class="fl" cx="122" cy="296" r="20"/><path d="M122 316V340"/><path d="M74 340V264"/><circle class="fl" cx="74" cy="256" r="8"/><path class="cone" d="M74 264L40 340H108Z"/>`];
+function lightScene(){
+ const zs=LZ.map((di,k)=>`<g class="z" data-i="${di}" tabindex="0" transform="translate(${12+k*148},0)" style="--d:${k*.2}s" onmouseenter="lightPick(${di})" onfocus="lightPick(${di})" onclick="go('light-${di}')"><rect x="0" y="20" width="148" height="372" fill="transparent" stroke="none"/>${ZD[di]}<circle class="pn" cx="74" cy="52" r="13"/><text class="pt" x="74" y="56.5">${k+1}</text><path d="M74 66V100" stroke-dasharray="2 4"/><text class="lb" x="74" y="366">${LSH[di]}</text><path class="ul" d="M10 378H138"/></g>`).join('');
+ return `<div class="sbar"><div class="seg2" id="lseg"><button class="on" onclick="lightNight(1)">Ночью</button><button onclick="lightNight(0)">Днём</button></div></div>
+ <div class="scn" id="scn"><svg viewBox="0 0 1200 392" role="img" aria-label="Схема объектов, где нужен свет"><path d="M0 340H1200"/>${zs}</svg></div>
+ <div class="linfo"><div><h4 id="ln"></h4><p id="lsub"></p></div><button class="btn alt" id="lgo">Открыть направление</button></div>`}
+function lightPick(i){const n=$('#ln');if(!n)return;n.textContent=LNAMES[i];$('#lsub').textContent=LGT[i].d;$('#lgo').onclick=()=>go('light-'+i);document.querySelectorAll('#scn .z').forEach(z=>z.classList.toggle('on',+z.dataset.i===i))}
+function lightNight(n){const e=$('#scn');if(!e)return;e.classList.toggle('night',!!n);e.classList.toggle('lit',!!n);document.querySelectorAll('#lseg button').forEach((b,j)=>b.classList.toggle('on',j===(n?0:1)))}
+const LC=[
+ {ip:'IP67',t:[-40,60],life:16,war:5},{ip:'IP67',t:[-40,60],life:16,war:5},{ip:'IP67',t:[null,80],life:25,war:7},{ip:'IP67',t:[-40,60],life:16,war:5},
+ {ip:'IP67',t:[-40,60],life:16,war:5,x:'Есть сертификация'},{ip:'IP65',life:16,war:5,x:'Устойчивы к вибрациям и ударам'},{ip:'IP40/65',life:16,x:'Значения для серии FOS Office'},{ip:'IP65',t:[-50,60],life:8,war:3}];
+const fmt=v=>(v<0?'−':v>0?'+':'')+Math.abs(v);
+function tempHTML(t){const pos=v=>(v+60)/150*100;const a=t[0]===null?0:pos(t[0]),b=pos(t[1]);
+ const bg=t[0]===null?'background:linear-gradient(90deg,transparent,var(--fg))':'';
+ return `<div class="tm"><div class="tt"><i style="left:${a}%;width:${b-a}%;${bg}"></i></div><div class="tl"><span style="left:0">−60</span><span style="left:40%;transform:translateX(-50%)">0</span><span style="right:0">+90 °C</span></div><small>${t[0]===null?'до '+fmt(t[1])+' °C':'от '+fmt(t[0])+' до '+fmt(t[1])+' °C'}</small></div>`}
+function lightPass(i){const c=LC[i];const r=[['Защита корпуса',`<div class="big">${c.ip}</div>`]];
+ if(c.t)r.push(['Температура',tempHTML(c.t)]);
+ r.push(['Срок службы',`<div class="big">${c.life}<small>лет</small></div>`]);
+ if(c.war)r.push(['Гарантия',`<div class="big">${c.war}<small>${c.war<5?'года':'лет'}</small></div>`]);
+ if(c.x)r.push(['Особенность',c.x]);return r}
+const MT={
+ consol:'<path d="M20 6V64M20 14H68"/><rect x="58" y="14" width="22" height="8"/>',
+ adj:'<path d="M20 6V64M20 20H58"/><rect x="52" y="14" width="24" height="9" transform="rotate(20 52 18)"/><path d="M70 40Q78 32 78 26" stroke-dasharray="3 3"/>',
+ wall:'<path d="M14 6V64"/><path d="M14 30H44"/><rect x="44" y="24" width="30" height="12"/>',
+ pend:'<path d="M8 8H82M45 8V34"/><path d="M30 34H60L68 52H22Z"/>',
+ mast:'<path d="M45 64V16"/><rect x="28" y="6" width="34" height="10"/><path d="M28 6L62 16M62 6L28 16"/>',
+ rec:'<path d="M4 24H34M56 24H86"/><rect x="34" y="20" width="22" height="8"/><path d="M36 30L22 62M54 30L68 62" stroke-dasharray="3 3"/>',
+ ceil:'<path d="M4 10H86"/><rect x="22" y="10" width="46" height="9"/>'};
+function mountOf(a,b){const t=a+' '+b;
+ if(/регулир/i.test(t))return['adj','Консольно-регулируемое'];if(/Консол/i.test(t))return['consol','Консольное'];if(/Настен/i.test(t))return['wall','Настенное'];
+ if(/Мачт|Парков/i.test(t))return['mast','На мачте или опоре'];if(/Встраив/i.test(t))return['rec','Встраиваемое'];if(/Потолоч/i.test(t))return['ceil','Потолочное'];return['pend','Подвесное']}
+function serHTML(L){window.SERIES=L.series;
+ return `<div class="ser"><div class="sl">${L.series.map(([a,b],j)=>`<button class="${j?'':'on'}" onmouseenter="serPick(${j})" onfocus="serPick(${j})" onclick="serPick(${j})">${a}<small>${b}</small></button>`).join('')}</div><div class="sp"><div class="ph"><span id="sph"></span></div><div class="mt"><svg viewBox="0 0 90 70" id="smsv"></svg><div><b id="smn"></b><br><span style="color:var(--mut);font-size:12.5px">Способ крепления</span></div></div></div></div>`}
+function serPick(j){const S=window.SERIES;if(!S||!$('#sph'))return;const [a,b]=S[j];const m=mountOf(a,b);
+ $('#sph').textContent='Фото: '+a;$('#smsv').innerHTML=MT[m[0]];$('#smn').textContent=m[1];
+ document.querySelectorAll('.sl button').forEach((e,k)=>e.classList.toggle('on',k===j))}
 const D={
- light:i=>{const L=LGT[i];return [['Первый экран страницы','Название направления, крупное фото, кнопка «Связаться». Одно предложение: '+L.lead],['Где применяют',null,null,{text:L.use.join(' · ')}],['Серии: '+L.series.length,'Фото, название серии и способ крепления. Отдельных страниц у серий нет',null,{chips:L.series}],['Условия работы',null,null,{text:L.cond}]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Плитки соседних направлений',null,{tiles:LTILES,to:'light',photo:1}],FORM])},
+ light:i=>{const L=LGT[i];return [['Где применяют','Типы объектов, для которых это направление',null,{raw:uses(L.use.slice(0,6))}],['Серии: '+L.series.length,'Слева серии, справа фото выбранной серии и способ её крепления. Отдельных страниц у серий нет',null,{raw:serHTML(L)}]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{raw:cards([['objs',L.obj.split(' · ')[0],'Объект']]),go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Соседние направления',null,{raw:strip('light',i)}],FORM])},
  nfs:i=>[['Из чего собирается','Облицовка и металлокаркас, из которых собрана система',null,{raw:cardsPlus([['cld-'+i,CLD[i],'Облицовка'],['met-1',MET[1],'Металлокаркас']])}],['Как крепится','Схема узла: способ крепления панели к каркасу',null,{raw:schem('Схема узла',['Облицовка','Крепёж','Профиль каркаса','Кронштейн','Утеплитель'])}],['Где применять','Типы зданий и условия',null,{raw:uses(['Жилые здания','Общественные здания','Промышленные объекты'])}],['Параметры','Толщина, вес, размеры',null,{raw:'<div class="spec">'+prow([['Толщина',bar(30)],['Размеры панели',bar(50)],['Вес, кг/м²',bar(35)],['Высота здания',bar(45)]])+'</div>'}],['Объект с этой системой','Фото объекта и подпись',null,{raw:cards([['objs','Название объекта','Город']]) ,go:[['objs','Все объекты']]}],['Другие системы','Соседние системы',null,{raw:strip('nfs',i)}],FORM],
  met:i=>[['Схема узла','Кронштейн, профиль, анкер, прокладка, крепитель утеплителя',null,{raw:schem('Схема узла',['Кронштейн','Профиль','Анкер','Прокладка','Крепитель утеплителя'])}],['Материал и исполнение','Сталь оцинкованная, коррозионно-стойкая или алюминий',null,{raw:'<div class="spec">'+prow([['Материал',MATS[i%4]],['Толщина профиля',bar(30)],['Защитное покрытие',bar(45)]])+'</div>'}],['С какими облицовками работает','Ссылки на облицовки',null,{raw:cards([['cld-0',CLD[0],'Облицовка'],['cld-4',CLD[4],'Облицовка'],['cld-7',CLD[7],'Облицовка']])}],['Где применять','Высота здания, тип стены, межэтажные перекрытия',null,{raw:uses(['Низкие здания','Высотные здания','Перекрытия'])}],['Другие каркасы','Соседние каркасы',null,{raw:strip('met',i)}],FORM],
  cld:i=>[['Фото и фактура','Крупное фото панели и две фактуры вблизи',null,{raw:'<div class="uses" style="grid-template-columns:2fr 1fr 1fr"><div><div class="ph" style="aspect-ratio:4/3"><span>Панель на фасаде</span></div></div><div><div class="ph"><span>Фактура</span></div></div><div><div class="ph"><span>Фактура</span></div></div></div>'}],['Из чего состоит панель','Слои: лицевая поверхность, основа, тыльная сторона',null,{raw:layers([['Лицевая поверхность',44],['Основа',64],['Тыльная сторона',44]])}],['Параметры','Толщина, ширина, длина, вес',null,{raw:'<div class="spec">'+prow([['Толщина',bar(30)],['Ширина',bar(45)],['Длина',bar(60)],['Вес, кг/м²',bar(35)]])+'</div>'}],['Цвета и текстуры','RAL, NCS и «Поликолор»',null,{raw:colors()}],['Какие каркасы подходят','Каркасы, на которых крепится эта облицовка',null,{raw:cards([['met-1',MET[1],'Каркас'],['met-2',MET[2],'Каркас'],['met-3',MET[3],'Каркас']])}],['Готовая система','Навесная система с этой облицовкой',null,{raw:cards([['nfs-'+i,NFS[i],'Система']])}],['Другие облицовки','Соседние облицовки',null,{raw:strip('cld',i)}],FORM]};
@@ -416,7 +506,7 @@ function stgLbl(el){const sc=el.querySelector('.scene').getBoundingClientRect();
  el.querySelectorAll('.lbl').forEach(l=>{const L=el.querySelectorAll('.lyr')[+l.dataset.l].getBoundingClientRect();l.style.left=Math.min(L.right-sc.left+8,sc.width-l.offsetWidth-4)+'px';l.style.top=(L.top-sc.top+18)+'px'})}
 function stgMode(k,ex){const el=document.querySelector('.stage[data-k="'+k+'"]');el.classList.toggle('ex',!!ex);el.classList.toggle('hl-fr',!!ex&&k==='met');
  el.querySelectorAll('.seg button').forEach((b,j)=>b.classList.toggle('on',j===ex));setTimeout(()=>stgLbl(el),ex?1600:0)}
-function pickInit(){if($('#sv'))sectPick(0);if($('#mn'))mxPick(0)}
+function pickInit(){if($('#scn')){lightPick(1);setTimeout(()=>lightNight(1),500)}if($('#sph'))serPick(0);if($('#sv'))sectPick(0);if($('#mn'))mxPick(0)}
 function stgInit(){document.querySelectorAll('.stage').forEach(el=>{const k=el.dataset.k;stg(k,+el.dataset.one||0);
  if(STG[k].ex){setTimeout(()=>stgLbl(el),1600);return}
  el.classList.add('ex');el.querySelectorAll('.seg button').forEach((b,j)=>b.classList.toggle('on',j===1));
@@ -430,6 +520,7 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  if(ex.sec)body+=`<div class="lists">${ex.sec.map(([n,l,to])=>`<div><h4 onclick="go('${to}')">${n}</h4>${l.map((x,j)=>`<a onclick="go('${to}-${j}')">${x}</a>`).join('')}</div>`).join('')}</div>`;
  if(ex.stage)body+=stageHTML(ex.stage);
  if(ex.raw)body+=ex.raw;
+ if(ex.scene)body+=lightScene();
  if(ex.sect)body+=sectHTML();
  if(ex.matrix)body+=matrixHTML();
  if(ex.acc)body+=accHTML();
@@ -453,7 +544,7 @@ function render(){
   $('#nav').innerHTML=nav(GRP[k]);
   const t={b:D[k](i)};
   const crumbs=`<div class="crumbs"><a onclick="go('home')">Главная</a> › <a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><div class="head"><h1>${NAMES[k][i]}</h1><button class="btn" onclick="form()">Связаться</button></div>`;
-  if(k==='light')$('#app').innerHTML=crumbs+`<p class="note">Страница направления: здесь клиент видит серии светильников для своих условий</p>`+blocks(t);
+  if(k==='light')$('#app').innerHTML=crumbs+`<p class="lead3">${LGT[i].lead}</p><div class="pass"><div class="lamp"><div class="ph"><span>Фото светильника</span></div><div class="glow"></div></div><div class="pp"><h4>Условия работы</h4>${prow(lightPass(i))}<div class="btns"><button class="btn" onclick="form()">Связаться</button></div></div></div><p class="note">Первый экран: фото светильника и условия, в которых он работает: защита, температура, срок службы, гарантия. Ниже — где применяют, серии, объекты</p>`+blocks(t);
   else $('#app').innerHTML=crumbs+`<p class="lead3">${LEAD3[k](i)}</p><div class="pass"><div>${stageHTML(k,0,i)}</div><div class="pp"><h4>Паспорт</h4>${prow(PASS[k](i))}<div class="btns"><button class="btn" onclick="form()">Связаться</button></div></div></div><p class="note">Первый экран: слева показано, как продукт выглядит на фасаде (кнопка «В разрезе» раскладывает фасад на слои), справа — паспорт с главными параметрами. Ниже — блоки страницы по порядку</p>`+blocks(t);
   if(k==='nfs'&&false){}
   scrollTo(0,0);stgInit();pickInit();return}
