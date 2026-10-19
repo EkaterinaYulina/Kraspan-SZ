@@ -53,8 +53,12 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 0;color:var
 .fld{border:1px solid var(--line);border-radius:6px;padding:9px 10px;margin:0 0 8px;color:var(--mut);font-size:14px}
 .src{font-size:13px;background:var(--accbg);border-radius:6px;padding:6px 10px;margin:0 0 10px}
 .tile small{display:block;font-weight:400;font-size:12px;color:var(--mut);margin-top:4px}
+.ph{background:#e9ebef;color:var(--mut);display:flex;align-items:center;justify-content:center;font-size:12px;height:96px}
+.tile.photo{flex-direction:column;align-items:stretch;justify-content:flex-start;padding:0;overflow:hidden;font-weight:600}
+.tile.photo .tt{padding:10px}
+.chips .chip{padding:0;overflow:hidden}.chips .chip .ph{height:72px;margin-bottom:8px}.chips .chip .tx{padding:0 10px 10px}
 .chips{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-top:10px}
-.chips .chip{padding:10px}.chips .chip b{font-size:14px;color:var(--fg);margin-bottom:2px}
+.chips .chip b{font-size:14px;color:var(--fg);margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -122,7 +126,7 @@ home:{t:'Главная',goal:'Показать, кто мы, и сразу вы
  ['Первый экран','Заголовок: «Навесные фасадные системы Краспан на Северо-Западе». Подзаголовок: «Официальный представитель», регионы работы. Кнопка «Связаться».'],
  ['Навесные фасадные системы (главный акцент)','10 крупных плиток с фото готовой системы. Это основной блок страницы.','Клик по плитке открывает страницу «Навесные фасадные системы» на нужной системе.',{tiles:NFS,to:'nfs',big:1}],
  ['Металлокаркасы и облицовочные материалы (второй план)','Два небольших блока рядом, без фото: просто списки видов.','Клик по строке открывает страницу раздела на нужном виде.',{sec:[['Металлокаркасы',MET,'met'],['Облицовочные материалы',CLD,'cld']]}],
- ['Освещение FOS Group (третий план)','Список из 8 направлений светильников, без фото. Подпись: «Также поставляем светильники FOS Group»','Клик по строке открывает страницу направления',{sec:[['Освещение FOS Group',LNAMES,'light']]}],
+ ['Освещение FOS Group (третий план)','8 небольших плиток с фото светильников. Подпись: «Также поставляем светильники FOS Group»','Клик по плитке открывает страницу направления',{tiles:LTILES,to:'light',photo:1}],
  ['Объекты','3–4 фото реализованных объектов.','Ссылка «Все объекты».',{go:[['objs','Все объекты']]}],
  ['Как заказать','Короткий блок о том, как у нас заказать продукцию. Кнопка «Связаться».'],
  ['Контакты','Телефон, почта, адрес и форма «Связаться».']]},
@@ -139,8 +143,7 @@ cld:{t:'Облицовочные материалы',goal:'Рассказать 
  FORM]},
 light:{t:'Освещение FOS',goal:'Рассказать про светильники FOS Group: какие бывают и для каких условий. Продукция сопутствующая, поэтому страница короткая.',b:[
  ['Вступление','Светодиодные светильники FOS Group, производитель из Красноярска, работает с 2016 года. Поставляем вместе с фасадными системами и отдельно'],
- ['Направления: 8 карточек','Название направления и одна строка, для чего оно. Без фото','Клик открывает страницу направления',{tiles:LTILES,to:'light'}],
- ['Не знаете, что выбрать','Опишите объект и условия, подскажем направление. Кнопка «Связаться»'],
+ ['Направления: 8 карточек','Фото светильника, название направления и одна строка, для чего оно','Клик открывает страницу направления',{tiles:LTILES,to:'light',photo:1}],
  FORM]},
 objs:{t:'Объекты',goal:'Показать, что компания работает: реальные объекты.',b:[
  ['Сетка объектов','Фото, название, город, какая система применена. Без отдельных страниц.','Клик увеличивает фото.'],
@@ -156,7 +159,7 @@ const MENU=[['nfs','Навесные фасадные системы'],['met','�
 
 const NAMES={nfs:NFS,met:MET,cld:CLD,light:LNAMES},SEC={nfs:['nfs','Навесные фасадные системы'],met:['met','Металлокаркасы'],cld:['cld','Облицовочные материалы'],light:['light','Освещение FOS']};
 const D={
- light:i=>{const L=LGT[i];return [['Первый экран страницы','Название направления, одно предложение о том, для чего оно, кнопка «Связаться»'],['Для чего это направление',L.lead],['Где применяют',L.use.join(' · ')],['Серии: '+L.series.length,'Название серии и способ крепления. Отдельных страниц у серий нет',null,{chips:L.series}],['Условия работы',L.cond]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Плитки соседних направлений',null,{tiles:LTILES,to:'light'}],FORM])},
+ light:i=>{const L=LGT[i];return [['Первый экран страницы','Название направления, крупное фото, кнопка «Связаться». Одно предложение: '+L.lead],['Где применяют',L.use.join(' · ')],['Серии: '+L.series.length,'Фото, название серии и способ крепления. Отдельных страниц у серий нет',null,{chips:L.series}],['Условия работы',L.cond]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Плитки соседних направлений',null,{tiles:LTILES,to:'light',photo:1}],FORM])},
  nfs:i=>[['Первый экран страницы','Название системы, система в разрезе и на фасаде, кнопка «Связаться».'],['Что это за система','Одно-два предложения простым языком: что получается на фасаде.'],['Из чего собирается','Облицовка и металлокаркас, из которых собрана система.',null,{go:[['cld-'+i,'Облицовка: '+CLD[i]],['met-1','Металлокаркас: '+MET[1]]]}],['Как крепится','Способ крепления панели к каркасу, схема узла.'],['Где применять','Типы зданий и условия: жилые, общественные, промышленные; высота, климат.'],['Параметры','Толщина, размеры, вес кг/м², цвета и текстуры.'],['Пример объекта','Фото объекта, где применена эта система.'],['Другие системы','Плитки соседних систем.',null,{tiles:NFS,to:'nfs'}],FORM],
  met:i=>[['Первый экран страницы','Название каркаса, для чего он, кнопка «Связаться».'],['Что это за каркас','Для чего нужен, какие нагрузки держит. Простым языком.'],['Схема узла','Кронштейн, профиль, анкер, прокладка, крепитель утеплителя.'],['Материал и исполнение','Сталь оцинкованная, коррозионно-стойкая или алюминий.'],['С какими облицовками работает','Список облицовок со ссылками.',null,{go:[['cld-0',CLD[0]],['cld-4',CLD[4]],['cld-7',CLD[7]]]}],['Где применять','Высота здания, тип стены, межэтажные перекрытия.'],['Другие каркасы','Плитки соседних каркасов.',null,{tiles:MET,to:'met'}],FORM],
  cld:i=>[['Первый экран страницы','Название облицовки, крупное фото, кнопка «Связаться».'],['Что это за материал','Из чего сделан, чем отличается. Простым языком.'],['Из чего состоит панель','Слои: лицевая поверхность, основа, тыльная сторона.'],['Параметры','Толщина, ширина, длина, вес кг/м².'],['Цвета и текстуры','RAL, NCS и «Поликолор».'],['Какие каркасы подходят','Каркасы, на которых крепится эта облицовка.',null,{go:[['met-1',MET[1]],['met-2',MET[2]],['met-3',MET[3]]]}],['Готовая система','Навесная система с этой облицовкой.',null,{go:[['nfs-'+i,NFS[i]]]}],['Другие облицовки','Плитки соседних облицовок.',null,{tiles:CLD,to:'cld'}],FORM]};
@@ -167,10 +170,10 @@ function blocks(t){return t.b.map((b,i)=>{
  const txt=b.slice(1).filter(x=>typeof x==='string');
  let h=`<div class="blk"><div class="n">${i+1}</div><h3>${b[0]}</h3><div class="d">${txt[0]||''}</div>`;
  if(txt[1])h+=`<div class="how">Как работает: ${txt[1]}</div>`;
- if(ex.tiles)h+=`<div class="tiles ${ex.big?'bigs':''}">${ex.tiles.map((x,j)=>`<div class="tile ${ex.big?'big':''}" onclick="go('${ex.to}-${j}')">${x}</div>`).join('')}</div>`;
+ if(ex.tiles)h+=`<div class="tiles ${ex.big?'bigs':''}">${ex.tiles.map((x,j)=>`<div class="tile ${ex.big?'big':''} ${ex.photo?'photo':''}" onclick="go('${ex.to}-${j}')">${ex.photo?`<div class="ph">Фото</div><div class="tt">${x}</div>`:x}</div>`).join('')}</div>`;
  if(ex.sec)h+=`<div class="sec" style="margin-top:10px">${ex.sec.map(([n,l,to])=>`<div class="blk" style="background:var(--bg);padding-left:16px"><h3 style="cursor:pointer" onclick="go('${to}')">${n} →</h3>${l.map((x,j)=>`<div style="padding:3px 0;font-size:13px;cursor:pointer;text-decoration:underline" onclick="go('${to}-${j}')">${x}</div>`).join('')}</div>`).join('')}</div>`;
  if(ex.story)h+=ex.story.map((n,j)=>`<div class="blk story" id="${ex.a}${j}" style="background:var(--bg);padding-left:16px"><h3>${n}</h3><div class="row">${ST[ex.k].map(([a,d])=>`<div class="chip"><b>${a}</b>${d}</div>`).join('')}</div><div class="btns"><button class="btn alt" onclick="form()">Узнать подробнее</button></div></div>`).join('');
- if(ex.chips)h+=`<div class="chips">${ex.chips.map(([a,d])=>`<div class="chip"><b>${a}</b>${d}</div>`).join('')}</div>`;
+ if(ex.chips)h+=`<div class="chips">${ex.chips.map(([a,d])=>`<div class="chip"><div class="ph">Фото</div><div class="tx"><b>${a}</b>${d}</div></div>`).join('')}</div>`;
  if(ex.go)h+=`<div class="btns">${ex.go.map(([x,l])=>`<button class="btn alt" onclick="go('${x}')">${l}</button>`).join('')}</div>`;
  if(b[0]===FORM[0])h+=`<div class="btns"><button class="btn" onclick="form()">Связаться</button></div>`;
  return h+'</div>'}).join('')}
