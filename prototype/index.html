@@ -4,61 +4,102 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Структура сайта Краспан СЗ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fff;--fg:#1f2328;--mut:#6b7280;--line:#e3e6ea;--fill:#f6f7f9;--acc:#c8102e;--accbg:#fdecef;--note:#fffbe6;--noteb:#f0e3a1}
+:root{--bg:#fff;--fg:#1b1d1f;--mut:#6a7178;--line:#d3d7db;--fill:#f1f3f4;--panel:#e4e7ea;--acc:#c8102e;--accbg:#fbe9ec}
 html{color-scheme:light}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
-.wrap{max-width:980px;margin:0 auto;padding:0 16px}
-.proto{background:var(--fill);border-bottom:1px solid var(--line);font-size:13px;color:var(--mut)}
-.proto .wrap{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:8px 16px}
-.proto a{cursor:pointer;color:var(--fg);text-decoration:underline}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 15px/1.55 Geologica,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.proto{background:var(--fill);font-size:12px;color:var(--mut)}
+.proto .wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap;padding:7px 24px}
+.proto a{cursor:pointer;text-decoration:underline;color:var(--fg)}
 .proto label{margin-left:auto;cursor:pointer;user-select:none}
-header{border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
-.bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:12px 0}
-.logo{font-weight:800;letter-spacing:.5px;cursor:pointer}
-.logo b{color:var(--acc)}
-nav{display:flex;gap:2px;flex-wrap:wrap;flex:1}
-nav a{cursor:pointer;padding:6px 10px;border-radius:6px;color:var(--fg)}
-nav a:hover{background:var(--fill)}nav a.on{background:var(--accbg);color:var(--acc)}
-.cont{font-size:13px;text-align:right;line-height:1.3}
-.btn{background:var(--acc);color:#fff;border:0;padding:9px 16px;border-radius:6px;cursor:pointer;font:inherit;font-weight:600}
-.btn.alt{background:none;color:var(--fg);border:1px solid var(--line)}
-.crumbs{font-size:13px;color:var(--mut);padding:14px 0 4px}
-.crumbs a{cursor:pointer;color:var(--mut);text-decoration:underline}
-h1{font-size:26px;margin:6px 0 4px}
-.sub{color:var(--mut);margin:0 0 18px}
-.blk{position:relative;border:1px solid var(--line);background:var(--fill);border-radius:8px;padding:16px 16px 16px 52px;margin:0 0 12px;min-height:64px}
-.blk .n{position:absolute;left:14px;top:14px;width:26px;height:26px;border-radius:50%;background:var(--fg);color:var(--bg);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.blk h3{margin:0 0 2px;font-size:15px}
-.blk .d{font-size:13px;color:var(--mut)}
-.blk .how{margin-top:8px;font-size:13px;background:var(--note);border:1px solid var(--noteb);border-radius:6px;padding:6px 10px}
-body.nonotes .how,body.nonotes .d{display:none}
-.blk.big{min-height:130px}
-.tiles{display:grid;gap:8px;margin-top:10px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
-.tile{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;font-size:13px;cursor:pointer;min-height:54px;display:flex;align-items:center}
-.tile:hover{border-color:var(--acc);color:var(--acc)}
-.tile.todo{color:var(--mut);font-style:italic}
-.btns{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0 24px}
-th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
-th{background:var(--fill)}
-tr.go{cursor:pointer}tr.go:hover td{background:var(--accbg)}
-footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 0;color:var(--mut);font-size:13px}
-.story{margin:0 0 14px}.story .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.chip{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}.chip b{display:block;font-size:12px;color:var(--mut);font-weight:600}.tile.big{min-height:96px;font-weight:600;flex-direction:column;align-items:flex-start;justify-content:flex-end;background:var(--accbg);border-color:transparent}.tiles.bigs{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.sec{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.sec .blk{margin:0}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:14px;display:none;z-index:20}
-.ov{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+header{background:var(--bg);position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:stretch;gap:28px;min-height:68px}
+.logo{display:flex;align-items:center;font-weight:600;letter-spacing:.02em;cursor:pointer;font-size:17px;white-space:nowrap}
+.logo b{color:var(--acc);font-weight:600;margin-left:6px}
+nav{display:flex;flex:1;align-items:stretch}
+.nv .nl{display:flex;align-items:center;height:100%;padding:0 16px;cursor:pointer;text-decoration:none;font-size:14.5px;border-bottom:2px solid transparent;margin-bottom:-1px}
+.nv:hover .nl,.nv:focus-within .nl{background:var(--fill)}
+.nv.on .nl{border-bottom-color:var(--acc)}
+.mega{display:none;position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);padding:30px 0 38px}
+.nv:hover .mega,.nv:focus-within .mega{display:block}
+header.shut .mega{display:none!important}
+.mg3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.mg2{display:grid;grid-template-columns:1fr}
+.mc a{display:block;padding:3px 0;font-size:13.5px;cursor:pointer;text-decoration:none;color:var(--mut)}
+.mc a:hover{color:var(--acc)}
+.mc .mh{font-size:15px;font-weight:500;color:var(--fg);margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.mg2 .mc{columns:2;column-gap:40px}.mg2 .mc .mh{column-span:all}
+.cont{display:flex;flex-direction:column;justify-content:center;font-size:12.5px;text-align:right;line-height:1.35;white-space:nowrap}
+.cont b{font-weight:500;font-size:14px}
+.hdr-cta{display:flex;align-items:center}
+.btn{background:var(--acc);color:#fff;border:1px solid var(--acc);padding:11px 20px;border-radius:0;cursor:pointer;font:500 14px Geologica,system-ui,sans-serif}
+.btn:hover{background:#a40d26;border-color:#a40d26}
+.btn.alt{background:none;color:var(--fg);border-color:var(--fg)}
+.btn.alt:hover{background:var(--fg);color:#fff}
+.crumbs{font-size:12.5px;color:var(--mut);padding:26px 0 0}
+.crumbs a{cursor:pointer;text-decoration:underline}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin:14px 0 10px}
+h1{font-weight:300;font-size:clamp(32px,5vw,54px);line-height:1.06;letter-spacing:-.02em;margin:0;max-width:900px}
+.note{font-size:12.5px;line-height:1.5;color:var(--mut);margin:8px 0 0;padding-left:10px;border-left:2px solid var(--line)}
+.note.how{border-left-style:dashed}
+body.nonotes .note{display:none}
+.ph{position:relative;background:var(--panel);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:12px;overflow:hidden;
+ background-image:linear-gradient(to top right,transparent calc(50% - .5px),#b7bcc2 calc(50% - .5px),#b7bcc2 calc(50% + .5px),transparent calc(50% + .5px)),linear-gradient(to bottom right,transparent calc(50% - .5px),#b7bcc2 calc(50% - .5px),#b7bcc2 calc(50% + .5px),transparent calc(50% + .5px))}
+.ph span{background:var(--panel);padding:3px 10px}
+.ph.tall{aspect-ratio:4/5}
+.hero{position:relative;margin:22px 0 0}
+.hero .ph{aspect-ratio:21/9;min-height:320px;align-items:flex-start;justify-content:flex-end;padding:16px}
+.hero .plate{position:absolute;left:0;bottom:-56px;background:var(--bg);padding:40px 48px 40px 0;max-width:720px}
+.hero h1{font-size:clamp(36px,6vw,68px);line-height:1.02}
+.hero p{margin:18px 0 24px;font-size:17px;color:var(--mut)}
+.hero+.rows{margin-top:110px}
+.row{display:grid;grid-template-columns:250px 1fr;gap:36px;padding:34px 0}
+.row.solo{grid-template-columns:1fr}
+.rh{align-self:start;position:sticky;top:88px}
+.row.solo .rh{position:static}
+.rh h3{margin:0;font-size:16px;font-weight:500;line-height:1.3}
+.tiles{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.tiles.lg{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.tl{display:block;cursor:pointer;text-decoration:none}
+.tl .ph{transition:background-color .15s}
+.tl:hover .ph{background-color:#d6dade}
+.tl:hover .ph span{background:#d6dade}
+.tl .cap{padding:9px 2px 14px;font-size:13.5px;line-height:1.35}
+.tl:hover .cap{color:var(--acc)}
+.tl small{display:block;color:var(--mut);font-size:12px;margin-top:3px}
+.lists{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:36px}
+.lists h4{margin:0 0 8px;font-size:16px;font-weight:500;cursor:pointer}
+.lists a{display:block;padding:7px 0;border-top:1px solid var(--line);font-size:13.5px;cursor:pointer;text-decoration:none;color:var(--mut)}
+.lists a:hover{color:var(--acc)}
+.chips{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.chips .ph{aspect-ratio:16/10}
+.chips .cap{padding:9px 2px 14px;font-size:13px;color:var(--mut)}
+.chips .cap b{display:block;color:var(--fg);font-weight:500;font-size:14px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btns+.btns,.tiles+.btns,.chips+.btns{margin-top:18px}
+.txt{font-size:19px;font-weight:300;line-height:1.5;max-width:680px;margin:0}
+footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;color:var(--mut);font-size:12.5px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--fg);color:#fff;padding:10px 16px;font-size:14px;display:none;z-index:20}
+.ov{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;padding:16px;z-index:30}
 .ov.show{display:flex}
-.modal{background:var(--bg);padding:22px;max-width:400px;width:100%;border-radius:10px;border:1px solid var(--line)}
-.modal h2{margin:0 0 12px;font-size:18px}
-.fld{border:1px solid var(--line);border-radius:6px;padding:9px 10px;margin:0 0 8px;color:var(--mut);font-size:14px}
-.src{font-size:13px;background:var(--accbg);border-radius:6px;padding:6px 10px;margin:0 0 10px}
-.nd{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);font-size:13px;cursor:pointer;line-height:1.3}
+.modal{background:var(--bg);padding:28px;max-width:420px;width:100%}
+.modal h2{margin:0 0 16px;font-size:24px;font-weight:300}
+.fld{border:1px solid var(--line);padding:10px 12px;margin:0 0 8px;color:var(--mut);font-size:14px}
+.modal .btn{margin-top:8px}
+.nd{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid var(--line);background:var(--bg);font-size:13px;cursor:pointer;line-height:1.3}
 .nd:hover{border-color:var(--acc);color:var(--acc)}
-.nd i{font-style:normal;width:20px;height:20px;border-radius:50%;background:var(--fg);color:var(--bg);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.nd i{font-style:normal;width:20px;height:20px;border-radius:50%;background:var(--fg);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
 .nd em{font-style:normal;color:var(--mut);font-size:12px}
-.nd.l1{background:var(--accbg);border-color:transparent;font-weight:700;font-size:15px;padding:9px 14px}
-.nd.l2{background:var(--fill);font-weight:600;font-size:14px}
-.lg{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.lg .nd{cursor:default}.lg .nd:hover{border-color:var(--line);color:inherit}.lg .nd.l1{border-color:transparent}
+.nd.l1{background:var(--fg);color:#fff;border-color:var(--fg);font-weight:500;font-size:15px;padding:9px 14px}
+.nd.l1 i{background:#fff;color:var(--fg)}
+.nd.l2{background:var(--fill);font-weight:500;font-size:14px}
+.tree{margin-top:26px}
 .tree ul{list-style:none;margin:0;padding:0 0 0 22px}
 .tree .root{margin-bottom:6px}
 .tree>ul>li{position:relative;padding:6px 0 10px 24px;border-left:2px solid var(--line)}
@@ -66,27 +107,21 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding:18px 0;color:var
 .tree>ul>li.last{border-left-color:transparent}
 .tree>ul>li.last::before{border-left-color:var(--line)}
 .leaves{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px;margin:10px 0 0 6px;padding-left:16px;border-left:2px solid var(--line)}
-.leaves .nd{background:var(--bg)}
-.tile small{display:block;font-weight:400;font-size:12px;color:var(--mut);margin-top:4px}
-.ph{background:#e9ebef;color:var(--mut);display:flex;align-items:center;justify-content:center;font-size:12px;height:96px}
-.tile.photo{flex-direction:column;align-items:stretch;justify-content:flex-start;padding:0;overflow:hidden;font-weight:600}
-.tile.photo .tt{padding:10px}
-.chips .chip{padding:0;overflow:hidden}.chips .chip .ph{height:72px;margin-bottom:8px}.chips .chip .tx{padding:0 10px 10px}
-.chips{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-top:10px}
-.chips .chip b{font-size:14px;color:var(--fg);margin-bottom:2px}
+@media(max-width:820px){.row{grid-template-columns:1fr;gap:16px}.rh{position:static}.mg3{grid-template-columns:1fr}.cont{display:none}.hero .plate{position:static;padding:24px 0}.hero+.rows{margin-top:10px}.bar{flex-wrap:wrap;gap:0}.nv .nl{padding:14px 10px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="proto"><div class="wrap">
 <span>Схематичный прототип структуры</span>
-<a onclick="go('home')">Прототип</a><a onclick="go('map')">Карта сайта</a>
+<a onclick="go('home')">Прототип</a><a onclick="go('map')">Дерево сайта</a>
 <label><input type="checkbox" id="nt" checked onchange="document.body.classList.toggle('nonotes',!this.checked)"> показывать пояснения к блокам</label>
 </div></div>
 <header><div class="wrap bar">
-<div class="logo" onclick="go('home')">КРАСПАН <b>СЗ</b></div>
+<div class="logo" onclick="go('home')">КРАСПАН<b>СЗ</b></div>
 <nav id="nav"></nav>
-<div class="cont">+7 (000) 000-00-00<br>info@mail.ru · Санкт-Петербург</div>
-<button class="btn" onclick="form()">Оставить заявку</button>
+<div class="cont"><b>+7 (000) 000-00-00</b>info@mail.ru · Санкт-Петербург</div>
+<div class="hdr-cta"><button class="btn" onclick="form()">Связаться</button></div>
 </div></header>
 <main class="wrap" id="app"></main>
 <footer><div class="wrap">Футер на всех страницах: контакты, политика конфиденциальности</div></footer>
@@ -151,14 +186,14 @@ nfs:{t:'Навесные фасадные системы',goal:'Рассказа
  FORM]},
 met:{t:'Металлокаркасы',goal:'Рассказать, какие бывают каркасы, на втором плане после систем.',b:[
  ['Три группы','С энергоэффективным кронштейном КМ · L-образные · Для межэтажных перекрытий.'],
- ['Каталог каркасов: 8 карточек','Схема и название каждого каркаса.','Клик открывает страницу этого каркаса.',{tiles:MET,to:'met'}],
+ ['Каталог каркасов: 8 карточек','Схема и название каждого каркаса.','Клик открывает страницу этого каркаса.',{tiles:MET,to:'met',lbl:'Схема'}],
  FORM]},
 cld:{t:'Облицовочные материалы',goal:'Рассказать про облицовки на втором плане после систем.',b:[
  ['Каталог облицовок: 10 карточек','Фото и название каждой облицовки.','Клик открывает страницу этой облицовки.',{tiles:CLD,to:'cld',big:1}],
  FORM]},
 light:{t:'Освещение FOS',goal:'Рассказать про светильники FOS Group: какие бывают и для каких условий. Продукция сопутствующая, поэтому страница короткая.',b:[
- ['Вступление','Светодиодные светильники FOS Group, производитель из Красноярска, работает с 2016 года. Поставляем вместе с фасадными системами и отдельно'],
- ['Направления: 8 карточек','Фото светильника, название направления и одна строка, для чего оно','Клик открывает страницу направления',{tiles:LTILES,to:'light',photo:1}],
+ ['Вступление',null,null,{text:'Светодиодные светильники FOS Group — производитель из Красноярска, работает с 2016 года. Поставляем вместе с фасадными системами и отдельно'}],
+ ['Направления: 8 карточек','Фото светильника, название направления и одна строка, для чего оно','Клик открывает страницу направления',{tiles:LTILES,to:'light',big:1}],
  FORM]},
 objs:{t:'Объекты',goal:'Показать, что компания работает: реальные объекты.',b:[
  ['Сетка объектов','Фото, название, город, какая система применена. Без отдельных страниц.','Клик увеличивает фото.'],
@@ -169,56 +204,63 @@ contacts:{t:'Контакты',goal:'Дать понятно связаться.
  ['Карта','Карта проезда.'],
  FORM]}
 };
-const P={};Object.keys(T).forEach(k=>P[k]=T[k]);
-const MENU=[['nfs','Навесные фасадные системы'],['met','Металлокаркасы'],['cld','Облицовочные материалы'],['light','Освещение FOS'],['objs','Объекты'],['contacts','Контакты']];
 
 const NAMES={nfs:NFS,met:MET,cld:CLD,light:LNAMES},SEC={nfs:['nfs','Навесные фасадные системы'],met:['met','Металлокаркасы'],cld:['cld','Облицовочные материалы'],light:['light','Освещение FOS']};
 const D={
- light:i=>{const L=LGT[i];return [['Первый экран страницы','Название направления, крупное фото, кнопка «Связаться». Одно предложение: '+L.lead],['Где применяют',L.use.join(' · ')],['Серии: '+L.series.length,'Фото, название серии и способ крепления. Отдельных страниц у серий нет',null,{chips:L.series}],['Условия работы',L.cond]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Плитки соседних направлений',null,{tiles:LTILES,to:'light',photo:1}],FORM])},
+ light:i=>{const L=LGT[i];return [['Первый экран страницы','Название направления, крупное фото, кнопка «Связаться». Одно предложение: '+L.lead],['Где применяют',null,null,{text:L.use.join(' · ')}],['Серии: '+L.series.length,'Фото, название серии и способ крепления. Отдельных страниц у серий нет',null,{chips:L.series}],['Условия работы',null,null,{text:L.cond}]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Плитки соседних направлений',null,{tiles:LTILES,to:'light',photo:1}],FORM])},
  nfs:i=>[['Первый экран страницы','Название системы, система в разрезе и на фасаде, кнопка «Связаться».'],['Что это за система','Одно-два предложения простым языком: что получается на фасаде.'],['Из чего собирается','Облицовка и металлокаркас, из которых собрана система.',null,{go:[['cld-'+i,'Облицовка: '+CLD[i]],['met-1','Металлокаркас: '+MET[1]]]}],['Как крепится','Способ крепления панели к каркасу, схема узла.'],['Где применять','Типы зданий и условия: жилые, общественные, промышленные; высота, климат.'],['Параметры','Толщина, размеры, вес кг/м², цвета и текстуры.'],['Пример объекта','Фото объекта, где применена эта система.'],['Другие системы','Плитки соседних систем.',null,{tiles:NFS,to:'nfs'}],FORM],
- met:i=>[['Первый экран страницы','Название каркаса, для чего он, кнопка «Связаться».'],['Что это за каркас','Для чего нужен, какие нагрузки держит. Простым языком.'],['Схема узла','Кронштейн, профиль, анкер, прокладка, крепитель утеплителя.'],['Материал и исполнение','Сталь оцинкованная, коррозионно-стойкая или алюминий.'],['С какими облицовками работает','Список облицовок со ссылками.',null,{go:[['cld-0',CLD[0]],['cld-4',CLD[4]],['cld-7',CLD[7]]]}],['Где применять','Высота здания, тип стены, межэтажные перекрытия.'],['Другие каркасы','Плитки соседних каркасов.',null,{tiles:MET,to:'met'}],FORM],
+ met:i=>[['Первый экран страницы','Название каркаса, для чего он, кнопка «Связаться».'],['Что это за каркас','Для чего нужен, какие нагрузки держит. Простым языком.'],['Схема узла','Кронштейн, профиль, анкер, прокладка, крепитель утеплителя.'],['Материал и исполнение','Сталь оцинкованная, коррозионно-стойкая или алюминий.'],['С какими облицовками работает','Список облицовок со ссылками.',null,{go:[['cld-0',CLD[0]],['cld-4',CLD[4]],['cld-7',CLD[7]]]}],['Где применять','Высота здания, тип стены, межэтажные перекрытия.'],['Другие каркасы','Плитки соседних каркасов.',null,{tiles:MET,to:'met',lbl:'Схема'}],FORM],
  cld:i=>[['Первый экран страницы','Название облицовки, крупное фото, кнопка «Связаться».'],['Что это за материал','Из чего сделан, чем отличается. Простым языком.'],['Из чего состоит панель','Слои: лицевая поверхность, основа, тыльная сторона.'],['Параметры','Толщина, ширина, длина, вес кг/м².'],['Цвета и текстуры','RAL, NCS и «Поликолор».'],['Какие каркасы подходят','Каркасы, на которых крепится эта облицовка.',null,{go:[['met-1',MET[1]],['met-2',MET[2]],['met-3',MET[3]]]}],['Готовая система','Навесная система с этой облицовкой.',null,{go:[['nfs-'+i,NFS[i]]]}],['Другие облицовки','Плитки соседних облицовок.',null,{tiles:CLD,to:'cld'}],FORM]};
-function go(id){location.hash=id}
+const col=(k,t,arr)=>`<div class="mc"><a class="mh" onclick="go('${k}')">${t}</a>${arr.map((x,j)=>`<a onclick="go('${k}-${j}')">${x}</a>`).join('')}</div>`;
+function nav(act){
+ const s=(k,l,to)=>`<div class="nv ${act===k?'on':''}"><a class="nl" tabindex="0" onclick="go('${to}')">${l}</a></div>`;
+ return `<div class="nv ${act==='prod'?'on':''}"><a class="nl" tabindex="0">Продукция</a><div class="mega"><div class="wrap mg3">${col('nfs','Навесные фасадные системы',NFS)}${col('met','Металлокаркасы',MET)}${col('cld','Облицовочные материалы',CLD)}</div></div></div>
+ <div class="nv ${act==='light'?'on':''}"><a class="nl" tabindex="0" onclick="go('light')">Освещение FOS</a><div class="mega"><div class="wrap mg2">${col('light','Светильники FOS Group',LNAMES)}</div></div></div>`+s('objs','Объекты','objs')+s('contacts','Контакты','contacts')}
+const GRP={nfs:'prod',met:'prod',cld:'prod',light:'light',objs:'objs',contacts:'contacts',home:'',map:''};
+function go(id){location.hash=id;const h=document.querySelector('header');h.classList.add('shut');if(document.activeElement)document.activeElement.blur();setTimeout(()=>h.classList.remove('shut'),500)}
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',2200)}
-function blocks(t){return t.b.map((b,i)=>{
+function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  const ex=b.find(x=>x&&typeof x==='object'&&!Array.isArray(x))||{};
  const txt=b.slice(1).filter(x=>typeof x==='string');
- let h=`<div class="blk"><div class="n">${i+1}</div><h3>${b[0]}</h3><div class="d">${txt[0]||''}</div>`;
- if(txt[1])h+=`<div class="how">Как работает: ${txt[1]}</div>`;
- if(ex.tiles)h+=`<div class="tiles ${ex.big?'bigs':''}">${ex.tiles.map((x,j)=>`<div class="tile ${ex.big?'big':''} ${ex.photo?'photo':''}" onclick="go('${ex.to}-${j}')">${ex.photo?`<div class="ph">Фото</div><div class="tt">${x}</div>`:x}</div>`).join('')}</div>`;
- if(ex.sec)h+=`<div class="sec" style="margin-top:10px">${ex.sec.map(([n,l,to])=>`<div class="blk" style="background:var(--bg);padding-left:16px"><h3 style="cursor:pointer" onclick="go('${to}')">${n} →</h3>${l.map((x,j)=>`<div style="padding:3px 0;font-size:13px;cursor:pointer;text-decoration:underline" onclick="go('${to}-${j}')">${x}</div>`).join('')}</div>`).join('')}</div>`;
- if(ex.story)h+=ex.story.map((n,j)=>`<div class="blk story" id="${ex.a}${j}" style="background:var(--bg);padding-left:16px"><h3>${n}</h3><div class="row">${ST[ex.k].map(([a,d])=>`<div class="chip"><b>${a}</b>${d}</div>`).join('')}</div><div class="btns"><button class="btn alt" onclick="form()">Узнать подробнее</button></div></div>`).join('');
- if(ex.chips)h+=`<div class="chips">${ex.chips.map(([a,d])=>`<div class="chip"><div class="ph">Фото</div><div class="tx"><b>${a}</b>${d}</div></div>`).join('')}</div>`;
- if(ex.go)h+=`<div class="btns">${ex.go.map(([x,l])=>`<button class="btn alt" onclick="go('${x}')">${l}</button>`).join('')}</div>`;
- if(b[0]===FORM[0])h+=`<div class="btns"><button class="btn" onclick="form()">Связаться</button></div>`;
- return h+'</div>'}).join('')}
+ const isForm=b[0]===FORM[0];
+ let body='';
+ if(ex.tiles)body+=`<div class="tiles ${ex.big?'lg':''}">${ex.tiles.map((x,j)=>`<a class="tl" tabindex="0" onclick="go('${ex.to}-${j}')"><div class="ph ${ex.big?'tall':''}"><span>${ex.lbl||'Фото'}</span></div><div class="cap">${x}</div></a>`).join('')}</div>`;
+ if(ex.sec)body+=`<div class="lists">${ex.sec.map(([n,l,to])=>`<div><h4 onclick="go('${to}')">${n}</h4>${l.map((x,j)=>`<a onclick="go('${to}-${j}')">${x}</a>`).join('')}</div>`).join('')}</div>`;
+ if(ex.chips)body+=`<div class="chips">${ex.chips.map(([a,d])=>`<div><div class="ph"><span>Фото</span></div><div class="cap"><b>${a}</b>${d}</div></div>`).join('')}</div>`;
+ if(ex.go&&ex.go.length)body+=`<div class="btns">${ex.go.map(([x,l])=>`<button class="btn alt" onclick="go('${x}')">${l}</button>`).join('')}</div>`;
+ if(ex.text)body+=`<p class="txt">${ex.text}</p>`;
+ if(isForm)body+=`<div class="btns"><button class="btn" onclick="form()">Связаться</button></div>`;
+ const bodyTxt=(!body&&txt[0])?'':'';
+ return `<section class="row ${body?'':'solo'}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
 function mapPage(){
  const secs=[['nfs','Навесные фасадные системы',NFS],['met','Металлокаркасы',MET],['cld','Облицовочные материалы',CLD],['light','Освещение FOS',LNAMES],['objs','Объекты',null],['contacts','Контакты',null]];
  const n3=secs.reduce((a,x)=>a+(x[2]?x[2].length:0),0);
  const node=(lv,t,to,cnt)=>`<span class="nd l${lv}" onclick="go('${to}')"><i>${lv}</i>${t}${cnt?`<em>${cnt}</em>`:''}</span>`;
  const items=secs.map(([k,t,ch],i)=>`<li${i===secs.length-1?' class="last"':''}>${node(2,t,k,ch?ch.length+' стр.':'')}${ch?`<div class="leaves">${ch.map((x,j)=>node(3,x,k+'-'+j)).join('')}</div>`:''}</li>`).join('');
- return `<div class="crumbs"><a onclick="go('home')">← Вернуться к прототипу</a></div><h1>Дерево сайта: ${1+secs.length+n3} страницы</h1>
- <p class="sub">Три уровня: главная, 6 разделов, ${n3} страниц видов. До любой страницы два клика от главной. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
- <div class="lg"><span class="nd l1"><i>1</i>Главная</span><span class="nd l2"><i>2</i>Раздел</span><span class="nd l3"><i>3</i>Страница вида</span></div>
+ return `<div class="crumbs"><a onclick="go('home')">← Вернуться к прототипу</a></div><div class="head"><h1>Дерево сайта: ${1+secs.length+n3} страницы</h1></div>
+ <p class="note">Три уровня: главная, 6 разделов, ${n3} страниц видов. До любой страницы два клика от главной. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
  <div class="tree"><div class="root">${node(1,'Главная','home','')}</div><ul>${items}</ul></div>`}
 function render(){
  const raw=location.hash.slice(1);const m=raw.match(/^(nfs|met|cld|light)-(\d+)$/);
  if(m&&NAMES[m[1]][+m[2]]!==undefined){const k=m[1],i=+m[2],sec=SEC[k];
-  $('#nav').innerHTML=MENU.map(([q,l])=>`<a class="${q===k?'on':''}" onclick="go('${q}')">${l}</a>`).join('');
+  $('#nav').innerHTML=nav(GRP[k]);
   const t={b:D[k](i)};
-  $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › <a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><h1>${NAMES[k][i]}</h1><p class="sub">${k==='light'?'Страница направления: здесь клиент видит серии светильников для своих условий':'Страница вида: здесь клиент читает про один продукт'}</p>`+blocks(t);
+  $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › <a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><div class="head"><h1>${NAMES[k][i]}</h1><button class="btn" onclick="form()">Связаться</button></div><p class="note">${k==='light'?'Страница направления: здесь клиент видит серии светильников для своих условий':'Страница вида: здесь клиент читает про один продукт'}</p>`+blocks(t);
   scrollTo(0,0);return}
  const h=raw;const id=h==='map'||T[h]?h:'home';
- $('#nav').innerHTML=MENU.map(([k,l])=>`<a class="${k===id?'on':''}" onclick="go('${k}')">${l}</a>`).join('');
+ $('#nav').innerHTML=nav(GRP[id]);
  if(id==='map'){$('#app').innerHTML=mapPage();scrollTo(0,0);return}
  const t=T[id];
- let o=id==='home'?'':`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${t.t}</div>`;
- o+=`<h1>${t.t}</h1><p class="sub">Цель страницы: ${t.goal}</p>`+blocks(t);
- $('#app').innerHTML=o;scrollTo(0,0)}
+ if(id==='home'){
+  $('#app').innerHTML=`<div class="hero"><div class="ph"><span>Фото: фасад объекта на всю ширину</span></div><div class="plate"><h1>Навесные фасадные системы Краспан на Северо-Западе</h1><p>Официальный представитель</p><button class="btn" onclick="form()">Связаться</button></div></div>`+blocks({b:t.b.slice(1)});
+ }else{
+  $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${t.t}</div><div class="head"><h1>${t.t}</h1></div><p class="note">Цель страницы: ${t.goal}</p>`+blocks(t);
+ }
+ scrollTo(0,0)}
 function form(){
  $('#modal').innerHTML=`<h2>Связаться с нами</h2><div class="fld">Имя</div><div class="fld">Телефон</div><div class="fld">Компания</div><div class="fld">Комментарий</div><div class="fld">☐ Согласие на обработку данных</div><button class="btn" onclick="thanks()">Отправить</button> <button class="btn alt" onclick="closeF()">Закрыть</button>`;
  $('#ov').classList.add('show')}
-function thanks(){$('#modal').innerHTML=`<h2>Спасибо</h2><p>Заявка принята, свяжемся в течение рабочего дня.</p><button class="btn" onclick="closeF()">Закрыть</button>`}
+function thanks(){$('#modal').innerHTML=`<h2>Спасибо</h2><p>Заявка принята, свяжемся в течение рабочего дня</p><button class="btn" onclick="closeF()">Закрыть</button>`}
 function closeF(){$('#ov').classList.remove('show')}
 addEventListener('hashchange',render);render();
 </script>
