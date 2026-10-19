@@ -107,6 +107,39 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 .tree>ul>li.last{border-left-color:transparent}
 .tree>ul>li.last::before{border-left-color:var(--line)}
 .leaves{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px;margin:10px 0 0 6px;padding-left:16px;border-left:2px solid var(--line)}
+
+.wallbox{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:start}
+.wall{display:grid;grid-template-columns:repeat(12,1fr);gap:6px}
+.wg{grid-column:1/-1;font-size:12.5px;color:var(--mut);margin:6px 0 0}
+.wg:first-child{margin-top:0}
+.wp{--ln:#b9bec4;position:relative;background-color:var(--panel);cursor:pointer;outline:2px solid transparent;outline-offset:-2px;transition:outline-color .12s}
+.wp.s3{grid-column:span 3;aspect-ratio:1/1}.wp.s4{grid-column:span 4;aspect-ratio:1/1}.wp.s6{grid-column:span 6;aspect-ratio:2/1}
+.wp.on{outline-color:var(--fg)}
+.wp .lb{position:absolute;left:0;bottom:0;max-width:92%;background:var(--bg);padding:7px 11px;font-size:12.5px;line-height:1.3}
+.wp.on .lb{background:var(--fg);color:#fff}
+.p0{background-image:repeating-linear-gradient(90deg,transparent 0 13px,var(--ln) 13px 14px)}
+.p1{background-image:repeating-linear-gradient(0deg,transparent 0 13px,var(--ln) 13px 14px)}
+.p2{background-image:repeating-linear-gradient(0deg,transparent 0 33px,var(--ln) 33px 34px)}
+.p3{background-image:linear-gradient(var(--ln) 1px,transparent 1px),linear-gradient(90deg,var(--ln) 1px,transparent 1px);background-size:60px 60px}
+.p4{background-image:repeating-linear-gradient(45deg,transparent 0 11px,var(--ln) 11px 12px)}
+.p5{background-image:radial-gradient(var(--ln) 1.5px,transparent 2px);background-size:16px 16px}
+.p6{background-image:repeating-linear-gradient(-45deg,transparent 0 11px,var(--ln) 11px 12px)}
+.p7{background-image:linear-gradient(var(--ln) 1px,transparent 1px),linear-gradient(90deg,var(--ln) 1px,transparent 1px);background-size:16px 16px}
+.p8{background-image:repeating-linear-gradient(0deg,transparent 0 19px,var(--ln) 19px 20px),repeating-linear-gradient(90deg,transparent 0 59px,var(--ln) 59px 60px)}
+.p9{background-image:repeating-linear-gradient(0deg,transparent 0 17px,var(--ln) 17px 18px),repeating-linear-gradient(90deg,transparent 0 39px,var(--ln) 39px 40px)}
+.wprev{position:sticky;top:88px}
+.wprev .ph{aspect-ratio:4/5}
+.wprev h4{margin:14px 0 4px;font-size:18px;font-weight:400;line-height:1.3}
+.wprev p{margin:0 0 16px;color:var(--mut);font-size:13.5px}
+.cut{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:6px;height:170px}
+.lay{--ln:#b9bec4;position:relative;background-color:var(--panel);text-decoration:none;cursor:default}
+.lay span{position:absolute;left:0;bottom:0;background:var(--bg);padding:7px 11px;font-size:13px}
+.lay small{position:absolute;right:10px;top:8px;font-size:12px;color:var(--mut)}
+a.lay{cursor:pointer;outline:2px solid transparent;outline-offset:-2px}
+a.lay:hover{outline-color:var(--fg)}a.lay:hover span{background:var(--fg);color:#fff}
+.cutcap{display:flex;justify-content:space-between;gap:16px;font-size:12.5px;color:var(--mut);margin:8px 0 0}
+.row.wide{grid-template-columns:1fr;gap:18px}.row.wide .rh{position:static}
+@media(max-width:820px){.wallbox{grid-template-columns:1fr}.wprev{position:static}.cut{height:130px}}
 @media(max-width:820px){.row{grid-template-columns:1fr;gap:16px}.rh{position:static}.mg3{grid-template-columns:1fr}.cont{display:none}.hero .plate{position:static;padding:24px 0}.hero+.rows{margin-top:10px}.bar{flex-wrap:wrap;gap:0}.nv .nl{padding:14px 10px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -174,7 +207,7 @@ const ST={
 const T={
 home:{t:'Главная',goal:'Показать, кто мы, и сразу вывести на главное: навесные фасадные системы. Бренд знают, убеждать не нужно.',b:[
  ['Первый экран','Заголовок: «Навесные фасадные системы Краспан на Северо-Западе». Подзаголовок: «Официальный представитель», регионы работы. Кнопка «Связаться».'],
- ['Навесные фасадные системы (главный акцент)','10 крупных плиток с фото готовой системы. Это основной блок страницы.','Клик по плитке открывает страницу «Навесные фасадные системы» на нужной системе.',{tiles:NFS,to:'nfs',big:1}],
+ ['Навесные фасадные системы (главный акцент)','Стена фасада из 10 панелей: каждая панель — система. Это основной блок страницы','Наведение показывает систему справа, клик открывает её страницу',{wall:'nfs',wide:1}],
  ['Металлокаркасы и облицовочные материалы (второй план)','Два небольших блока рядом, без фото: просто списки видов.','Клик по строке открывает страницу раздела на нужном виде.',{sec:[['Металлокаркасы',MET,'met'],['Облицовочные материалы',CLD,'cld']]}],
  ['Освещение FOS Group (третий план)','8 небольших плиток с фото светильников. Подпись: «Также поставляем светильники FOS Group»','Клик по плитке открывает страницу направления',{tiles:LTILES,to:'light',photo:1}],
  ['Объекты','3–4 фото реализованных объектов.','Ссылка «Все объекты».',{go:[['objs','Все объекты']]}],
@@ -182,14 +215,15 @@ home:{t:'Главная',goal:'Показать, кто мы, и сразу вы
  ['Контакты','Телефон, почта, адрес и форма «Связаться».']]},
 nfs:{t:'Навесные фасадные системы',goal:'Рассказать про каждую систему как про готовое решение, чтобы клиент увидел, что покупает.',b:[
  ['Вступление','Что такое НФС: облицовка и металлокаркас, которые собираются в один фасад. Одно-два предложения.'],
- ['Каталог систем: 10 карточек','Фото и название каждой системы.','Клик открывает страницу этой системы.',{tiles:NFS,to:'nfs',big:1}],
+ ['Из чего состоит система','Схема в разрезе: стена, утеплитель, каркас, облицовка','Каркас и облицовка ведут в свои разделы',{cut:1,wide:1}],
+ ['Системы: 10','Стена из 10 панелей, каждая панель — система. Фактура панели подсказывает материал облицовки','Наведение показывает систему справа, клик открывает её страницу',{wall:'nfs',wide:1}],
  FORM]},
 met:{t:'Металлокаркасы',goal:'Рассказать, какие бывают каркасы, на втором плане после систем.',b:[
  ['Три группы','С энергоэффективным кронштейном КМ · L-образные · Для межэтажных перекрытий.'],
- ['Каталог каркасов: 8 карточек','Схема и название каждого каркаса.','Клик открывает страницу этого каркаса.',{tiles:MET,to:'met',lbl:'Схема'}],
+ ['Каркасы: 8','Две полосы фасада: L-образные и для межэтажных перекрытий','Наведение показывает каркас справа, клик открывает его страницу',{wall:'met',wide:1}],
  FORM]},
 cld:{t:'Облицовочные материалы',goal:'Рассказать про облицовки на втором плане после систем.',b:[
- ['Каталог облицовок: 10 карточек','Фото и название каждой облицовки.','Клик открывает страницу этой облицовки.',{tiles:CLD,to:'cld',big:1}],
+ ['Облицовки: 10','Стена из 10 панелей, на каждой своя фактура','Наведение показывает облицовку справа, клик открывает её страницу',{wall:'cld',wide:1}],
  FORM]},
 light:{t:'Освещение FOS',goal:'Рассказать про светильники FOS Group: какие бывают и для каких условий. Продукция сопутствующая, поэтому страница короткая.',b:[
  ['Вступление',null,null,{text:'Светодиодные светильники FOS Group — производитель из Красноярска, работает с 2016 года. Поставляем вместе с фасадными системами и отдельно'}],
@@ -219,6 +253,17 @@ function nav(act){
 const GRP={nfs:'prod',met:'prod',cld:'prod',light:'light',objs:'objs',contacts:'contacts',home:'',map:''};
 function go(id){location.hash=id;const h=document.querySelector('header');h.classList.add('shut');if(document.activeElement)document.activeElement.blur();setTimeout(()=>h.classList.remove('shut'),500)}
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',2200)}
+const WALLS={
+ nfs:{ph:'Фото: система на фасаде',spans:[4,4,4,6,6,4,4,4,6,6],items:NFS.map((n,i)=>({lab:CLD[i],name:n,sub:'Облицовка '+CLD[i]+' на металлокаркасе'}))},
+ cld:{ph:'Фото: панель крупным планом',spans:[4,4,4,6,6,4,4,4,6,6],items:CLD.map(n=>({lab:n,name:n,sub:'Параметры, цвета и подходящие каркасы'}))},
+ met:{ph:'Схема узла',spans:[3,3,3,3,3,3,3,3],groups:{0:'L-образные каркасы',4:'Каркасы для межэтажных перекрытий'},items:MET.map(n=>({lab:n,name:n,sub:'Схема узла и подходящие облицовки'}))}};
+function wprev(k,i){const W=WALLS[k],it=W.items[i];return `<div class="ph"><span>${W.ph}</span></div><h4>${it.name}</h4><p>${it.sub}</p><button class="btn alt" onclick="go('${k}-${i}')">Открыть страницу</button>`}
+function wsel(k,i){document.querySelectorAll('.wall[data-k="'+k+'"] .wp').forEach((e,j)=>e.classList.toggle('on',j===i));const p=document.getElementById('wp-'+k);if(p)p.innerHTML=wprev(k,i)}
+function wallHTML(k){const W=WALLS[k];let h='';
+ W.items.forEach((it,i)=>{if(W.groups&&W.groups[i])h+=`<div class="wg">${W.groups[i]}</div>`;
+  h+=`<div class="wp s${W.spans[i]} p${i%10} ${i===0?'on':''}" tabindex="0" onmouseenter="wsel('${k}',${i})" onfocus="wsel('${k}',${i})" onclick="go('${k}-${i}')"><span class="lb">${it.lab}</span></div>`});
+ return `<div class="wallbox"><div class="wall" data-k="${k}">${h}</div><aside class="wprev" id="wp-${k}">${wprev(k,0)}</aside></div>`}
+function cutHTML(){return `<div class="cut"><div class="lay p7"><span>Стена здания</span></div><div class="lay p5"><span>Утеплитель</span></div><a class="lay p0" tabindex="0" onclick="go('met')"><span>Металлокаркас</span><small>8 видов</small></a><a class="lay p4" tabindex="0" onclick="go('cld')"><span>Облицовка</span><small>10 видов</small></a></div><div class="cutcap"><span>Здание</span><span>Продаём облицовку, каркас или комплект. Комплект с выбранной облицовкой — это система</span><span>Улица</span></div>`}
 function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  const ex=b.find(x=>x&&typeof x==='object'&&!Array.isArray(x))||{};
  const txt=b.slice(1).filter(x=>typeof x==='string');
@@ -226,12 +271,14 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  let body='';
  if(ex.tiles)body+=`<div class="tiles ${ex.big?'lg':''}">${ex.tiles.map((x,j)=>`<a class="tl" tabindex="0" onclick="go('${ex.to}-${j}')"><div class="ph ${ex.big?'tall':''}"><span>${ex.lbl||'Фото'}</span></div><div class="cap">${x}</div></a>`).join('')}</div>`;
  if(ex.sec)body+=`<div class="lists">${ex.sec.map(([n,l,to])=>`<div><h4 onclick="go('${to}')">${n}</h4>${l.map((x,j)=>`<a onclick="go('${to}-${j}')">${x}</a>`).join('')}</div>`).join('')}</div>`;
+ if(ex.cut)body+=cutHTML();
+ if(ex.wall)body+=wallHTML(ex.wall);
  if(ex.chips)body+=`<div class="chips">${ex.chips.map(([a,d])=>`<div><div class="ph"><span>Фото</span></div><div class="cap"><b>${a}</b>${d}</div></div>`).join('')}</div>`;
  if(ex.go&&ex.go.length)body+=`<div class="btns">${ex.go.map(([x,l])=>`<button class="btn alt" onclick="go('${x}')">${l}</button>`).join('')}</div>`;
  if(ex.text)body+=`<p class="txt">${ex.text}</p>`;
  if(isForm)body+=`<div class="btns"><button class="btn" onclick="form()">Связаться</button></div>`;
  const bodyTxt=(!body&&txt[0])?'':'';
- return `<section class="row ${body?'':'solo'}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
+ return `<section class="row ${body?'':'solo'} ${ex.wide?'wide':''}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
 function mapPage(){
  const secs=[['nfs','Навесные фасадные системы',NFS],['met','Металлокаркасы',MET],['cld','Облицовочные материалы',CLD],['light','Освещение FOS',LNAMES],['objs','Объекты',null],['contacts','Контакты',null]];
  const n3=secs.reduce((a,x)=>a+(x[2]?x[2].length:0),0);
