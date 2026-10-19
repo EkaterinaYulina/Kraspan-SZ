@@ -295,13 +295,27 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 .mt{display:flex;gap:16px;align-items:center;padding-top:12px;margin-top:12px;border-top:1px solid var(--line);font-size:14px}
 .mt svg{width:90px;height:70px;stroke:var(--fg);fill:none;stroke-width:2;flex:none}
 @media(max-width:900px){.ser{grid-template-columns:1fr}}
+
+.note{display:none!important}
+.tn{font-size:13px;color:var(--mut);margin:10px 0 0}
+.row.nohd{grid-template-columns:1fr;gap:0}.row.nohd .rh{display:none}
+.inl{display:grid;grid-template-columns:5fr 7fr;gap:36px;border-top:1px solid var(--fg);padding-top:34px}
+.inl h2{margin:0;font-size:clamp(28px,3.4vw,42px);font-weight:300;line-height:1.1}
+.inl p{margin:12px 0 0;color:var(--mut)}
+.fgr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgr input[type=text],.fgr input:not([type]),.fgr textarea{border:1px solid var(--line);padding:13px 14px;font:14px Geologica,system-ui,sans-serif;background:var(--bg);width:100%;box-sizing:border-box;border-radius:0}
+.fgr input:focus,.fgr textarea:focus{outline:none;border-color:var(--fg)}
+.fgr input:nth-of-type(3),.fgr textarea,.fgr .ck,.fgr .btn{grid-column:1/-1}
+.fgr .ck{font-size:13px;color:var(--mut);display:flex;gap:8px;align-items:center}
+.fgr .btn{justify-self:start}
+@media(max-width:820px){.inl{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="proto"><div class="wrap">
 <span>Схематичный прототип структуры</span>
 <a onclick="go('home')">Прототип</a><a onclick="go('map')">Дерево сайта</a>
-<label><input type="checkbox" id="nt" checked onchange="document.body.classList.toggle('nonotes',!this.checked)"> показывать пояснения к блокам</label>
+
 </div></div>
 <header><div class="wrap bar">
 <div class="logo" onclick="go('home')">КРАСПАН<b>СЗ</b></div>
@@ -527,25 +541,26 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  if(ex.chips)body+=`<div class="chips">${ex.chips.map(([a,d])=>`<div><div class="ph"><span>Фото</span></div><div class="cap"><b>${a}</b>${d}</div></div>`).join('')}</div>`;
  if(ex.go&&ex.go.length)body+=`<div class="btns">${ex.go.map(([x,l])=>`<button class="btn alt" onclick="go('${x}')">${l}</button>`).join('')}</div>`;
  if(ex.text)body+=`<p class="txt">${ex.text}</p>`;
- if(isForm)body+=`<div class="btns"><button class="btn" onclick="form()">Связаться</button></div>`;
+ if(isForm)body+=`<div class="inl"><div><h2>Оставьте заявку</h2><p>Перезвоним в течение рабочего дня</p></div><div class="fgr"><input placeholder="Имя"><input placeholder="Телефон"><input placeholder="Компания"><textarea placeholder="Комментарий" rows="3"></textarea><label class="ck"><input type="checkbox"> Согласен на обработку персональных данных</label><button class="btn" onclick="sent(this)">Отправить</button></div></div>`;
  const bodyTxt=(!body&&txt[0])?'':'';
- return `<section class="row ${body?'':'solo'} ${ex.wide?'wide':''}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
+ const nohd=isForm||ex.wide||ex.scene||ex.stage||ex.sect||ex.matrix||ex.acc||(ex.text&&!ex.tiles);
+ return `<section class="row ${body?'':'solo'} ${ex.wide?'wide':''} ${nohd?'nohd':''}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
 function mapPage(){
  const secs=[['nfs','Навесные фасадные системы',NFS],['met','Металлокаркасы',MET],['cld','Облицовочные материалы',CLD],['light','Освещение FOS',LNAMES],['objs','Объекты',null],['contacts','Контакты',null]];
  const n3=secs.reduce((a,x)=>a+(x[2]?x[2].length:0),0);
  const node=(lv,t,to,cnt)=>`<span class="nd l${lv}" onclick="go('${to}')"><i>${lv}</i>${t}${cnt?`<em>${cnt}</em>`:''}</span>`;
  const items=secs.map(([k,t,ch],i)=>`<li${i===secs.length-1?' class="last"':''}>${node(2,t,k,ch?ch.length+' стр.':'')}${ch?`<div class="leaves">${ch.map((x,j)=>node(3,x,k+'-'+j)).join('')}</div>`:''}</li>`).join('');
  return `<div class="crumbs"><a onclick="go('home')">← Вернуться к прототипу</a></div><div class="head"><h1>Дерево сайта: ${1+secs.length+n3} страницы</h1></div>
- <p class="note">Три уровня: главная, 6 разделов, ${n3} страниц видов. До любой страницы два клика от главной. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
+ <p class="tn">Три уровня: главная, 6 разделов, ${n3} страниц видов. До любой страницы два клика от главной. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
  <div class="tree"><div class="root">${node(1,'Главная','home','')}</div><ul>${items}</ul></div>`}
 function render(){
  const raw=location.hash.slice(1);const m=raw.match(/^(nfs|met|cld|light)-(\d+)$/);
  if(m&&NAMES[m[1]][+m[2]]!==undefined){const k=m[1],i=+m[2],sec=SEC[k];
   $('#nav').innerHTML=nav(GRP[k]);
   const t={b:D[k](i)};
-  const crumbs=`<div class="crumbs"><a onclick="go('home')">Главная</a> › <a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><div class="head"><h1>${NAMES[k][i]}</h1><button class="btn" onclick="form()">Связаться</button></div>`;
-  if(k==='light')$('#app').innerHTML=crumbs+`<p class="lead3">${LGT[i].lead}</p><div class="pass"><div class="lamp"><div class="ph"><span>Фото светильника</span></div><div class="glow"></div></div><div class="pp"><h4>Условия работы</h4>${prow(lightPass(i))}<div class="btns"><button class="btn" onclick="form()">Связаться</button></div></div></div><p class="note">Первый экран: фото светильника и условия, в которых он работает: защита, температура, срок службы, гарантия. Ниже — где применяют, серии, объекты</p>`+blocks(t);
-  else $('#app').innerHTML=crumbs+`<p class="lead3">${LEAD3[k](i)}</p><div class="pass"><div>${stageHTML(k,0,i)}</div><div class="pp"><h4>Паспорт</h4>${prow(PASS[k](i))}<div class="btns"><button class="btn" onclick="form()">Связаться</button></div></div></div><p class="note">Первый экран: слева показано, как продукт выглядит на фасаде (кнопка «В разрезе» раскладывает фасад на слои), справа — паспорт с главными параметрами. Ниже — блоки страницы по порядку</p>`+blocks(t);
+  const crumbs=`<div class="crumbs"><a onclick="go('home')">Главная</a> › <a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><div class="head"><h1>${NAMES[k][i]}</h1></div>`;
+  if(k==='light')$('#app').innerHTML=crumbs+`<p class="lead3">${LGT[i].lead}</p><div class="pass"><div class="lamp"><div class="ph"><span>Фото светильника</span></div><div class="glow"></div></div><div class="pp"><h4>Условия работы</h4>${prow(lightPass(i))}</div></div><p class="note">Первый экран: фото светильника и условия, в которых он работает: защита, температура, срок службы, гарантия. Ниже — где применяют, серии, объекты</p>`+blocks(t);
+  else $('#app').innerHTML=crumbs+`<p class="lead3">${LEAD3[k](i)}</p><div class="pass"><div>${stageHTML(k,0,i)}</div><div class="pp"><h4>Паспорт</h4>${prow(PASS[k](i))}</div></div><p class="note">Первый экран: слева показано, как продукт выглядит на фасаде (кнопка «В разрезе» раскладывает фасад на слои), справа — паспорт с главными параметрами. Ниже — блоки страницы по порядку</p>`+blocks(t);
   if(k==='nfs'&&false){}
   scrollTo(0,0);stgInit();pickInit();return}
  const h=raw;const id=h==='map'||T[h]?h:'home';
@@ -553,7 +568,7 @@ function render(){
  if(id==='map'){$('#app').innerHTML=mapPage();scrollTo(0,0);return}
  const t=T[id];
  if(id==='home'){
-  $('#app').innerHTML=`<div class="hero2"><div><h1>Навесные фасадные системы Краспан на Северо-Западе</h1><p class="lead">Официальный представитель</p><button class="btn" onclick="form()">Связаться</button></div><div>${stageHTML('nfs',1)}</div></div><p class="note">Первый экран: фасад собирается из слоёв при загрузке. Наведение на значок меняет облицовку, клик открывает страницу системы. Кнопка «В разрезе» раскладывает фасад на стену, утеплитель, каркас и облицовку</p>`+blocks({b:t.b.slice(1)});
+  $('#app').innerHTML=`<div class="hero2"><div><h1>Навесные фасадные системы Краспан на Северо-Западе</h1><p class="lead">Официальный представитель</p></div><div>${stageHTML('nfs',1)}</div></div><p class="note">Первый экран: фасад собирается из слоёв при загрузке. Наведение на значок меняет облицовку, клик открывает страницу системы. Кнопка «В разрезе» раскладывает фасад на стену, утеплитель, каркас и облицовку</p>`+blocks({b:t.b.slice(1)});
  }else{
   $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${t.t}</div><div class="head"><h1>${t.t}</h1></div><p class="note">Цель страницы: ${t.goal}</p>`+blocks(t);
  }
@@ -562,6 +577,7 @@ function form(){
  $('#modal').innerHTML=`<h2>Связаться с нами</h2><div class="fld">Имя</div><div class="fld">Телефон</div><div class="fld">Компания</div><div class="fld">Комментарий</div><div class="fld">☐ Согласие на обработку данных</div><button class="btn" onclick="thanks()">Отправить</button> <button class="btn alt" onclick="closeF()">Закрыть</button>`;
  $('#ov').classList.add('show')}
 function thanks(){$('#modal').innerHTML=`<h2>Спасибо</h2><p>Заявка принята, свяжемся в течение рабочего дня</p><button class="btn" onclick="closeF()">Закрыть</button>`}
+function sent(b){const f=b.closest('.inl');f.innerHTML='<div><h2>Спасибо</h2><p>Заявка принята, свяжемся в течение рабочего дня</p></div>'}
 function closeF(){$('#ov').classList.remove('show')}
 addEventListener('hashchange',render);render();
 </script>
