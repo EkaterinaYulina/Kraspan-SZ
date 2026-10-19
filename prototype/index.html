@@ -134,26 +134,24 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 .scene{position:relative;height:580px;perspective:1900px;perspective-origin:50% 35%;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .stage.cmp .scene{height:520px}
 .bld{position:relative;width:320px;height:400px;transform-style:preserve-3d;transition:transform 1.5s cubic-bezier(.7,0,.25,1)}
-.lyr{--ln:#b0b6bc;position:absolute;inset:0;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(10,1fr);gap:2px;transform-style:preserve-3d;transition:transform 1.5s cubic-bezier(.7,0,.25,1)}
-.lyr i{display:block}
-.lyr i.w{visibility:hidden}
-.lyr.wl i{background-color:var(--panel)}
-.lyr.wl{transform:translateZ(0)}
-.lyr.in{transform:translateZ(5px)}
-.lyr.fr{transform:translateZ(10px)}
-.lyr.cl{transform:translateZ(15px)}
-.lyr.in i{background-color:var(--ins);background-image:radial-gradient(var(--dot) 1.6px,transparent 2px);background-size:9px 9px}
-.lyr.fr i{box-shadow:inset 0 0 0 var(--fw,1px) var(--fg)}
-.lyr.fr.m i{background-image:linear-gradient(45deg,transparent calc(50% - .5px),var(--fg) calc(50% - .5px),var(--fg) calc(50% + .5px),transparent calc(50% + .5px))}
-.lyr.cl i{background-color:var(--panel)}
-.gl{position:absolute;width:80px;height:80px;border:2px solid var(--fg);background:rgba(255,255,255,.75)}
-.gl::after{content:"";position:absolute;inset:0;background:linear-gradient(var(--fg) 1px,transparent 1px) 0 50%/100% 100% no-repeat,linear-gradient(90deg,var(--fg) 1px,transparent 1px) 50% 0/100% 100% no-repeat;opacity:.5}
+.lyr{--ln:#b0b6bc;position:absolute;inset:0;outline:1.5px solid var(--fg);transition:transform 1.5s cubic-bezier(.7,0,.25,1)}
+.lyr::before,.lyr::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0}
+.win{position:absolute;width:80px;height:80px;background:var(--bg);border:2px solid var(--fg);z-index:1;box-sizing:border-box}
+.win::after{content:"";position:absolute;inset:0;background:linear-gradient(var(--fg) 1px,transparent 1px) 0 50%/100% 100% no-repeat,linear-gradient(90deg,var(--fg) 1px,transparent 1px) 50% 0/100% 100% no-repeat;opacity:.4}
+.lyr.wl{background-color:var(--panel);transform:translateZ(0)}
+.lyr.in{background-color:var(--ins);background-image:radial-gradient(var(--dot) 1.6px,transparent 2px);background-size:10px 10px;transform:translateZ(5px)}
+.lyr.fr{--fw:2px;background:none;transform:translateZ(10px)}
+.lyr.fr::before{background:repeating-linear-gradient(90deg,var(--fg) 0 var(--fw),transparent var(--fw) 40px)}
+.lyr.fr::after{background:repeating-linear-gradient(0deg,transparent 0 110px,var(--fg) 110px 112px,var(--panel) 112px 120px,var(--fg) 120px 122px,transparent 122px 240px);opacity:0}
+.lyr.fr.m::after{opacity:.9}
+.lyr.lc{background-color:var(--panel);transform:translateZ(15px)}
+.lyr.lc::after{background-image:linear-gradient(90deg,var(--fg) 1px,transparent 1px),linear-gradient(0deg,var(--fg) 1px,transparent 1px);background-size:80px 40px;opacity:.3}
 .stage.ex .bld{transform:translateX(120px) translateZ(-230px) rotateX(12deg) rotateY(-58deg) scale(.8)}
 .stage:not(.ex) .bld{transform:scale(1.12)}
 .stage.ex .lyr.wl{transform:translateZ(0)}
 .stage.ex .lyr.in{transform:translateZ(140px)}
 .stage.ex .lyr.fr{transform:translateZ(280px)}
-.stage.ex .lyr.cl{transform:translateZ(420px)}
+.stage.ex .lyr.lc{transform:translateZ(420px)}
 .stage.hl-fr .lyr:not(.fr){opacity:.35}
 .lbl{position:absolute;font-size:12.5px;line-height:1.3;background:var(--bg);padding:5px 9px;border-left:2px solid var(--fg);opacity:0;pointer-events:none;transition:opacity .4s .9s;white-space:nowrap}
 .lbl a{pointer-events:auto;cursor:pointer;text-decoration:underline}
@@ -355,7 +353,6 @@ body{overflow-x:hidden}
 .tg:hover{border-color:var(--fg)}
 .fgr input,.fgr textarea{color:var(--fg)}
 :root[data-theme=dark] .sw u,:root[data-theme=dark] .sysg u,:root[data-theme=dark] .lyr,:root[data-theme=dark] .ac,:root[data-theme=dark] .sv>div{--ln:#586068}
-:root[data-theme=dark] .gl{background:rgba(50,60,70,.7)}
 :root[data-theme=dark] .scn.night{background:#0a0b0c}
 /* слои: в собранном виде скрыть внутренние, чтобы не просвечивали */
 .lyr.in,.lyr.fr{transition:transform 1.5s cubic-bezier(.7,0,.25,1),visibility 0s 1.5s}
@@ -597,20 +594,19 @@ const STG={
  nfs:{items:NFS.map((n,i)=>({n,sub:'Облицовка '+CLD[i]})),to:'nfs',clad:1},
  cld:{items:CLD.map(n=>({n,sub:'Фактура на фасаде'})),to:'cld',clad:1},
  met:{items:MET.map(n=>({n,sub:'Решётка каркаса на фасаде'})),to:'met',frame:1,ex:1}};
-const WIN=(r,c)=>[1,4,7].some(a=>r>=a&&r<=a+1)&&[1,5].some(b=>c>=b&&c<=b+1);
-function cells(cls){let h='';for(let r=0;r<10;r++)for(let c=0;c<8;c++)h+=`<i class="${WIN(r,c)?'w':cls}"></i>`;return h}
+const WINS=()=>[40,160,280].map(t=>[40,200].map(l=>`<div class="win" style="left:${l}px;top:${t}px"></div>`).join('')).join('');
 function stageHTML(k,cmp,one){const S=STG[k];const isOne=one!==undefined;
  const rail=S.items.map((it,i)=>`<button class="sw ${i===0?'on':''}" onmouseenter="stg('${k}',${i})" onfocus="stg('${k}',${i})" onclick="go('${S.to}-${i}')"><u class="p${i%10}"></u><span>${it.n}</span></button>`).join('');
  const gl=[1,4,7].map(r=>[1,5].map(c=>`<div class="gl" style="left:${c*40}px;top:${r*40}px"></div>`).join('')).join('');
  return `<div class="stage ${cmp?'cmp':''} ${isOne?'one':''} ${S.ex?'ex hl-fr':''}" data-k="${k}" data-one="${isOne?one:0}"><div class="rail">${rail}</div><div class="stg-main"><div class="scene"><div class="seg"><button class="${S.ex?'':'on'}" onclick="stgMode('${k}',0)">Фасад</button><button class="${S.ex?'on':''}" onclick="stgMode('${k}',1)">В разрезе</button></div>
- <div class="bld"><div class="lyr wl">${cells('p7')}${gl}</div><div class="lyr in">${cells('')}</div><div class="lyr fr ${S.frame?'':''}" style="--fw:1px">${cells('')}</div><div class="lyr cl">${cells('p0')}</div></div>
+ <div class="bld"><div class="lyr wl p7">${WINS()}</div><div class="lyr in">${WINS()}</div><div class="lyr fr" style="--fw:1px">${WINS()}</div><div class="lyr lc p0">${WINS()}</div></div>
  <div class="lbl" data-l="3"><a onclick="go('cld')">Облицовка</a> · 10 видов</div><div class="lbl" data-l="2"><a onclick="go('met')">Металлокаркас</a> · 8 видов</div><div class="lbl" data-l="1">Утеплитель</div><div class="lbl" data-l="0">Стена здания</div></div>
  <div class="sinfo"><div><h4 class="sn"></h4><p class="ss"></p></div><button class="btn alt sgo">Открыть страницу</button></div></div></div>`}
 function stg(k,i){const el=document.querySelector('.stage[data-k="'+k+'"]');if(!el)return;const S=STG[k],it=S.items[i];
  el.querySelectorAll('.sw').forEach((e,j)=>e.classList.toggle('on',j===i));
  el.querySelector('.sn').textContent=it.n;el.querySelector('.ss').textContent=it.sub;
  el.querySelector('.sgo').onclick=()=>go(S.to+'-'+i);
- if(S.clad){el.querySelectorAll('.lyr.cl i:not(.w)').forEach(c=>c.className='p'+(i%10))}
+ if(S.clad){el.querySelector('.lyr.lc').className='lyr lc p'+(i%10)}
  if(S.frame){const f=el.querySelector('.lyr.fr');f.classList.toggle('m',i>=4);f.style.setProperty('--fw',(1+i%4*.7)+'px')}}
 function stgLbl(el){const sc=el.querySelector('.scene').getBoundingClientRect();
  el.querySelectorAll('.lbl').forEach(l=>{const L=el.querySelectorAll('.lyr')[+l.dataset.l].getBoundingClientRect();l.style.left=Math.min(L.right-sc.left+8,sc.width-l.offsetWidth-4)+'px';l.style.top=(L.top-sc.top+10+(3-(+l.dataset.l))*30)+'px'})}
