@@ -184,7 +184,7 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 .pb{display:block;height:10px;background:var(--panel)}
 .spec .pr{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center;padding:13px 0;border-top:1px solid var(--line);font-size:14px}
 .spec .pr span{color:var(--mut)}
-.cds{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.cds{display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap}
 .cds .plus{font-size:28px;font-weight:300;color:var(--mut)}
 .cd{display:block;width:230px;cursor:pointer;color:var(--fg);text-decoration:none}
 .cd .ph{aspect-ratio:4/3}
@@ -285,7 +285,7 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 .big{font-size:30px;font-weight:300;line-height:1}
 .big small{font-size:13px;color:var(--mut);margin-left:8px;font-weight:400}
 .tt{position:relative;height:10px;background:var(--panel)}.tt i{position:absolute;top:0;bottom:0;background:var(--fg)}
-.tl{position:relative;height:16px;font-size:11px;color:var(--mut);margin-top:4px}.tl span{position:absolute}
+.tsc{position:relative;height:16px;font-size:11px;color:var(--mut);margin-top:4px}.tsc span{position:absolute}
 .tm small{display:block;margin-top:6px;color:var(--fg);font-size:13px}
 .ser{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:30px}
 .sl button{display:block;width:100%;text-align:left;padding:12px 14px;border:1px solid var(--line);margin-top:-1px;background:none;font:500 14px Geologica,system-ui,sans-serif;cursor:pointer;color:var(--fg)}
@@ -309,6 +309,18 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;colo
 .fgr .ck{font-size:13px;color:var(--mut);display:flex;gap:8px;align-items:center}
 .fgr .btn{justify-self:start}
 @media(max-width:820px){.inl{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.steps>div{border-top:2px solid var(--fg);padding-top:16px;display:grid;gap:10px;align-content:start}
+.steps em{width:30px;height:30px;border-radius:50%;border:1px solid var(--fg);font-style:normal;font-size:14px;display:flex;align-items:center;justify-content:center}
+.steps b{font-weight:500;font-size:17px}
+.ogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.ogrid .ph{aspect-ratio:4/3}.ogrid b{display:block;margin-top:8px;font-weight:500;font-size:14px}.ogrid small{color:var(--mut);font-size:12.5px}
+.cgrid{display:grid;grid-template-columns:5fr 7fr;gap:36px;align-items:start}.cgrid .ph{aspect-ratio:16/10}
+.cl{margin-top:22px;font-size:14px;line-height:1.7}.cl b{font-weight:500;font-size:17px}
+@media(max-width:820px){.steps{grid-template-columns:1fr 1fr}.cgrid{grid-template-columns:1fr}}
+.ogrid.o4{grid-template-columns:repeat(4,1fr)}.tiles.c4{grid-template-columns:repeat(4,1fr);gap:18px}.cgrid{grid-template-columns:1fr 1fr}.cgrid .spec .pr{grid-template-columns:120px 1fr}
+@media(max-width:820px){.ogrid.o4,.tiles.c4{grid-template-columns:1fr 1fr}.cgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -374,11 +386,11 @@ const ST={
 const T={
 home:{t:'Главная',goal:'Показать, кто мы, и сразу вывести на главное: навесные фасадные системы. Бренд знают, убеждать не нужно.',b:[
  ['Первый экран','Заголовок: «Навесные фасадные системы Краспан на Северо-Западе». Подзаголовок: «Официальный представитель», регионы работы. Кнопка «Связаться».'],
- ['Металлокаркасы и облицовочные материалы (второй план)','Два небольших блока рядом, без фото: просто списки видов.','Клик по строке открывает страницу раздела на нужном виде.',{sec:[['Металлокаркасы',MET,'met'],['Облицовочные материалы',CLD,'cld']]}],
- ['Освещение FOS Group (третий план)','8 небольших плиток с фото светильников. Подпись: «Также поставляем светильники FOS Group»','Клик по плитке открывает страницу направления',{tiles:LTILES,to:'light',photo:1}],
- ['Объекты','3–4 фото реализованных объектов.','Ссылка «Все объекты».',{go:[['objs','Все объекты']]}],
- ['Как заказать','Короткий блок о том, как у нас заказать продукцию. Кнопка «Связаться».'],
- ['Контакты','Телефон, почта, адрес и форма «Связаться».']]},
+ ['Металлокаркасы и облицовочные материалы','',null,{sec:[['Металлокаркасы',MET,'met'],['Облицовочные материалы',CLD,'cld']],wide:1}],
+ ['Освещение FOS Group','',null,{tiles:LTILES,to:'light',photo:1,c4:1}],
+ ['Объекты','',null,{fn:'objs4'}],
+ ['Как заказать','',null,{fn:'steps'}],
+ FORM]},
 nfs:{t:'Навесные фасадные системы',goal:'Рассказать про каждую систему как про готовое решение, чтобы клиент увидел, что покупает.',b:[
  ['Что такое НФС',null,null,{text:'Навесная фасадная система — это облицовка на металлокаркасе, который крепится к стене через слой утеплителя. Наведите на систему ниже и посмотрите, как она устроена в разрезе'}],
  ['Стена в разрезе: 10 систем','Разрез стены по слоям: стена, утеплитель, каркас, облицовка. Под разрезом 10 систем: наведение меняет облицовку, клик открывает страницу системы. Каркас и облицовка в легенде ведут в свои разделы','',{sect:1,wide:1}],
@@ -395,12 +407,12 @@ light:{t:'Освещение FOS',goal:'Рассказать про светил
  ['Где нужен свет: 8 направлений','Схема объектов. Ночью лампы загораются по очереди. Наведение выделяет направление и показывает его название, клик открывает страницу направления. Кнопки «Ночью» и «Днём» включают и выключают свет','',{scene:1,wide:1}],
  FORM]},
 objs:{t:'Объекты',goal:'Показать, что компания работает: реальные объекты.',b:[
- ['Сетка объектов','Фото, название, город, какая система применена. Без отдельных страниц.','Клик увеличивает фото.'],
+ ['Объекты','',null,{fn:'objs9',wide:1}],
  FORM]},
 contacts:{t:'Контакты',goal:'Дать понятно связаться.',b:[
- ['Как заказать','Тот же короткий блок, что на главной.'],
- ['Реквизиты','Адрес, телефон, почта, режим работы.'],
- ['Карта','Карта проезда.'],
+ ['Как заказать','',null,{fn:'steps'}],
+ ['Контакты и карта','',null,{fn:'reqs'}],
+
  FORM]}
 };
 
@@ -462,7 +474,7 @@ const LC=[
 const fmt=v=>(v<0?'−':v>0?'+':'')+Math.abs(v);
 function tempHTML(t){const pos=v=>(v+60)/150*100;const a=t[0]===null?0:pos(t[0]),b=pos(t[1]);
  const bg=t[0]===null?'background:linear-gradient(90deg,transparent,var(--fg))':'';
- return `<div class="tm"><div class="tt"><i style="left:${a}%;width:${b-a}%;${bg}"></i></div><div class="tl"><span style="left:0">−60</span><span style="left:40%;transform:translateX(-50%)">0</span><span style="right:0">+90 °C</span></div><small>${t[0]===null?'до '+fmt(t[1])+' °C':'от '+fmt(t[0])+' до '+fmt(t[1])+' °C'}</small></div>`}
+ return `<div class="tm"><div class="tt"><i style="left:${a}%;width:${b-a}%;${bg}"></i></div><div class="tsc"><span style="left:0">−60</span><span style="left:40%;transform:translateX(-50%)">0</span><span style="right:0">+90 °C</span></div><small>${t[0]===null?'до '+fmt(t[1])+' °C':'от '+fmt(t[0])+' до '+fmt(t[1])+' °C'}</small></div>`}
 function lightPass(i){const c=LC[i];const r=[['Защита корпуса',`<div class="big">${c.ip}</div>`]];
  if(c.t)r.push(['Температура',tempHTML(c.t)]);
  r.push(['Срок службы',`<div class="big">${c.life}<small>лет</small></div>`]);
@@ -484,6 +496,12 @@ function serHTML(L){window.SERIES=L.series;
 function serPick(j){const S=window.SERIES;if(!S||!$('#sph'))return;const [a,b]=S[j];const m=mountOf(a,b);
  $('#sph').textContent='Фото: '+a;$('#smsv').innerHTML=MT[m[0]];$('#smn').textContent=m[1];
  document.querySelectorAll('.sl button').forEach((e,k)=>e.classList.toggle('on',k===j))}
+
+const FN={
+ steps:()=>`<div class="steps">${['Заявка','Подбор и расчёт','Согласование','Поставка'].map((t,j)=>`<div><em>${j+1}</em><b>${t}</b>${bar(85)}${bar(60)}</div>`).join('')}</div>`,
+ objs4:()=>`<div class="ogrid o4">${[0,1,2,3].map(()=>`<a class="cd" style="width:auto" onclick="go('objs')"><div class="ph"><span>Фото объекта</span></div><b>Название объекта</b><small>Город · система</small></a>`).join('')}</div><div class="btns" style="margin-top:20px"><button class="btn alt" onclick="go('objs')">Все объекты</button></div>`,
+ objs9:()=>`<div class="ogrid">${[0,1,2,3,4,5,6,7].map(j=>`<div><div class="ph"><span>Фото объекта</span></div><b>Название объекта</b><small>Город · система</small></div>`).join('')}</div>`,
+ reqs:()=>`<div class="cgrid"><div class="spec">${prow([['Адрес','Санкт-Петербург, адрес'],['Телефон','+7 (000) 000-00-00'],['Почта','info@mail.ru'],['Режим работы','Пн–Пт, 9:00–18:00'],['Реквизиты',bar(60)]])}</div><div class="ph"><span>Карта проезда</span></div></div>`};
 const D={
  light:i=>{const L=LGT[i];return [['Где применяют','Типы объектов, для которых это направление',null,{raw:uses(L.use.slice(0,6))}],['Серии: '+L.series.length,'Слева серии, справа фото выбранной серии и способ её крепления. Отдельных страниц у серий нет',null,{raw:serHTML(L)}]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{raw:cards([['objs',L.obj.split(' · ')[0],'Объект']]),go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Соседние направления',null,{raw:strip('light',i)}],FORM])},
  nfs:i=>[['Из чего собирается','Облицовка и металлокаркас, из которых собрана система',null,{raw:cardsPlus([['cld-'+i,CLD[i],'Облицовка'],['met-1',MET[1],'Металлокаркас']])}],['Как крепится','Схема узла: способ крепления панели к каркасу',null,{raw:schem('Схема узла',['Облицовка','Крепёж','Профиль каркаса','Кронштейн','Утеплитель'])}],['Где применять','Типы зданий и условия',null,{raw:uses(['Жилые здания','Общественные здания','Промышленные объекты'])}],['Параметры','Толщина, вес, размеры',null,{raw:'<div class="spec">'+prow([['Толщина',bar(30)],['Размеры панели',bar(50)],['Вес, кг/м²',bar(35)],['Высота здания',bar(45)]])+'</div>'}],['Объект с этой системой','Фото объекта и подпись',null,{raw:cards([['objs','Название объекта','Город']]) ,go:[['objs','Все объекты']]}],['Другие системы','Соседние системы',null,{raw:strip('nfs',i)}],FORM],
@@ -530,10 +548,11 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  const txt=b.slice(1).filter(x=>typeof x==='string');
  const isForm=b[0]===FORM[0];
  let body='';
- if(ex.tiles)body+=`<div class="tiles ${ex.big?'lg':''}">${ex.tiles.map((x,j)=>`<a class="tl" tabindex="0" onclick="go('${ex.to}-${j}')"><div class="ph ${ex.big?'tall':''}"><span>${ex.lbl||'Фото'}</span></div><div class="cap">${x}</div></a>`).join('')}</div>`;
+ if(ex.tiles)body+=`<div class="tiles ${ex.big?'lg':''} ${ex.c4?'c4':''}">${ex.tiles.map((x,j)=>`<a class="tl" tabindex="0" onclick="go('${ex.to}-${j}')"><div class="ph ${ex.big?'tall':''}"><span>${ex.lbl||'Фото'}</span></div><div class="cap">${x}</div></a>`).join('')}</div>`;
  if(ex.sec)body+=`<div class="lists">${ex.sec.map(([n,l,to])=>`<div><h4 onclick="go('${to}')">${n}</h4>${l.map((x,j)=>`<a onclick="go('${to}-${j}')">${x}</a>`).join('')}</div>`).join('')}</div>`;
  if(ex.stage)body+=stageHTML(ex.stage);
  if(ex.raw)body+=ex.raw;
+ if(ex.fn)body+=FN[ex.fn]();
  if(ex.scene)body+=lightScene();
  if(ex.sect)body+=sectHTML();
  if(ex.matrix)body+=matrixHTML();
@@ -541,7 +560,7 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  if(ex.chips)body+=`<div class="chips">${ex.chips.map(([a,d])=>`<div><div class="ph"><span>Фото</span></div><div class="cap"><b>${a}</b>${d}</div></div>`).join('')}</div>`;
  if(ex.go&&ex.go.length)body+=`<div class="btns">${ex.go.map(([x,l])=>`<button class="btn alt" onclick="go('${x}')">${l}</button>`).join('')}</div>`;
  if(ex.text)body+=`<p class="txt">${ex.text}</p>`;
- if(isForm)body+=`<div class="inl"><div><h2>Оставьте заявку</h2><p>Перезвоним в течение рабочего дня</p></div><div class="fgr"><input placeholder="Имя"><input placeholder="Телефон"><input placeholder="Компания"><textarea placeholder="Комментарий" rows="3"></textarea><label class="ck"><input type="checkbox"> Согласен на обработку персональных данных</label><button class="btn" onclick="sent(this)">Отправить</button></div></div>`;
+ if(isForm)body+=`<div class="inl"><div><h2>Оставьте заявку</h2><p>Перезвоним в течение рабочего дня</p><div class="cl"><b>+7 (000) 000-00-00</b><br>info@mail.ru<br>Санкт-Петербург</div></div><div class="fgr"><input placeholder="Имя"><input placeholder="Телефон"><input placeholder="Компания"><textarea placeholder="Комментарий" rows="3"></textarea><label class="ck"><input type="checkbox"> Согласен на обработку персональных данных</label><button class="btn" onclick="sent(this)">Отправить</button></div></div>`;
  const bodyTxt=(!body&&txt[0])?'':'';
  const nohd=isForm||ex.wide||ex.scene||ex.stage||ex.sect||ex.matrix||ex.acc||(ex.text&&!ex.tiles);
  return `<section class="row ${body?'':'solo'} ${ex.wide?'wide':''} ${nohd?'nohd':''}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
