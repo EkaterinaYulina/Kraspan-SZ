@@ -26,11 +26,10 @@ header{background:var(--bg);position:sticky;top:0;z-index:5;border-bottom:1px so
 .logo b{color:var(--acc);font-weight:600;margin-left:6px}
 nav{display:flex;flex:1;align-items:stretch}
 .nv .nl{display:flex;align-items:center;height:100%;padding:0 16px;cursor:pointer;text-decoration:none;font-size:14.5px;border-bottom:2px solid transparent;margin-bottom:-1px}
-.nv:hover .nl,.nv:focus-within .nl{background:var(--fill)}
+.nv.open .nl{background:var(--fill)}
 .nv.on .nl{border-bottom-color:var(--acc)}
-.mega{display:none;position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);padding:30px 0 38px}
-.nv:hover .mega,.nv:focus-within .mega{display:block}
-header.shut .mega{display:none!important}
+.mega{display:block;visibility:hidden;opacity:0;transform:translateY(-6px);pointer-events:none;position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);padding:30px 0 38px;transition:opacity .16s ease,transform .16s ease,visibility 0s .16s}
+.nv.open .mega{visibility:visible;opacity:1;transform:none;pointer-events:auto;transition:opacity .16s ease,transform .16s ease,visibility 0s}
 .mg3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
 .mg2{display:grid;grid-template-columns:1fr}
 .mc a{display:block;padding:3px 0;font-size:13.5px;cursor:pointer;text-decoration:none;color:var(--mut)}
@@ -588,7 +587,7 @@ function toggleMenu(){const h=document.querySelector('header');h.classList.toggl
 function mobNav(){const g=(k,t,a)=>`<details class="sub"><summary>${t}</summary><a onclick="go('${k}')">Все разделы: ${t}</a>${a.map((x,j)=>`<a onclick="go('${k}-${j}')">${x}</a>`).join('')}</details>`;
  return `<div class="wrap"><details><summary>Продукция</summary>${g('nfs','Навесные фасадные системы',NFS)}${g('met','Металлокаркасы',MET)}${g('cld','Облицовочные материалы',CLD)}</details><details><summary>Освещение FOS</summary><a onclick="go('light')">Все направления</a>${LNAMES.map((x,j)=>`<a onclick="go('light-${j}')">${x}</a>`).join('')}</details><a class="top" onclick="go('objs')">Объекты</a><a class="top" onclick="go('contacts')">Контакты</a></div>`}
 
-function go(id){location.hash=id;const h=document.querySelector('header');h.classList.add('shut');h.classList.remove('menu');const bu=$('.burger');if(bu)bu.textContent='☰';if(document.activeElement)document.activeElement.blur();setTimeout(()=>h.classList.remove('shut'),500)}
+function go(id){location.hash=id;const h=document.querySelector('header');menuClose(true);h.classList.remove('menu');const bu=$('.burger');if(bu)bu.textContent='☰';if(document.activeElement)document.activeElement.blur()}
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',2200)}
 const STG={
  nfs:{items:NFS.map((n,i)=>({n,sub:'Облицовка '+CLD[i]})),to:'nfs',clad:1},
@@ -672,6 +671,25 @@ function form(){
 function thanks(){$('#modal').innerHTML=`<h2>Спасибо</h2><p>Заявка принята, свяжемся в течение рабочего дня</p><button class="btn" onclick="closeF()">Закрыть</button>`}
 function sent(b){const f=b.closest('.inl');f.innerHTML='<div><h2>Спасибо</h2><p>Заявка принята, свяжемся в течение рабочего дня</p></div>'}
 function closeF(){$('#ov').classList.remove('show')}
+
+/* Выпадающее меню: hover-intent, чтобы не мигало и не закрывалось от случайного движения мыши */
+let __nvOpen=null,__tO,__tC,__lock=null;
+function menuSet(n){if(__nvOpen===n)return;if(__nvOpen)__nvOpen.classList.remove('open');__nvOpen=n;if(n)n.classList.add('open')}
+function menuClose(lock){clearTimeout(__tO);clearTimeout(__tC);if(lock){const hv=document.querySelector('header .nv:hover');__lock=hv?hv.querySelector('.nl').textContent:'*'}document.querySelectorAll('header .nv.open').forEach(x=>x.classList.remove('open'));__nvOpen=null}
+(function(){const hd=document.querySelector('header');
+ const lab=n=>n.querySelector('.nl').textContent;
+ const later=(fn,ms)=>setTimeout(fn,ms);
+ hd.addEventListener('pointerover',e=>{if(e.pointerType!=='mouse')return;const n=e.target.closest('.nv');
+  if(__lock){if(n&&__lock!=='*'&&lab(n)!==__lock)__lock=null;else return}
+  clearTimeout(__tC);
+  if(n&&n.querySelector('.mega')){if(n===__nvOpen){clearTimeout(__tO);return}clearTimeout(__tO);__tO=later(()=>menuSet(n),__nvOpen?60:90)}
+  else{clearTimeout(__tO);if(__nvOpen)__tC=later(()=>menuSet(null),120)}});
+ hd.addEventListener('pointerleave',e=>{if(e.pointerType!=='mouse')return;__lock=null;clearTimeout(__tO);clearTimeout(__tC);__tC=later(()=>menuSet(null),180)});
+ hd.addEventListener('click',e=>{const l=e.target.closest('.nv > .nl');if(!l)return;const n=l.parentNode;if(n.querySelector('.mega')&&!l.getAttribute('onclick')){clearTimeout(__tO);menuSet(__nvOpen===n?null:n)}});
+ hd.addEventListener('focusin',e=>{if(__lock)return;const n=e.target.closest('.nv');if(n&&n.querySelector('.mega')){clearTimeout(__tC);menuSet(n)}});
+ hd.addEventListener('focusout',e=>{if(!hd.contains(e.relatedTarget))menuSet(null)});
+ addEventListener('keydown',e=>{if(e.key==='Escape'){menuClose(false)}});
+})();
 addEventListener('hashchange',render);render();$('#mnav').innerHTML=mobNav();themeBtn();
 </script>
 </body>
