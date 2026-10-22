@@ -385,19 +385,10 @@ body{overflow-x:hidden}
  .var{padding:28px 0 32px}.vspec{grid-template-columns:1fr 1fr}.vspec>div:nth-child(odd){border-left:0;padding-left:0}
 }
 
-.mg2x{display:grid;grid-template-columns:repeat(2,1fr);gap:40px}
 .tiles.c5{grid-template-columns:repeat(5,1fr);gap:18px}
-.hubg{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.hub{display:block;cursor:pointer;text-decoration:none;color:var(--fg)}
-.hub .ph{aspect-ratio:16/9}
-.hub h3{margin:16px 0 4px;font-size:clamp(24px,2.6vw,34px);font-weight:300;line-height:1.1}
-.hub p{margin:0 0 16px;color:var(--mut);font-size:14px}
-.hub:hover h3{color:var(--acc)}
-.hub:hover .btn{background:var(--fg);color:var(--on)}
-.hub .btn{display:inline-block}
 .tree .sub{margin-top:12px;padding-left:6px}.tree .sub>li{margin-bottom:14px}
 div.cd{cursor:default}div.cd:hover b{text-decoration:none}
-@media(max-width:820px){.mg2x{grid-template-columns:1fr}.hubg{grid-template-columns:1fr}.tiles.c5{grid-template-columns:1fr 1fr}}
+@media(max-width:820px){.tiles.c5{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -418,7 +409,7 @@ div.cd{cursor:default}div.cd:hover b{text-decoration:none}
 <div class="ov" id="ov" onclick="if(event.target===this)closeF()"><div class="modal" id="modal"></div></div>
 <script>
 const $=s=>document.querySelector(s);
-const MET=['L-ВСтК с энергоэффективным кронштейном (КМ)','L-ВСт, оцинкованная сталь','L-ВСтН, коррозионно-стойкая сталь','L-ВА, алюминий','M-ВСт, межэтажные перекрытия','M-ВСтН из коррозионностойкой стали, межэтажные перекрытия','M-ВА алюминиевая, межэтажные перекрытия'];
+const MET=['L-ВСтК с энергоэффективным кронштейном (КМ)','L-ВСт, оцинкованная сталь','L-ВСтН, коррозионно-стойкая сталь','L-ВА, алюминий','М-ВСтВ, межэтажные перекрытия','М-ВСтН, межэтажные перекрытия из коррозионностойкой стали','М-ВА, межэтажные перекрытия, алюминиевые'];
 const MATIDX=[0,1,2,3,1,2,3];
 const CLD=['КРАСПАНКОМПОЗИТ-ST','КРАСПАНКОМПОЗИТ-AL','КРАСПАНМЕТАЛЛТЕКС длинномерные','КРАСПАНМЕТАЛЛТЕКС большеформатные','КРАСПАНМЕТАЛЛКОЛОР','КЕРАМОГРАНИТ','КРАСПАНМЕТАЛЛОМАГНЕЗИТ','КРАСПАНФИБРОЦЕМЕНТКОЛОР','КРАСПАНБРИКФОРМ','УФ-печать «Поликолор»'];
 const NFS=CLD.map(x=>'НФС с облицовкой '+x.replace('КРАСПАН',''));NFS[9]='НФС с УФ-печатью «Поликолор»';
@@ -435,7 +426,7 @@ const LGT=[
   use:['Химическая промышленность','Нефтехимическая промышленность','Фармацевтическая промышленность','Пищевая промышленность','Электроэнергетика'],
   series:[['FOS Chemical C','Консольный'],['FOS Chemical R','Консольно-регулируемый'],['FOS Chemical W','Настенный']],
   cond:'IP67 · от −40 до +60 °C · срок службы 16 лет · гарантия 5 лет'},
- {n:'Внутреннее освещение',d:'Офисы, магазины, склады, торговые залы',lead:'Светильники для офисов, торговых помещений и общественных зданий',
+ {n:'Коммерческое внутреннее освещение',d:'Офисы, магазины, склады, торговые залы',lead:'Светильники для офисов, торговых помещений и общественных зданий',
   use:['Офисы и учебные заведения','Торговые центры, магазины, бутики','Общепит и выставочные залы','Медицинские учреждения и лаборатории','Склады, цеха, парковки, коридоры'],
   series:[['FOS Office','Офисный: встраиваемый, накладной, подвесной'],['FOS Trade','Торговое освещение'],['FOS Line','Торговое освещение, линейный'],['FOS Tube','Потолочный'],['FOS Ice','Потолочный'],['FOS Downlight','Встраиваемый, направленного света']],
   cond:'FOS Office: IP40/65 · срок службы 16 лет'},
@@ -451,14 +442,10 @@ const ST={
 const T={
 home:{t:'Главная',goal:'Показать, кто мы, и сразу вывести на главное: навесные фасадные системы. Бренд знают, убеждать не нужно.',b:[
  ['Первый экран','Заголовок: «Навесные фасадные системы Краспан на Северо-Западе». Подзаголовок: «Официальный представитель», регионы работы. Кнопка «Связаться».'],
- ['Вентилируемые фасады','',null,{sec:[['Навесные фасадные системы',NFS,'nfs'],['Металлокаркасы',MET,'met']],go:[['prod','Все фасады']],wide:1}],
+ ['Вентилируемые фасады','',null,{sec:[['Навесные фасадные системы',NFS,'nfs'],['Металлокаркасы',MET,'met']],wide:1}],
  ['Освещение FOS Group','',null,{tiles:LTILES,to:'light',photo:1,c5:1}],
  ['Объекты','',null,{fn:'objs4'}],
  ['Как заказать','',null,{fn:'steps'}],
- FORM]},
-prod:{t:'Вентилируемые фасады',goal:'Дать общий вход в раздел фасадов и развести посетителя на системы и металлокаркасы',b:[
- ['Вступление',null,null,{text:'Вентилируемый фасад — это облицовка на металлокаркасе, который крепится к стене через слой утеплителя. Выберите готовую систему или подберите каркас под нужную облицовку'}],
- ['Два раздела','Две большие карточки: системы и каркасы. Клик открывает раздел','',{raw:hubHTML(),wide:1}],
  FORM]},
 nfs:{t:'Навесные фасадные системы',goal:'Рассказать про каждую систему как про готовое решение, чтобы клиент увидел, что покупает.',b:[
  ['Что такое НФС',null,null,{text:'Навесная фасадная система — это облицовка на металлокаркасе, который крепится к стене через слой утеплителя. Наведите на систему ниже и посмотрите, как она устроена в разрезе'}],
@@ -483,7 +470,6 @@ contacts:{t:'Контакты',goal:'Дать понятно связаться.
 };
 
 const NAMES={nfs:NFS,met:MET,light:LNAMES},SEC={nfs:['nfs','Навесные фасадные системы'],met:['met','Металлокаркасы'],light:['light','Освещение FOS']};
-T.nfs.par=T.met.par=['prod','Вентилируемые фасады'];
 
 const bar=w=>`<i class="pb" style="width:${w}%"></i>`;
 const prow=rows=>rows.map(([a,v])=>`<div class="pr"><span>${a}</span><div>${v}</div></div>`).join('');
@@ -495,8 +481,6 @@ const schem=(lbl,leg)=>`<div class="schem"><div class="ph"><span>${lbl}</span></
 const colors=()=>['RAL','NCS','Поликолор'].map((g,r)=>`<p class="cgrp">${g}</p><div class="colors" style="margin-bottom:14px">${Array.from({length:8},(_,j)=>`<u style="background:hsl(210 ${r*5}% ${95-j*9}%)"></u>`).join('')}</div>`).join('');
 const layers=a=>`<div class="lay">${a.map(([t,h])=>`<div style="height:${h}px">${t}<i>толщина</i></div>`).join('')}</div>`;
 const MATS=['с энергоэффективным кронштейном КМ','оцинкованная сталь','коррозионно-стойкая сталь','алюминий'];
-function hubHTML(){const c=(to,t,n,d)=>`<a class="hub" onclick="go('${to}')"><div class="ph"><span>Фото</span></div><h3>${t}</h3><p>${d}</p><span class="btn alt">${n}</span></a>`;
- return `<div class="hubg">${c('nfs','Навесные фасадные системы','Все '+NFS.length+' систем','Готовое решение: облицовка на металлокаркасе')}${c('met','Металлокаркасы','Все '+MET.length+' каркасов','Крепление облицовки к стене')}</div>`}
 function sectHTML(){
  return `<div class="sect"><div><div class="sv" id="sv"><div class="s1"><b>1</b></div><div class="s2"><b>2</b></div><div class="s3"><b>3</b></div><div class="s4 p0" id="s4"><b>4</b></div><span class="out">наружу →</span></div></div>
  <div class="sright"><h4 id="sn"></h4><p id="ss"></p><ul class="sleg"><li><em>1</em>Стена здания</li><li><em>2</em>Утеплитель</li><li><em>3</em><span><a onclick="go('met')">Металлокаркас</a>: кронштейн, профиль, воздушный зазор</span></li><li><em>4</em>Облицовка: меняется в зависимости от системы</li></ul><button class="btn alt" id="sgo">Открыть страницу системы</button></div></div>
@@ -576,15 +560,16 @@ const D={
 const col=(k,t,arr)=>`<div class="mc"><a class="mh" onclick="go('${k}')">${t}</a>${arr.map((x,j)=>`<a onclick="go('${k}-${j}')">${x}</a>`).join('')}</div>`;
 function nav(act){
  const s=(k,l,to)=>`<div class="nv ${act===k?'on':''}"><a class="nl" tabindex="0" onclick="go('${to}')">${l}</a></div>`;
- return `<div class="nv ${act==='prod'?'on':''}"><a class="nl" tabindex="0" onclick="go('prod')">Фасады</a><div class="mega"><div class="wrap mg2x">${col('nfs','Навесные фасадные системы',NFS)}${col('met','Металлокаркасы',MET)}</div></div></div>
+ return `<div class="nv ${act==='nfs'?'on':''}"><a class="nl" tabindex="0" onclick="go('nfs')">Фасады</a><div class="mega"><div class="wrap mg2">${col('nfs','Навесные фасадные системы',NFS)}</div></div></div>
+ <div class="nv ${act==='met'?'on':''}"><a class="nl" tabindex="0" onclick="go('met')">Металлокаркасы</a><div class="mega"><div class="wrap mg2">${col('met','Металлокаркасы',MET)}</div></div></div>
  <div class="nv ${act==='light'?'on':''}"><a class="nl" tabindex="0" onclick="go('light')">Освещение FOS</a><div class="mega"><div class="wrap mg2">${col('light','Светильники FOS Group',LNAMES)}</div></div></div>`+s('objs','Объекты','objs')+s('contacts','Контакты','contacts')}
-const GRP={prod:'prod',nfs:'prod',met:'prod',light:'light',objs:'objs',contacts:'contacts',home:'',map:''};
+const GRP={nfs:'nfs',met:'met',light:'light',objs:'objs',contacts:'contacts',home:'',map:''};
 
 function theme(set){const r=document.documentElement;const d=set||(r.getAttribute('data-theme')==='dark'?'light':'dark');r.setAttribute('data-theme',d);try{localStorage.setItem('kr-theme',d)}catch(e){}themeBtn()}
 function themeBtn(){const b=$('#tg');if(b)b.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'☀ Светлая тема':'☾ Тёмная тема'}
 function toggleMenu(){const h=document.querySelector('header');h.classList.toggle('menu');$('.burger').textContent=h.classList.contains('menu')?'✕':'☰'}
 function mobNav(){const g=(k,t,a)=>`<details class="sub"><summary>${t}</summary><a onclick="go('${k}')">Все разделы: ${t}</a>${a.map((x,j)=>`<a onclick="go('${k}-${j}')">${x}</a>`).join('')}</details>`;
- return `<div class="wrap"><details><summary>Фасады</summary><a onclick="go('prod')">Все фасады</a>${g('nfs','Навесные фасадные системы',NFS)}${g('met','Металлокаркасы',MET)}</details><details><summary>Освещение FOS</summary><a onclick="go('light')">Все направления</a>${LNAMES.map((x,j)=>`<a onclick="go('light-${j}')">${x}</a>`).join('')}</details><a class="top" onclick="go('objs')">Объекты</a><a class="top" onclick="go('contacts')">Контакты</a></div>`}
+ return `<div class="wrap">${g('nfs','Фасады',NFS).replace('class="sub"','')}${g('met','Металлокаркасы',MET).replace('class="sub"','')}<details><summary>Освещение FOS</summary><a onclick="go('light')">Все направления</a>${LNAMES.map((x,j)=>`<a onclick="go('light-${j}')">${x}</a>`).join('')}</details><a class="top" onclick="go('objs')">Объекты</a><a class="top" onclick="go('contacts')">Контакты</a></div>`}
 
 function go(id){location.hash=id;const h=document.querySelector('header');menuClose(true);h.classList.remove('menu');const bu=$('.burger');if(bu)bu.textContent='☰';if(document.activeElement)document.activeElement.blur()}
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',2200)}
@@ -636,22 +621,19 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  return `<section class="row ${body?'':'solo'} ${ex.wide?'wide':''} ${nohd?'nohd':''}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
 function pl(n,a,b,c){const m=n%100,d=n%10;return m>10&&m<20?c:d===1?a:d>1&&d<5?b:c}
 function mapPage(){
- const BR=[{k:'prod',t:'Вентилируемые фасады',sub:[{k:'nfs',t:'Навесные фасадные системы',ch:NFS},{k:'met',t:'Металлокаркасы',ch:MET}]},{k:'light',t:'Освещение FOS',ch:LNAMES},{k:'objs',t:'Объекты'},{k:'contacts',t:'Контакты'}];
- const inner=x=>(x.sub?x.sub.reduce((a,u)=>a+1+u.ch.length,0):0)+(x.ch?x.ch.length:0);
- const leaves=BR.reduce((a,x)=>a+(x.sub?x.sub.reduce((b,u)=>b+u.ch.length,0):0)+(x.ch?x.ch.length:0),0);
- const total=1+BR.length+BR.reduce((a,x)=>a+inner(x),0);
+ const secs=[['nfs','Навесные фасадные системы',NFS],['met','Металлокаркасы',MET],['light','Освещение FOS',LNAMES],['objs','Объекты',null],['contacts','Контакты',null]];
+ const n3=secs.reduce((a,x)=>a+(x[2]?x[2].length:0),0),total=1+secs.length+n3;
  const node=(lv,t,to,cnt)=>`<span class="nd l${lv}" onclick="go('${to}')"><i>${lv}</i>${t}${cnt?`<em>${cnt}</em>`:''}</span>`;
- const lvs=(n,names,k)=>`<div class="leaves">${names.map((x,j)=>node(n,x,k+'-'+j)).join('')}</div>`;
- const items=BR.map((x,i)=>{const n=inner(x);return `<li${i===BR.length-1?' class="last"':''}>${node(2,x.t,x.k,n?n+' стр.':'')}`+(x.sub?`<ul class="sub">${x.sub.map(u=>`<li>${node(3,u.t,u.k,u.ch.length+' стр.')}${lvs(4,u.ch,u.k)}</li>`).join('')}</ul>`:'')+(x.ch?lvs(3,x.ch,x.k):'')+`</li>`}).join('');
+ const items=secs.map(([k,t,ch],i)=>`<li${i===secs.length-1?' class="last"':''}>${node(2,t,k,ch?ch.length+' стр.':'')}${ch?`<div class="leaves">${ch.map((x,j)=>node(3,x,k+'-'+j)).join('')}</div>`:''}</li>`).join('');
  return `<div class="crumbs"><a onclick="go('home')">← Вернуться к прототипу</a></div><div class="head"><h1>Дерево сайта: ${total} ${pl(total,'страница','страницы','страниц')}</h1></div>
- <p class="tn">Главная, ${BR.length} раздела, в разделе фасадов ещё 2 подраздела и ${leaves} ${pl(leaves,'страница','страницы','страниц')} видов. До любой страницы не больше трёх кликов от главной, из выпадающего меню — один. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
+ <p class="tn">Три уровня: главная, ${secs.length} разделов, ${n3} ${pl(n3,'страница','страницы','страниц')} видов. До любой страницы два клика от главной. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
  <div class="tree"><div class="root">${node(1,'Главная','home','')}</div><ul>${items}</ul></div>`}
 function render(){
  const raw=location.hash.slice(1);const m=raw.match(/^(nfs|met|light)-(\d+)$/);
  if(m&&NAMES[m[1]][+m[2]]!==undefined){const k=m[1],i=+m[2],sec=SEC[k];
   $('#nav').innerHTML=nav(GRP[k]);
   const t={b:D[k](i)};
-  const crumbs=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${k!=='light'?`<a onclick="go('prod')">Вентилируемые фасады</a> › `:''}<a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><div class="head"><h1>${NAMES[k][i]}</h1></div>`;
+  const crumbs=`<div class="crumbs"><a onclick="go('home')">Главная</a> › <a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><div class="head"><h1>${NAMES[k][i]}</h1></div>`;
   if(k==='light')$('#app').innerHTML=crumbs+`<p class="lead3">${LGT[i].lead}</p><div class="pass"><div class="lamp"><div class="ph"><span>Фото светильника</span></div><div class="glow"></div></div><div class="pp"><h4>Условия работы</h4>${prow(lightPass(i))}</div></div><p class="note">Первый экран: фото светильника и условия, в которых он работает: защита, температура, срок службы, гарантия. Ниже — где применяют, серии, объекты</p>`+blocks(t);
   else $('#app').innerHTML=crumbs+`<p class="lead3">${LEAD3[k](i)}</p><div class="pass"><div>${stageHTML(k,0,i)}</div><div class="pp"><h4>Паспорт</h4>${prow(PASS[k](i))}</div></div><p class="note">Первый экран: слева показано, как продукт выглядит на фасаде (кнопка «В разрезе» раскладывает фасад на слои), справа — паспорт с главными параметрами. Ниже — блоки страницы по порядку</p>`+blocks(t);
   if(k==='nfs'&&false){}
@@ -663,7 +645,7 @@ function render(){
  if(id==='home'){
   $('#app').innerHTML=`<div class="fullbleed hero3"><div class="h3in"><div><h1>Навесные фасадные системы Краспан на Северо-Западе</h1><p class="lead">Официальный представитель</p></div><div>${stageHTML('nfs',1)}</div></div></div><p class="note">Первый экран: фасад собирается из слоёв при загрузке. Наведение на значок меняет облицовку, клик открывает страницу системы. Кнопка «В разрезе» раскладывает фасад на стену, утеплитель, каркас и облицовку</p>`+blocks({b:t.b.slice(1)});
  }else{
-  $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${t.par?`<a onclick="go('${t.par[0]}')">${t.par[1]}</a> › `:''}${t.t}</div><div class="head"><h1>${t.t}</h1></div><p class="note">Цель страницы: ${t.goal}</p>`+blocks(t);
+  $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${''}${t.t}</div><div class="head"><h1>${t.t}</h1></div><p class="note">Цель страницы: ${t.goal}</p>`+blocks(t);
  }
  scrollTo(0,0);stgInit();pickInit()}
 function form(){
