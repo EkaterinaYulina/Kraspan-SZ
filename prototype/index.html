@@ -384,6 +384,20 @@ body{overflow-x:hidden}
  .ac.on{height:260px}.sysg{grid-template-columns:1fr}.steps{grid-template-columns:1fr}
  .var{padding:28px 0 32px}.vspec{grid-template-columns:1fr 1fr}.vspec>div:nth-child(odd){border-left:0;padding-left:0}
 }
+
+.mg2x{display:grid;grid-template-columns:repeat(2,1fr);gap:40px}
+.tiles.c5{grid-template-columns:repeat(5,1fr);gap:18px}
+.hubg{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.hub{display:block;cursor:pointer;text-decoration:none;color:var(--fg)}
+.hub .ph{aspect-ratio:16/9}
+.hub h3{margin:16px 0 4px;font-size:clamp(24px,2.6vw,34px);font-weight:300;line-height:1.1}
+.hub p{margin:0 0 16px;color:var(--mut);font-size:14px}
+.hub:hover h3{color:var(--acc)}
+.hub:hover .btn{background:var(--fg);color:var(--on)}
+.hub .btn{display:inline-block}
+.tree .sub{margin-top:12px;padding-left:6px}.tree .sub>li{margin-bottom:14px}
+div.cd{cursor:default}div.cd:hover b{text-decoration:none}
+@media(max-width:820px){.mg2x{grid-template-columns:1fr}.hubg{grid-template-columns:1fr}.tiles.c5{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -404,9 +418,10 @@ body{overflow-x:hidden}
 <div class="ov" id="ov" onclick="if(event.target===this)closeF()"><div class="modal" id="modal"></div></div>
 <script>
 const $=s=>document.querySelector(s);
-const MET=['L-ВСтК с кронштейном (КМ)','L-ВСт, оцинкованная сталь','L-ВСтН, коррозионно-стойкая сталь','L-ВА, алюминий','M-ВСтК (КМ), межэтажные перекрытия','M-ВСт, межэтажные перекрытия','M-ВСтН, межэтажные перекрытия','M-ВА, межэтажные перекрытия'];
-const CLD=['КРАСПАНКОМПОЗИТ-ST','КРАСПАНКОМПОЗИТ-AL','КРАСПАНМЕТАЛЛТЕКС длинномерные','КРАСПАНМЕТАЛЛТЕКС большеформатные','КРАСПАНМЕТАЛЛКОЛОР','КЕРАМОГРАНИТ','КРАСПАНМЕТАЛЛОМАГНЕЗИТ','КРАСПАНФИБРОЦЕМЕНТКОЛОР моноколор','КРАСПАНФИБРОЦЕМЕНТКОЛОР поликолор','КРАСПАНБРИКФОРМ'];
-const NFS=CLD.map(x=>'НФС с облицовкой '+x.replace('КРАСПАН',''));
+const MET=['L-ВСтК с энергоэффективным кронштейном (КМ)','L-ВСт, оцинкованная сталь','L-ВСтН, коррозионно-стойкая сталь','L-ВА, алюминий','M-ВСт, межэтажные перекрытия','M-ВСтН из коррозионностойкой стали, межэтажные перекрытия','M-ВА алюминиевая, межэтажные перекрытия'];
+const MATIDX=[0,1,2,3,1,2,3];
+const CLD=['КРАСПАНКОМПОЗИТ-ST','КРАСПАНКОМПОЗИТ-AL','КРАСПАНМЕТАЛЛТЕКС длинномерные','КРАСПАНМЕТАЛЛТЕКС большеформатные','КРАСПАНМЕТАЛЛКОЛОР','КЕРАМОГРАНИТ','КРАСПАНМЕТАЛЛОМАГНЕЗИТ','КРАСПАНФИБРОЦЕМЕНТКОЛОР','КРАСПАНБРИКФОРМ','УФ-печать «Поликолор»'];
+const NFS=CLD.map(x=>'НФС с облицовкой '+x.replace('КРАСПАН',''));NFS[9]='НФС с УФ-печатью «Поликолор»';
 const LGT=[
  {n:'Уличное освещение',d:'Дороги, дворы, парки, парковки',lead:'Светильники FOS Road для дорог и открытых территорий',
   use:['Автомобильные дороги и магистрали','Дворы жилых комплексов','Парки и скверы','Открытые и закрытые парковки','Территории вокруг предприятий','Железнодорожные платформы'],
@@ -416,23 +431,11 @@ const LGT=[
   use:['Производственные цеха','Складские комплексы','Строительные площадки','Транспортно-логистические центры','Морские порты и аэропорты','Спортивные площадки'],
   series:[['FOS Industry E','Встраиваемый: АЗС и «чистые» помещения'],['FOS Industry W','Настенный'],['FOS Mast','Мачтовый'],['FOS Victoria','Подвесной'],['FOS Victoria mini','Подвесной, компактный'],['FOS Acorn','Подвесной, форма «желудь»'],['FOS Mobile','Мобильный, на переносной стойке']],
   cond:'IP67 · от −40 до +60 °C · срок службы 16 лет · гарантия 5 лет',obj:'Цеха «КРАСПАН», Красноярск · Братский ЛПК'},
- {n:'Для высоких температур',d:'Котельные, турбинные, металлургия',lead:'Светильники FOS HiTemp для горячих цехов и камер высоких температур',
-  use:['Цеха с повышенной влажностью','Турбинные и котельные цеха','Химические и металлургические предприятия','Нефтегазовая промышленность'],
-  series:[['FOS HiTemp C','Консольный'],['FOS HiTemp R','Консольно-регулируемый'],['FOS HiTemp W','Настенный'],['FOS HiTemp H','Подвесной'],['FOS HiTemp E','Встраиваемый: «чистые» помещения']],
-  cond:'IP67 · работают при температуре до +80 °C · срок службы 25 лет · гарантия 7 лет',obj:'Усть-Илимская ТЭЦ'},
  {n:'Для химически агрессивных сред',d:'Химия, нефтехимия, фарма, пищевая',lead:'Светильники FOS Chemical: герметичный корпус и оптика из боросиликатного стекла',
   use:['Химическая промышленность','Нефтехимическая промышленность','Фармацевтическая промышленность','Пищевая промышленность','Электроэнергетика'],
   series:[['FOS Chemical C','Консольный'],['FOS Chemical R','Консольно-регулируемый'],['FOS Chemical W','Настенный']],
   cond:'IP67 · от −40 до +60 °C · срок службы 16 лет · гарантия 5 лет'},
- {n:'Взрывозащищённые',d:'Взрывоопасные зоны',lead:'Светильники FOS HiTemp Ex с защитой от искрения и возгорания',
-  use:['Нефтехимическая промышленность','Нефтяные и газовые скважины','Производство лакокрасочных материалов','Фармацевтическая и пищевая промышленность','Покрасочные камеры'],
-  series:[['FOS HiTemp Ex C','Консольный'],['FOS HiTemp Ex R','Консольно-регулируемый'],['FOS HiTemp Ex W','Настенный'],['FOS HiTemp Ex H','Подвесной, для высоты более 8 м'],['FOS HiTemp Ex E','Встраиваемый: покрасочные камеры'],['FOS Acorn Ex H','Подвесной: небольшие коридоры и помещения']],
-  cond:'IP67 · от −40 до +60 °C · есть сертификация · срок службы 16 лет · гарантия 5 лет'},
- {n:'Светильники для РЖД',d:'Пути, станции, платформы',lead:'Светильники для освещения железнодорожных путей и станций',
-  use:['Железнодорожные пути','Станции и платформы'],
-  series:[['LECr','Консольно-регулируемый'],['Настенные','Крепление на стену'],['Мачтовые','Крепление на мачту'],['FOS Rigel','Ригельное крепление']],
-  cond:'IP65 · устойчивы к вибрациям и ударам · срок службы 16 лет · гарантия 5 лет'},
- {n:'Коммерческое освещение',d:'Офисы, магазины, склады, торговые залы',lead:'Светильники для офисов, торговых помещений и общественных зданий',
+ {n:'Внутреннее освещение',d:'Офисы, магазины, склады, торговые залы',lead:'Светильники для офисов, торговых помещений и общественных зданий',
   use:['Офисы и учебные заведения','Торговые центры, магазины, бутики','Общепит и выставочные залы','Медицинские учреждения и лаборатории','Склады, цеха, парковки, коридоры'],
   series:[['FOS Office','Офисный: встраиваемый, накладной, подвесной'],['FOS Trade','Торговое освещение'],['FOS Line','Торговое освещение, линейный'],['FOS Tube','Потолочный'],['FOS Ice','Потолочный'],['FOS Downlight','Встраиваемый, направленного света']],
   cond:'FOS Office: IP40/65 · срок службы 16 лет'},
@@ -444,26 +447,26 @@ const LNAMES=LGT.map(l=>l.n),LTILES=LGT.map(l=>l.n+'<small>'+l.d+'</small>');
 const FORM=['Форма «Связаться»','Имя, телефон, компания, комментарий, согласие (152-ФЗ).','Простая форма во всплывающем окне. После отправки показывается «Спасибо». Заявка уходит на почту.'];
 const ST={
  nfs:[['Фото системы','Система в разрезе и на реальном фасаде'],['Из чего собирается','Облицовка + металлокаркас. Две ссылки на их разделы'],['Как крепится','Планка-держатель, саморез, в замок или кассета (по каталогу)'],['Где применять','Типы зданий: жилые, общественные, промышленные'],['Параметры','Толщина, размеры, вес кг/м², цвета'],['Объект-пример','Фото и подпись объекта'],['Кнопка','«Узнать подробнее» открывает форму «Связаться»']],
- met:[['Схема узла','Кронштейн, профиль, анкер, прокладка'],['Материал','Сталь оцинкованная, коррозионно-стойкая или алюминий'],['Для каких облицовок','Ссылки на облицовки, с которыми работает'],['Где применять','Высота здания, тип стены, межэтажные перекрытия'],['Кнопка','«Узнать подробнее» открывает форму «Связаться»']],
- cld:[['Фото','Крупное фото панели или плитки'],['Из чего сделана','Слои панели одной строкой'],['Параметры','Толщина, ширина, длина, вес кг/м²'],['Цвета и текстуры','RAL, NCS и «Поликолор»'],['Какие металлокаркасы подходят','Ссылки на каркасы'],['Кнопка','«Узнать подробнее» открывает форму «Связаться»']]};
+ met:[['Схема узла','Кронштейн, профиль, анкер, прокладка'],['Материал','Сталь оцинкованная, коррозионно-стойкая или алюминий'],['Для каких облицовок','Ссылки на облицовки, с которыми работает'],['Где применять','Высота здания, тип стены, межэтажные перекрытия'],['Кнопка','«Узнать подробнее» открывает форму «Связаться»']]};
 const T={
 home:{t:'Главная',goal:'Показать, кто мы, и сразу вывести на главное: навесные фасадные системы. Бренд знают, убеждать не нужно.',b:[
  ['Первый экран','Заголовок: «Навесные фасадные системы Краспан на Северо-Западе». Подзаголовок: «Официальный представитель», регионы работы. Кнопка «Связаться».'],
- ['Металлокаркасы и облицовочные материалы','',null,{sec:[['Металлокаркасы',MET,'met'],['Облицовочные материалы',CLD,'cld']],wide:1}],
- ['Освещение FOS Group','',null,{tiles:LTILES,to:'light',photo:1,c4:1}],
+ ['Вентилируемые фасады','',null,{sec:[['Навесные фасадные системы',NFS,'nfs'],['Металлокаркасы',MET,'met']],go:[['prod','Все фасады']],wide:1}],
+ ['Освещение FOS Group','',null,{tiles:LTILES,to:'light',photo:1,c5:1}],
  ['Объекты','',null,{fn:'objs4'}],
  ['Как заказать','',null,{fn:'steps'}],
  FORM]},
+prod:{t:'Вентилируемые фасады',goal:'Дать общий вход в раздел фасадов и развести посетителя на системы и металлокаркасы',b:[
+ ['Вступление',null,null,{text:'Вентилируемый фасад — это облицовка на металлокаркасе, который крепится к стене через слой утеплителя. Выберите готовую систему или подберите каркас под нужную облицовку'}],
+ ['Два раздела','Две большие карточки: системы и каркасы. Клик открывает раздел','',{raw:hubHTML(),wide:1}],
+ FORM]},
 nfs:{t:'Навесные фасадные системы',goal:'Рассказать про каждую систему как про готовое решение, чтобы клиент увидел, что покупает.',b:[
  ['Что такое НФС',null,null,{text:'Навесная фасадная система — это облицовка на металлокаркасе, который крепится к стене через слой утеплителя. Наведите на систему ниже и посмотрите, как она устроена в разрезе'}],
- ['Стена в разрезе: 10 систем','Разрез стены по слоям: стена, утеплитель, каркас, облицовка. Под разрезом 10 систем: наведение меняет облицовку, клик открывает страницу системы. Каркас и облицовка в легенде ведут в свои разделы','',{sect:1,wide:1}],
+ ['Стена в разрезе: 10 систем','Разрез стены по слоям: стена, утеплитель, каркас, облицовка. Под разрезом 10 систем: наведение меняет облицовку, клик открывает страницу системы. Каркас в легенде ведёт в свой раздел','',{sect:1,wide:1}],
  FORM]},
 met:{t:'Металлокаркасы',goal:'Рассказать, какие бывают каркасы, на втором плане после систем.',b:[
  ['Что такое металлокаркас',null,null,{text:'Металлокаркас держит облицовку на стене. Каркасы различаются материалом и тем, для каких участков стены они нужны'}],
- ['Каркасы: 8','Матрица: материал по горизонтали, тип каркаса по вертикали. Наведение показывает название и материал, клик открывает страницу каркаса','',{matrix:1,wide:1}],
- FORM]},
-cld:{t:'Облицовочные материалы',goal:'Рассказать про облицовки на втором плане после систем.',b:[
- ['Облицовки: 10','Десять полос-образцов. Наведение раскрывает полосу: видна фактура, название и кнопка. Клик открывает страницу облицовки','',{acc:1,wide:1}],
+ ['Каркасы: 7','Матрица: материал по горизонтали, тип каркаса по вертикали. Наведение показывает название и материал, клик открывает страницу каркаса','',{matrix:1,wide:1}],
  FORM]},
 light:{t:'Освещение FOS',goal:'Рассказать про светильники FOS Group: какие бывают и для каких условий. Продукция сопутствующая, поэтому страница короткая.',b:[
  ['Вступление',null,null,{text:'Светодиодные светильники FOS Group — производитель из Красноярска, работает с 2016 года. Поставляем вместе с фасадными системами и отдельно'}],
@@ -479,61 +482,57 @@ contacts:{t:'Контакты',goal:'Дать понятно связаться.
  FORM]}
 };
 
-const NAMES={nfs:NFS,met:MET,cld:CLD,light:LNAMES},SEC={nfs:['nfs','Навесные фасадные системы'],met:['met','Металлокаркасы'],cld:['cld','Облицовочные материалы'],light:['light','Освещение FOS']};
+const NAMES={nfs:NFS,met:MET,light:LNAMES},SEC={nfs:['nfs','Навесные фасадные системы'],met:['met','Металлокаркасы'],light:['light','Освещение FOS']};
+T.nfs.par=T.met.par=['prod','Вентилируемые фасады'];
 
 const bar=w=>`<i class="pb" style="width:${w}%"></i>`;
 const prow=rows=>rows.map(([a,v])=>`<div class="pr"><span>${a}</span><div>${v}</div></div>`).join('');
 const cards=(arr,sm)=>`<div class="cds ${sm?'sm':''}">${arr.map(([to,t,l],j)=>(j&&!sm?'':'')+`<a class="cd" onclick="go('${to}')"><div class="ph"><span>Фото</span></div><b>${t}</b><small>${l||''}</small></a>`).join('')}</div>`;
-const cardsPlus=arr=>`<div class="cds">${arr.map(([to,t,l],j)=>(j?'<span class="plus">+</span>':'')+`<a class="cd" onclick="go('${to}')"><div class="ph"><span>Фото</span></div><b>${t}</b><small>${l||''}</small></a>`).join('')}</div>`;
+const cardsPlus=arr=>`<div class="cds">${arr.map(([to,t,l],j)=>(j?'<span class="plus">+</span>':'')+`${to?`<a class="cd" onclick="go('${to}')">`:'<div class="cd">'}<div class="ph"><span>Фото</span></div><b>${t}</b><small>${l||''}</small>${to?'</a>':'</div>'}`).join('')}</div>`;
 const strip=(k,i)=>{const N=NAMES[k],idx=N.map((_,j)=>j).filter(j=>j!==i).slice(0,4);return cards(idx.map(j=>[k+'-'+j,N[j],'']),1)};
 const uses=a=>`<div class="uses">${a.map(x=>`<div><div class="ph"><span>Фото</span></div><b>${x}</b></div>`).join('')}</div>`;
 const schem=(lbl,leg)=>`<div class="schem"><div class="ph"><span>${lbl}</span></div><div class="legend">${leg.map((x,j)=>`<div><em>${j+1}</em>${x}</div>`).join('')}</div></div>`;
 const colors=()=>['RAL','NCS','Поликолор'].map((g,r)=>`<p class="cgrp">${g}</p><div class="colors" style="margin-bottom:14px">${Array.from({length:8},(_,j)=>`<u style="background:hsl(210 ${r*5}% ${95-j*9}%)"></u>`).join('')}</div>`).join('');
 const layers=a=>`<div class="lay">${a.map(([t,h])=>`<div style="height:${h}px">${t}<i>толщина</i></div>`).join('')}</div>`;
 const MATS=['с энергоэффективным кронштейном КМ','оцинкованная сталь','коррозионно-стойкая сталь','алюминий'];
+function hubHTML(){const c=(to,t,n,d)=>`<a class="hub" onclick="go('${to}')"><div class="ph"><span>Фото</span></div><h3>${t}</h3><p>${d}</p><span class="btn alt">${n}</span></a>`;
+ return `<div class="hubg">${c('nfs','Навесные фасадные системы','Все '+NFS.length+' систем','Готовое решение: облицовка на металлокаркасе')}${c('met','Металлокаркасы','Все '+MET.length+' каркасов','Крепление облицовки к стене')}</div>`}
 function sectHTML(){
  return `<div class="sect"><div><div class="sv" id="sv"><div class="s1"><b>1</b></div><div class="s2"><b>2</b></div><div class="s3"><b>3</b></div><div class="s4 p0" id="s4"><b>4</b></div><span class="out">наружу →</span></div></div>
- <div class="sright"><h4 id="sn"></h4><p id="ss"></p><ul class="sleg"><li><em>1</em>Стена здания</li><li><em>2</em>Утеплитель</li><li><em>3</em><span><a onclick="go('met')">Металлокаркас</a>: кронштейн, профиль, воздушный зазор</span></li><li><em>4</em><span><a onclick="go('cld')">Облицовка</a>: меняется в зависимости от системы</span></li></ul><button class="btn alt" id="sgo">Открыть страницу системы</button></div></div>
+ <div class="sright"><h4 id="sn"></h4><p id="ss"></p><ul class="sleg"><li><em>1</em>Стена здания</li><li><em>2</em>Утеплитель</li><li><em>3</em><span><a onclick="go('met')">Металлокаркас</a>: кронштейн, профиль, воздушный зазор</span></li><li><em>4</em>Облицовка: меняется в зависимости от системы</li></ul><button class="btn alt" id="sgo">Открыть страницу системы</button></div></div>
  <div class="sysg">${NFS.map((n,i)=>`<button onmouseenter="sectPick(${i})" onfocus="sectPick(${i})" onclick="go('nfs-${i}')"><u class="p${i%10}"></u><span>${n}</span></button>`).join('')}</div>`}
 function sectPick(i){const e=$('#s4');if(!e)return;e.className='s4 p'+(i%10);$('#sn').textContent=NFS[i];$('#ss').textContent='Облицовка '+CLD[i]+' на металлокаркасе';$('#sgo').onclick=()=>go('nfs-'+i);document.querySelectorAll('.sysg button').forEach((b,j)=>b.classList.toggle('on',j===i))}
 function matrixHTML(){
- const cell=i=>`<button class="mc2" onmouseenter="mxPick(${i})" onfocus="mxPick(${i})" onclick="go('met-${i}')"><div class="gly ${i>3?'m':''}"></div><div>${MET[i].split(' ')[0].replace(',','')}<small>${MATS[i%4]}</small></div></button>`;
+ const cell=i=>`<button class="mc2" onmouseenter="mxPick(${i})" onfocus="mxPick(${i})" onclick="go('met-${i}')"><div class="gly ${i>3?'m':''}"></div><div>${MET[i].split(' ')[0].replace(',','')}<small>${MATS[MATIDX[i]]}</small></div></button>`;
  return `<div class="mx"><div></div>${MATS.map(m=>`<div class="ch">${m[0].toUpperCase()+m.slice(1)}</div>`).join('')}
  <div class="rhd"><div>L-образные<small>Рядовые участки стены</small></div></div>${[0,1,2,3].map(cell).join('')}
- <div class="rhd"><div>Для межэтажных перекрытий<small>Каркас с учётом перекрытий</small></div></div>${[4,5,6,7].map(cell).join('')}</div>
+ <div class="rhd"><div>Для межэтажных перекрытий<small>Каркас с учётом перекрытий</small></div></div><div></div>${[4,5,6].map(cell).join('')}</div>
  <div class="mdet"><div><h4 id="mn"></h4><p id="ms"></p></div><button class="btn alt" id="mgo">Открыть страницу каркаса</button></div>`}
-function mxPick(i){const n=$('#mn');if(!n)return;n.textContent=MET[i];$('#ms').textContent=(i>3?'Для межэтажных перекрытий · ':'L-образный · ')+MATS[i%4];$('#mgo').onclick=()=>go('met-'+i);document.querySelectorAll('.mc2').forEach((b,j)=>b.classList.toggle('on',j===i))}
-function accHTML(){return `<div class="acc">${CLD.map((n,i)=>`<div class="ac p${i%10} ${i===0?'on':''}" tabindex="0" onmouseenter="accPick(${i})" onfocus="accPick(${i})"><div class="acv"><span>${n.replace('КРАСПАН','')}</span></div><div class="acx"><h4>${n}</h4><p>Фактура, как на фасаде</p><button class="btn alt" onclick="go('cld-${i}')">Открыть страницу</button></div></div>`).join('')}</div>`}
-function accPick(i){document.querySelectorAll('.ac').forEach((e,j)=>e.classList.toggle('on',j===i))}
+function mxPick(i){const n=$('#mn');if(!n)return;n.textContent=MET[i];$('#ms').textContent=(i>3?'Для межэтажных перекрытий · ':'L-образный · ')+MATS[MATIDX[i]];$('#mgo').onclick=()=>go('met-'+i);document.querySelectorAll('.mc2').forEach((b,j)=>b.classList.toggle('on',j===i))}
 const PASS={
- nfs:i=>[['Облицовка',`<a onclick="go('cld-${i}')">${CLD[i]}</a>`],['Металлокаркас',`<a onclick="go('met-1')">${MET[1]}</a>`],['Крепление',bar(55)],['Высота здания',bar(40)],['Вес системы',bar(30)]],
- met:i=>[['Тип',i>3?'Для межэтажных перекрытий':'L-образный'],['Материал',MATS[i%4][0].toUpperCase()+MATS[i%4].slice(1)],['Высота здания',bar(45)],['Тип стены',bar(55)],['Облицовки',`<a onclick="go('cld')">Список ниже</a>`]],
- cld:i=>[['Толщина',bar(30)],['Размер панели',bar(50)],['Вес, кг/м²',bar(35)],['Цвета',bar(60)],['Готовая система',`<a onclick="go('nfs-${i}')">${NFS[i]}</a>`]]};
+ nfs:i=>[['Облицовка',CLD[i]],['Металлокаркас',`<a onclick="go('met-1')">${MET[1]}</a>`],['Крепление',bar(55)],['Высота здания',bar(40)],['Вес системы',bar(30)]],
+ met:i=>[['Тип',i>3?'Для межэтажных перекрытий':'L-образный'],['Материал',MATS[MATIDX[i]][0].toUpperCase()+MATS[MATIDX[i]].slice(1)],['Высота здания',bar(45)],['Тип стены',bar(55)],['Системы','Список ниже']],
+};
 const LEAD3={nfs:i=>'Готовая система: облицовка '+CLD[i]+' на металлокаркасе. Справа в паспорте — из чего собрана, на фасаде слева — как выглядит',
- met:i=>'Каркас под облицовку: '+(i>3?'для межэтажных перекрытий':'L-образный')+', '+MATS[i%4],
- cld:i=>'Облицовочный материал для навесного фасада. Слева видно, как он выглядит на здании'};
+ met:i=>'Каркас под облицовку: '+(i>3?'для межэтажных перекрытий':'L-образный')+', '+MATS[MATIDX[i]]};
 
-const LZ=[7,0,5,6,1,2,3,4];
-const LSH=['Улицы и дороги','Цеха и склады','Горячие цеха','Химия','Взрывоопасные зоны','Железная дорога','Офисы и магазины','Парки и скверы'];
+const LZ=[0,4,1,3,2];
+const LSH=['Улицы и дороги','Цеха и склады','Химия','Офисы и магазины','Парки и скверы'];
 const ZD=[
  /*0 улицы*/`<path class="cone" d="M96 244L56 340H138Z"/><rect class="fl" x="48" y="322" width="54" height="18" rx="4"/><circle class="fl" cx="62" cy="340" r="5"/><circle class="fl" cx="90" cy="340" r="5"/><path d="M24 340V240Q24 232 34 232H96"/><rect class="fl" x="86" y="232" width="22" height="8"/>`,
  /*1 цеха*/`<path class="fl" d="M10 340V270L40 250V270L70 250V270L100 250V270L130 250V340Z"/>`+[34,72,110].map(x=>`<path d="M${x} 270V288"/><path class="fl" d="M${x-9} 298L${x+9} 298L${x+4} 288H${x-4}Z"/><path class="cone" d="M${x-9} 298L${x-24} 340H${x+24}L${x+9} 298Z"/>`).join(''),
- /*2 горячие*/`<rect class="fl" x="14" y="240" width="90" height="100"/><rect class="fl" x="58" y="110" width="22" height="130"/><path class="fire" d="M69 108c-9-12 5-16 0-32 11 8 15 20 7 32"/><path d="M104 280H122"/><rect class="fl" x="120" y="274" width="16" height="12"/><path class="cone" d="M128 286L100 340H146Z"/>`,
- /*3 химия*/`<rect class="fl" x="12" y="250" width="54" height="90" rx="14"/><rect class="fl" x="82" y="280" width="54" height="60" rx="14"/><path d="M66 302H82"/><path d="M109 280V252"/><circle class="fl" cx="109" cy="245" r="7"/><path class="cone" d="M109 252L78 340H140Z"/>`,
- /*4 Ex*/`<rect class="fl" x="14" y="270" width="64" height="70" rx="16"/><path d="M110 270V340"/><path class="fl" d="M110 226L134 270H86Z"/><text x="110" y="263">Ex</text><path d="M24 270V236H54"/><rect class="fl" x="48" y="233" width="18" height="7"/><path class="cone" d="M57 240L28 340H90Z"/>`,
- /*5 рельсы*/`<rect class="fl" x="0" y="318" width="52" height="16"/><path d="M0 334H148M0 340H148"/>`+[8,24,40,56,72,88,104,120,136].map(x=>`<path d="M${x} 334V343"/>`).join('')+`<path d="M112 340V208"/><rect class="fl" x="98" y="202" width="28" height="9"/><path class="cone" d="M104 211L24 340H116Z"/>`,
- /*6 офисы*/`<rect class="fl" x="14" y="190" width="120" height="150"/>`+[0,1,2,3].map(r=>[0,1,2].map(c=>`<rect class="fl" x="${28+c*34}" y="${204+r*29}" width="22" height="17"/>`).join('')).join('')+`<rect class="fl" x="62" y="314" width="24" height="26"/><circle class="fl" cx="74" cy="302" r="5"/><path class="cone" d="M74 307L38 340H110Z"/>`,
- /*7 парки*/`<circle class="fl" cx="28" cy="286" r="24"/><path d="M28 310V340"/><circle class="fl" cx="122" cy="296" r="20"/><path d="M122 316V340"/><path d="M74 340V264"/><circle class="fl" cx="74" cy="256" r="8"/><path class="cone" d="M74 264L40 340H108Z"/>`];
+ /*2 химия*/`<rect class="fl" x="12" y="250" width="54" height="90" rx="14"/><rect class="fl" x="82" y="280" width="54" height="60" rx="14"/><path d="M66 302H82"/><path d="M109 280V252"/><circle class="fl" cx="109" cy="245" r="7"/><path class="cone" d="M109 252L78 340H140Z"/>`,
+ /*3 офисы*/`<rect class="fl" x="14" y="190" width="120" height="150"/>`+[0,1,2,3].map(r=>[0,1,2].map(c=>`<rect class="fl" x="${28+c*34}" y="${204+r*29}" width="22" height="17"/>`).join('')).join('')+`<rect class="fl" x="62" y="314" width="24" height="26"/><circle class="fl" cx="74" cy="302" r="5"/><path class="cone" d="M74 307L38 340H110Z"/>`,
+ /*4 парки*/`<circle class="fl" cx="28" cy="286" r="24"/><path d="M28 310V340"/><circle class="fl" cx="122" cy="296" r="20"/><path d="M122 316V340"/><path d="M74 340V264"/><circle class="fl" cx="74" cy="256" r="8"/><path class="cone" d="M74 264L40 340H108Z"/>`];
 function lightScene(){
- const zs=LZ.map((di,k)=>`<g class="z" data-i="${di}" tabindex="0" transform="translate(${12+k*148},0)" style="--d:${k*.2}s" onmouseenter="lightPick(${di})" onfocus="lightPick(${di})" onclick="go('light-${di}')"><rect x="0" y="20" width="148" height="372" fill="transparent" stroke="none"/>${ZD[di]}<circle class="pn" cx="74" cy="52" r="13"/><text class="pt" x="74" y="56.5">${k+1}</text><path d="M74 66V100" stroke-dasharray="2 4"/><text class="lb" x="74" y="366">${LSH[di]}</text><path class="ul" d="M10 378H138"/></g>`).join('');
+ const zs=LZ.map((di,k)=>`<g class="z" data-i="${di}" tabindex="0" transform="translate(${46+k*240},0)" style="--d:${k*.2}s" onmouseenter="lightPick(${di})" onfocus="lightPick(${di})" onclick="go('light-${di}')"><rect x="-46" y="20" width="240" height="372" fill="transparent" stroke="none"/>${ZD[di]}<circle class="pn" cx="74" cy="52" r="13"/><text class="pt" x="74" y="56.5">${k+1}</text><path d="M74 66V100" stroke-dasharray="2 4"/><text class="lb" x="74" y="366">${LSH[di]}</text><path class="ul" d="M10 378H138"/></g>`).join('');
  return `<div class="sbar"><div class="seg2" id="lseg"><button class="on" onclick="lightNight(1)">Ночью</button><button onclick="lightNight(0)">Днём</button></div></div>
  <div class="scn" id="scn"><svg viewBox="0 0 1200 392" role="img" aria-label="Схема объектов, где нужен свет"><path d="M0 340H1200"/>${zs}</svg></div>
  <div class="linfo"><div><h4 id="ln"></h4><p id="lsub"></p></div><button class="btn alt" id="lgo">Открыть направление</button></div>`}
 function lightPick(i){const n=$('#ln');if(!n)return;n.textContent=LNAMES[i];$('#lsub').textContent=LGT[i].d;$('#lgo').onclick=()=>go('light-'+i);document.querySelectorAll('#scn .z').forEach(z=>z.classList.toggle('on',+z.dataset.i===i))}
 function lightNight(n){const e=$('#scn');if(!e)return;e.classList.toggle('night',!!n);e.classList.toggle('lit',!!n);document.querySelectorAll('#lseg button').forEach((b,j)=>b.classList.toggle('on',j===(n?0:1)))}
 const LC=[
- {ip:'IP67',t:[-40,60],life:16,war:5},{ip:'IP67',t:[-40,60],life:16,war:5},{ip:'IP67',t:[null,80],life:25,war:7},{ip:'IP67',t:[-40,60],life:16,war:5},
- {ip:'IP67',t:[-40,60],life:16,war:5,x:'Есть сертификация'},{ip:'IP65',life:16,war:5,x:'Устойчивы к вибрациям и ударам'},{ip:'IP40/65',life:16,x:'Значения для серии FOS Office'},{ip:'IP65',t:[-50,60],life:8,war:3}];
+ {ip:'IP67',t:[-40,60],life:16,war:5},{ip:'IP67',t:[-40,60],life:16,war:5},{ip:'IP67',t:[-40,60],life:16,war:5},{ip:'IP40/65',life:16,x:'Значения для серии FOS Office'},{ip:'IP65',t:[-50,60],life:8,war:3}];
 const fmt=v=>(v<0?'−':v>0?'+':'')+Math.abs(v);
 function tempHTML(t){const pos=v=>(v+60)/150*100;const a=t[0]===null?0:pos(t[0]),b=pos(t[1]);
  const bg=t[0]===null?'background:linear-gradient(90deg,transparent,var(--fg))':'';
@@ -571,27 +570,26 @@ const FN={
  reqs:()=>`<div class="cgrid"><div class="spec">${prow([['Адрес','Санкт-Петербург, адрес'],['Телефон','+7 (000) 000-00-00'],['Почта','info@mail.ru'],['Режим работы','Пн–Пт, 9:00–18:00'],['Реквизиты',bar(60)]])}</div><div class="ph"><span>Карта проезда</span></div></div>`};
 const D={
  light:i=>{const L=LGT[i];return [['Где применяют','Типы объектов, для которых это направление',null,{raw:uses(L.use.slice(0,6))}],['Варианты исполнения','',null,{raw:serHTML(L,i),wide:1}]].concat(L.obj?[['Где уже работает','Объекты: '+L.obj,null,{raw:cards([['objs',L.obj.split(' · ')[0],'Объект']]),go:[['objs','Все объекты']]}]]:[]).concat([['Другие направления','Соседние направления',null,{raw:strip('light',i)}],FORM])},
- nfs:i=>[['Из чего собирается','Облицовка и металлокаркас, из которых собрана система',null,{raw:cardsPlus([['cld-'+i,CLD[i],'Облицовка'],['met-1',MET[1],'Металлокаркас']])}],['Как крепится','Схема узла: способ крепления панели к каркасу',null,{raw:schem('Схема узла',['Облицовка','Крепёж','Профиль каркаса','Кронштейн','Утеплитель'])}],['Где применять','Типы зданий и условия',null,{raw:uses(['Жилые здания','Общественные здания','Промышленные объекты'])}],['Параметры','Толщина, вес, размеры',null,{raw:'<div class="spec">'+prow([['Толщина',bar(30)],['Размеры панели',bar(50)],['Вес, кг/м²',bar(35)],['Высота здания',bar(45)]])+'</div>'}],['Объект с этой системой','Фото объекта и подпись',null,{raw:cards([['objs','Название объекта','Город']]) ,go:[['objs','Все объекты']]}],['Другие системы','Соседние системы',null,{raw:strip('nfs',i)}],FORM],
- met:i=>[['Схема узла','Кронштейн, профиль, анкер, прокладка, крепитель утеплителя',null,{raw:schem('Схема узла',['Кронштейн','Профиль','Анкер','Прокладка','Крепитель утеплителя'])}],['Материал и исполнение','Сталь оцинкованная, коррозионно-стойкая или алюминий',null,{raw:'<div class="spec">'+prow([['Материал',MATS[i%4]],['Толщина профиля',bar(30)],['Защитное покрытие',bar(45)]])+'</div>'}],['С какими облицовками работает','Ссылки на облицовки',null,{raw:cards([['cld-0',CLD[0],'Облицовка'],['cld-4',CLD[4],'Облицовка'],['cld-7',CLD[7],'Облицовка']])}],['Где применять','Высота здания, тип стены, межэтажные перекрытия',null,{raw:uses(['Низкие здания','Высотные здания','Перекрытия'])}],['Другие каркасы','Соседние каркасы',null,{raw:strip('met',i)}],FORM],
- cld:i=>[['Фото и фактура','Крупное фото панели и две фактуры вблизи',null,{raw:'<div class="uses" style="grid-template-columns:2fr 1fr 1fr"><div><div class="ph" style="aspect-ratio:4/3"><span>Панель на фасаде</span></div></div><div><div class="ph"><span>Фактура</span></div></div><div><div class="ph"><span>Фактура</span></div></div></div>'}],['Из чего состоит панель','Слои: лицевая поверхность, основа, тыльная сторона',null,{raw:layers([['Лицевая поверхность',44],['Основа',64],['Тыльная сторона',44]])}],['Параметры','Толщина, ширина, длина, вес',null,{raw:'<div class="spec">'+prow([['Толщина',bar(30)],['Ширина',bar(45)],['Длина',bar(60)],['Вес, кг/м²',bar(35)]])+'</div>'}],['Цвета и текстуры','RAL, NCS и «Поликолор»',null,{raw:colors()}],['Какие каркасы подходят','Каркасы, на которых крепится эта облицовка',null,{raw:cards([['met-1',MET[1],'Каркас'],['met-2',MET[2],'Каркас'],['met-3',MET[3],'Каркас']])}],['Готовая система','Навесная система с этой облицовкой',null,{raw:cards([['nfs-'+i,NFS[i],'Система']])}],['Другие облицовки','Соседние облицовки',null,{raw:strip('cld',i)}],FORM]};
+ nfs:i=>[['Из чего собирается','Облицовка и металлокаркас, из которых собрана система',null,{raw:cardsPlus([[null,CLD[i],'Облицовка'],['met-1',MET[1],'Металлокаркас']])}],['Как крепится','Схема узла: способ крепления панели к каркасу',null,{raw:schem('Схема узла',['Облицовка','Крепёж','Профиль каркаса','Кронштейн','Утеплитель'])}],['Где применять','Типы зданий и условия',null,{raw:uses(['Жилые здания','Общественные здания','Промышленные объекты'])}],['Параметры','Толщина, вес, размеры',null,{raw:'<div class="spec">'+prow([['Толщина',bar(30)],['Размеры панели',bar(50)],['Вес, кг/м²',bar(35)],['Высота здания',bar(45)]])+'</div>'}],['Объект с этой системой','Фото объекта и подпись',null,{raw:cards([['objs','Название объекта','Город']]) ,go:[['objs','Все объекты']]}],['Другие системы','Соседние системы',null,{raw:strip('nfs',i)}],FORM],
+ met:i=>[['Схема узла','Кронштейн, профиль, анкер, прокладка, крепитель утеплителя',null,{raw:schem('Схема узла',['Кронштейн','Профиль','Анкер','Прокладка','Крепитель утеплителя'])}],['Материал и исполнение','Сталь оцинкованная, коррозионно-стойкая или алюминий',null,{raw:'<div class="spec">'+prow([['Материал',MATS[MATIDX[i]]],['Толщина профиля',bar(30)],['Защитное покрытие',bar(45)]])+'</div>'}],['С какими системами работает','Системы, в которых используется этот каркас',null,{raw:cards([['nfs-0',NFS[0],'Система'],['nfs-4',NFS[4],'Система'],['nfs-7',NFS[7],'Система']])}],['Где применять','Высота здания, тип стены, межэтажные перекрытия',null,{raw:uses(['Низкие здания','Высотные здания','Перекрытия'])}],['Другие каркасы','Соседние каркасы',null,{raw:strip('met',i)}],FORM],
+};
 const col=(k,t,arr)=>`<div class="mc"><a class="mh" onclick="go('${k}')">${t}</a>${arr.map((x,j)=>`<a onclick="go('${k}-${j}')">${x}</a>`).join('')}</div>`;
 function nav(act){
  const s=(k,l,to)=>`<div class="nv ${act===k?'on':''}"><a class="nl" tabindex="0" onclick="go('${to}')">${l}</a></div>`;
- return `<div class="nv ${act==='prod'?'on':''}"><a class="nl" tabindex="0">Продукция</a><div class="mega"><div class="wrap mg3">${col('nfs','Навесные фасадные системы',NFS)}${col('met','Металлокаркасы',MET)}${col('cld','Облицовочные материалы',CLD)}</div></div></div>
+ return `<div class="nv ${act==='prod'?'on':''}"><a class="nl" tabindex="0" onclick="go('prod')">Фасады</a><div class="mega"><div class="wrap mg2x">${col('nfs','Навесные фасадные системы',NFS)}${col('met','Металлокаркасы',MET)}</div></div></div>
  <div class="nv ${act==='light'?'on':''}"><a class="nl" tabindex="0" onclick="go('light')">Освещение FOS</a><div class="mega"><div class="wrap mg2">${col('light','Светильники FOS Group',LNAMES)}</div></div></div>`+s('objs','Объекты','objs')+s('contacts','Контакты','contacts')}
-const GRP={nfs:'prod',met:'prod',cld:'prod',light:'light',objs:'objs',contacts:'contacts',home:'',map:''};
+const GRP={prod:'prod',nfs:'prod',met:'prod',light:'light',objs:'objs',contacts:'contacts',home:'',map:''};
 
 function theme(set){const r=document.documentElement;const d=set||(r.getAttribute('data-theme')==='dark'?'light':'dark');r.setAttribute('data-theme',d);try{localStorage.setItem('kr-theme',d)}catch(e){}themeBtn()}
 function themeBtn(){const b=$('#tg');if(b)b.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'☀ Светлая тема':'☾ Тёмная тема'}
 function toggleMenu(){const h=document.querySelector('header');h.classList.toggle('menu');$('.burger').textContent=h.classList.contains('menu')?'✕':'☰'}
 function mobNav(){const g=(k,t,a)=>`<details class="sub"><summary>${t}</summary><a onclick="go('${k}')">Все разделы: ${t}</a>${a.map((x,j)=>`<a onclick="go('${k}-${j}')">${x}</a>`).join('')}</details>`;
- return `<div class="wrap"><details><summary>Продукция</summary>${g('nfs','Навесные фасадные системы',NFS)}${g('met','Металлокаркасы',MET)}${g('cld','Облицовочные материалы',CLD)}</details><details><summary>Освещение FOS</summary><a onclick="go('light')">Все направления</a>${LNAMES.map((x,j)=>`<a onclick="go('light-${j}')">${x}</a>`).join('')}</details><a class="top" onclick="go('objs')">Объекты</a><a class="top" onclick="go('contacts')">Контакты</a></div>`}
+ return `<div class="wrap"><details><summary>Фасады</summary><a onclick="go('prod')">Все фасады</a>${g('nfs','Навесные фасадные системы',NFS)}${g('met','Металлокаркасы',MET)}</details><details><summary>Освещение FOS</summary><a onclick="go('light')">Все направления</a>${LNAMES.map((x,j)=>`<a onclick="go('light-${j}')">${x}</a>`).join('')}</details><a class="top" onclick="go('objs')">Объекты</a><a class="top" onclick="go('contacts')">Контакты</a></div>`}
 
 function go(id){location.hash=id;const h=document.querySelector('header');menuClose(true);h.classList.remove('menu');const bu=$('.burger');if(bu)bu.textContent='☰';if(document.activeElement)document.activeElement.blur()}
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',2200)}
 const STG={
  nfs:{items:NFS.map((n,i)=>({n,sub:'Облицовка '+CLD[i]})),to:'nfs',clad:1},
- cld:{items:CLD.map(n=>({n,sub:'Фактура на фасаде'})),to:'cld',clad:1},
  met:{items:MET.map(n=>({n,sub:'Решётка каркаса на фасаде'})),to:'met',frame:1,ex:1}};
 const WINS=()=>[40,160,280].map(t=>[40,200].map(l=>`<div class="win" style="left:${l}px;top:${t}px"></div>`).join('')).join('');
 function stageHTML(k,cmp,one){const S=STG[k];const isOne=one!==undefined;
@@ -599,7 +597,7 @@ function stageHTML(k,cmp,one){const S=STG[k];const isOne=one!==undefined;
  const gl=[1,4,7].map(r=>[1,5].map(c=>`<div class="gl" style="left:${c*40}px;top:${r*40}px"></div>`).join('')).join('');
  return `<div class="stage ${cmp?'cmp':''} ${isOne?'one':''} ${S.ex?'ex hl-fr':''}" data-k="${k}" data-one="${isOne?one:0}"><div class="rail">${rail}</div><div class="stg-main"><div class="scene"><div class="seg"><button class="${S.ex?'':'on'}" onclick="stgMode('${k}',0)">Фасад</button><button class="${S.ex?'on':''}" onclick="stgMode('${k}',1)">В разрезе</button></div>
  <div class="bld"><div class="lyr wl p7">${WINS()}</div><div class="lyr in">${WINS()}</div><div class="lyr fr" style="--fw:1px">${WINS()}</div><div class="lyr lc p0">${WINS()}</div></div>
- <div class="lbl" data-l="3"><a onclick="go('cld')">Облицовка</a> · 10 видов</div><div class="lbl" data-l="2"><a onclick="go('met')">Металлокаркас</a> · 8 видов</div><div class="lbl" data-l="1">Утеплитель</div><div class="lbl" data-l="0">Стена здания</div></div>
+ <div class="lbl" data-l="3">Облицовка · 10 видов</div><div class="lbl" data-l="2"><a onclick="go('met')">Металлокаркас</a> · 7 видов</div><div class="lbl" data-l="1">Утеплитель</div><div class="lbl" data-l="0">Стена здания</div></div>
  <div class="sinfo"><div><h4 class="sn"></h4><p class="ss"></p></div><button class="btn alt sgo">Открыть страницу</button></div></div></div>`}
 function stg(k,i){const el=document.querySelector('.stage[data-k="'+k+'"]');if(!el)return;const S=STG[k],it=S.items[i];
  el.querySelectorAll('.sw').forEach((e,j)=>e.classList.toggle('on',j===i));
@@ -621,7 +619,7 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  const txt=b.slice(1).filter(x=>typeof x==='string');
  const isForm=b[0]===FORM[0];
  let body='';
- if(ex.tiles)body+=`<div class="tiles ${ex.big?'lg':''} ${ex.c4?'c4':''}">${ex.tiles.map((x,j)=>`<a class="tl" tabindex="0" onclick="go('${ex.to}-${j}')"><div class="ph ${ex.big?'tall':''}"><span>${ex.lbl||'Фото'}</span></div><div class="cap">${x}</div></a>`).join('')}</div>`;
+ if(ex.tiles)body+=`<div class="tiles ${ex.big?'lg':''} ${ex.c4?'c4':''} ${ex.c5?'c5':''}">${ex.tiles.map((x,j)=>`<a class="tl" tabindex="0" onclick="go('${ex.to}-${j}')"><div class="ph ${ex.big?'tall':''}"><span>${ex.lbl||'Фото'}</span></div><div class="cap">${x}</div></a>`).join('')}</div>`;
  if(ex.sec)body+=`<div class="lists">${ex.sec.map(([n,l,to])=>`<div><h4 onclick="go('${to}')">${n}</h4>${l.map((x,j)=>`<a onclick="go('${to}-${j}')">${x}</a>`).join('')}</div>`).join('')}</div>`;
  if(ex.stage)body+=stageHTML(ex.stage);
  if(ex.raw)body+=ex.raw;
@@ -629,28 +627,31 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  if(ex.scene)body+=lightScene();
  if(ex.sect)body+=sectHTML();
  if(ex.matrix)body+=matrixHTML();
- if(ex.acc)body+=accHTML();
- if(ex.chips)body+=`<div class="chips">${ex.chips.map(([a,d])=>`<div><div class="ph"><span>Фото</span></div><div class="cap"><b>${a}</b>${d}</div></div>`).join('')}</div>`;
+  if(ex.chips)body+=`<div class="chips">${ex.chips.map(([a,d])=>`<div><div class="ph"><span>Фото</span></div><div class="cap"><b>${a}</b>${d}</div></div>`).join('')}</div>`;
  if(ex.go&&ex.go.length)body+=`<div class="btns">${ex.go.map(([x,l])=>`<button class="btn alt" onclick="go('${x}')">${l}</button>`).join('')}</div>`;
  if(ex.text)body+=`<p class="txt">${ex.text}</p>`;
  if(isForm)body+=`<div class="inl"><div><h2>Оставьте заявку</h2><p>Перезвоним в течение рабочего дня</p><div class="cl"><b>+7 (000) 000-00-00</b><br>info@mail.ru<br>Санкт-Петербург</div></div><div class="fgr"><input placeholder="Имя"><input placeholder="Телефон"><input placeholder="Компания"><textarea placeholder="Комментарий" rows="3"></textarea><label class="ck"><input type="checkbox"> Согласен на обработку персональных данных</label><button class="btn" onclick="sent(this)">Отправить</button></div></div>`;
  const bodyTxt=(!body&&txt[0])?'':'';
  const nohd=isForm||ex.wide||ex.scene||ex.stage||ex.sect||ex.matrix||ex.acc||(ex.text&&!ex.tiles);
  return `<section class="row ${body?'':'solo'} ${ex.wide?'wide':''} ${nohd?'nohd':''}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
+function pl(n,a,b,c){const m=n%100,d=n%10;return m>10&&m<20?c:d===1?a:d>1&&d<5?b:c}
 function mapPage(){
- const secs=[['nfs','Навесные фасадные системы',NFS],['met','Металлокаркасы',MET],['cld','Облицовочные материалы',CLD],['light','Освещение FOS',LNAMES],['objs','Объекты',null],['contacts','Контакты',null]];
- const n3=secs.reduce((a,x)=>a+(x[2]?x[2].length:0),0);
+ const BR=[{k:'prod',t:'Вентилируемые фасады',sub:[{k:'nfs',t:'Навесные фасадные системы',ch:NFS},{k:'met',t:'Металлокаркасы',ch:MET}]},{k:'light',t:'Освещение FOS',ch:LNAMES},{k:'objs',t:'Объекты'},{k:'contacts',t:'Контакты'}];
+ const inner=x=>(x.sub?x.sub.reduce((a,u)=>a+1+u.ch.length,0):0)+(x.ch?x.ch.length:0);
+ const leaves=BR.reduce((a,x)=>a+(x.sub?x.sub.reduce((b,u)=>b+u.ch.length,0):0)+(x.ch?x.ch.length:0),0);
+ const total=1+BR.length+BR.reduce((a,x)=>a+inner(x),0);
  const node=(lv,t,to,cnt)=>`<span class="nd l${lv}" onclick="go('${to}')"><i>${lv}</i>${t}${cnt?`<em>${cnt}</em>`:''}</span>`;
- const items=secs.map(([k,t,ch],i)=>`<li${i===secs.length-1?' class="last"':''}>${node(2,t,k,ch?ch.length+' стр.':'')}${ch?`<div class="leaves">${ch.map((x,j)=>node(3,x,k+'-'+j)).join('')}</div>`:''}</li>`).join('');
- return `<div class="crumbs"><a onclick="go('home')">← Вернуться к прототипу</a></div><div class="head"><h1>Дерево сайта: ${1+secs.length+n3} страницы</h1></div>
- <p class="tn">Три уровня: главная, 6 разделов, ${n3} страниц видов. До любой страницы два клика от главной. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
+ const lvs=(n,names,k)=>`<div class="leaves">${names.map((x,j)=>node(n,x,k+'-'+j)).join('')}</div>`;
+ const items=BR.map((x,i)=>{const n=inner(x);return `<li${i===BR.length-1?' class="last"':''}>${node(2,x.t,x.k,n?n+' стр.':'')}`+(x.sub?`<ul class="sub">${x.sub.map(u=>`<li>${node(3,u.t,u.k,u.ch.length+' стр.')}${lvs(4,u.ch,u.k)}</li>`).join('')}</ul>`:'')+(x.ch?lvs(3,x.ch,x.k):'')+`</li>`}).join('');
+ return `<div class="crumbs"><a onclick="go('home')">← Вернуться к прототипу</a></div><div class="head"><h1>Дерево сайта: ${total} ${pl(total,'страница','страницы','страниц')}</h1></div>
+ <p class="tn">Главная, ${BR.length} раздела, в разделе фасадов ещё 2 подраздела и ${leaves} ${pl(leaves,'страница','страницы','страниц')} видов. До любой страницы не больше трёх кликов от главной, из выпадающего меню — один. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
  <div class="tree"><div class="root">${node(1,'Главная','home','')}</div><ul>${items}</ul></div>`}
 function render(){
- const raw=location.hash.slice(1);const m=raw.match(/^(nfs|met|cld|light)-(\d+)$/);
+ const raw=location.hash.slice(1);const m=raw.match(/^(nfs|met|light)-(\d+)$/);
  if(m&&NAMES[m[1]][+m[2]]!==undefined){const k=m[1],i=+m[2],sec=SEC[k];
   $('#nav').innerHTML=nav(GRP[k]);
   const t={b:D[k](i)};
-  const crumbs=`<div class="crumbs"><a onclick="go('home')">Главная</a> › <a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><div class="head"><h1>${NAMES[k][i]}</h1></div>`;
+  const crumbs=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${k!=='light'?`<a onclick="go('prod')">Вентилируемые фасады</a> › `:''}<a onclick="go('${sec[0]}')">${sec[1]}</a> › ${NAMES[k][i]}</div><div class="head"><h1>${NAMES[k][i]}</h1></div>`;
   if(k==='light')$('#app').innerHTML=crumbs+`<p class="lead3">${LGT[i].lead}</p><div class="pass"><div class="lamp"><div class="ph"><span>Фото светильника</span></div><div class="glow"></div></div><div class="pp"><h4>Условия работы</h4>${prow(lightPass(i))}</div></div><p class="note">Первый экран: фото светильника и условия, в которых он работает: защита, температура, срок службы, гарантия. Ниже — где применяют, серии, объекты</p>`+blocks(t);
   else $('#app').innerHTML=crumbs+`<p class="lead3">${LEAD3[k](i)}</p><div class="pass"><div>${stageHTML(k,0,i)}</div><div class="pp"><h4>Паспорт</h4>${prow(PASS[k](i))}</div></div><p class="note">Первый экран: слева показано, как продукт выглядит на фасаде (кнопка «В разрезе» раскладывает фасад на слои), справа — паспорт с главными параметрами. Ниже — блоки страницы по порядку</p>`+blocks(t);
   if(k==='nfs'&&false){}
@@ -662,7 +663,7 @@ function render(){
  if(id==='home'){
   $('#app').innerHTML=`<div class="fullbleed hero3"><div class="h3in"><div><h1>Навесные фасадные системы Краспан на Северо-Западе</h1><p class="lead">Официальный представитель</p></div><div>${stageHTML('nfs',1)}</div></div></div><p class="note">Первый экран: фасад собирается из слоёв при загрузке. Наведение на значок меняет облицовку, клик открывает страницу системы. Кнопка «В разрезе» раскладывает фасад на стену, утеплитель, каркас и облицовку</p>`+blocks({b:t.b.slice(1)});
  }else{
-  $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${t.t}</div><div class="head"><h1>${t.t}</h1></div><p class="note">Цель страницы: ${t.goal}</p>`+blocks(t);
+  $('#app').innerHTML=`<div class="crumbs"><a onclick="go('home')">Главная</a> › ${t.par?`<a onclick="go('${t.par[0]}')">${t.par[1]}</a> › `:''}${t.t}</div><div class="head"><h1>${t.t}</h1></div><p class="note">Цель страницы: ${t.goal}</p>`+blocks(t);
  }
  scrollTo(0,0);stgInit();pickInit()}
 function form(){
