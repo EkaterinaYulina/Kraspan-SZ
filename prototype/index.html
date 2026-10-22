@@ -413,6 +413,7 @@ const MET=['L-ВСтК с энергоэффективным кронштейн�
 const MATIDX=[0,1,2,3,1,2,3];
 const CLD=['КРАСПАНКОМПОЗИТ-ST','КРАСПАНКОМПОЗИТ-AL','КРАСПАНМЕТАЛЛТЕКС длинномерные','КРАСПАНМЕТАЛЛТЕКС большеформатные','КРАСПАНМЕТАЛЛКОЛОР','КЕРАМОГРАНИТ','КРАСПАНМЕТАЛЛОМАГНЕЗИТ','КРАСПАНФИБРОЦЕМЕНТКОЛОР','КРАСПАНБРИКФОРМ','УФ-печать «Поликолор»'];
 const NFS=CLD.map(x=>'НФС с облицовкой '+x.replace('КРАСПАН',''));NFS[9]='УФ-печать «Поликолор»';
+const DES='Проектирование рабочей документации';
 const LGT=[
  {n:'Уличное освещение',d:'Дороги, дворы, парки, парковки',lead:'Светильники FOS Road для дорог и открытых территорий',
   use:['Автомобильные дороги и магистрали','Дворы жилых комплексов','Парки и скверы','Открытые и закрытые парковки','Территории вокруг предприятий','Железнодорожные платформы'],
@@ -447,9 +448,15 @@ home:{t:'Главная',goal:'Показать, кто мы, и сразу вы
  ['Объекты','',null,{fn:'objs4'}],
  ['Как заказать','',null,{fn:'steps'}],
  FORM]},
+design:{t:DES,goal:'Рассказать про услугу проектирования рабочей документации по фасадам и привести к заявке',b:[
+ ['Вступление',null,null,{text:'Подготовим рабочую документацию по фасаду: узлы, раскладку, спецификации. Проект привязан к выбранной системе, поэтому подбор и проектирование идут вместе'}],
+ ['Что входит в документацию','',null,{fn:'desdoc',wide:1}],
+ ['Как проходит','',null,{fn:'dessteps',wide:1}],
+ FORM]},
 nfs:{t:'Навесные фасадные системы',goal:'Рассказать про каждую систему как про готовое решение, чтобы клиент увидел, что покупает.',b:[
  ['Что такое НФС',null,null,{text:'Навесная фасадная система — это облицовка на металлокаркасе, который крепится к стене через слой утеплителя. Наведите на систему ниже и посмотрите, как она устроена в разрезе'}],
  ['Стена в разрезе: 10 систем','Разрез стены по слоям: стена, утеплитель, каркас, облицовка. Под разрезом 10 систем: наведение меняет облицовку, клик открывает страницу системы. Каркас в легенде ведёт в свой раздел','',{sect:1,wide:1}],
+ ['Проектирование','',null,{raw:`<div class="inl"><div><h2>Проектируем рабочую документацию по фасадам</h2><p>Подберём систему и подготовим документацию под ваш объект</p></div><div class="btns" style="align-content:center"><button class="btn alt" onclick="go('design')">Об услуге</button><button class="btn" onclick="form()">Связаться</button></div></div>`,wide:1}],
  FORM]},
 met:{t:'Металлокаркасы',goal:'Рассказать, какие бывают каркасы, на втором плане после систем.',b:[
  ['Что такое металлокаркас',null,null,{text:'Металлокаркас держит облицовку на стене. Каркасы различаются материалом и тем, для каких участков стены они нужны'}],
@@ -470,6 +477,7 @@ contacts:{t:'Контакты',goal:'Дать понятно связаться.
 };
 
 const NAMES={nfs:NFS,met:MET,light:LNAMES},SEC={nfs:['nfs','Навесные фасадные системы'],met:['met','Металлокаркасы'],light:['light','Освещение FOS']};
+T.design.par=['nfs','Навесные фасадные системы'];
 
 const bar=w=>`<i class="pb" style="width:${w}%"></i>`;
 const prow=rows=>rows.map(([a,v])=>`<div class="pr"><span>${a}</span><div>${v}</div></div>`).join('');
@@ -548,6 +556,8 @@ function serPick(j){const S=window.SERIES;if(!S||!$('#sph'))return;const [a,b]=S
  document.querySelectorAll('.sl button').forEach((e,k)=>e.classList.toggle('on',k===j))}
 
 const FN={
+ desdoc:()=>'<div class="spec">'+prow([['Раскладка облицовки',bar(70)],['Узлы и разрезы',bar(55)],['Спецификации',bar(45)],['Расчёты',bar(35)]])+'</div>',
+ dessteps:()=>`<div class="steps">${['Исходные данные','Проектирование','Согласование','Выдача документации'].map((t,j)=>`<div><em>${j+1}</em><b>${t}</b>${bar(85)}${bar(60)}</div>`).join('')}</div>`,
  steps:()=>`<div class="steps">${['Заявка','Подбор и расчёт','Согласование','Поставка'].map((t,j)=>`<div><em>${j+1}</em><b>${t}</b>${bar(85)}${bar(60)}</div>`).join('')}</div>`,
  objs4:()=>`<div class="ogrid o4">${[0,1,2,3].map(()=>`<a class="cd" style="width:auto" onclick="go('objs')"><div class="ph"><span>Фото объекта</span></div><b>Название объекта</b><small>Город · система</small></a>`).join('')}</div><div class="btns" style="margin-top:20px"><button class="btn alt" onclick="go('objs')">Все объекты</button></div>`,
  objs9:()=>`<div class="ogrid">${[0,1,2,3,4,5,6,7].map(j=>`<div><div class="ph"><span>Фото объекта</span></div><b>Название объекта</b><small>Город · система</small></div>`).join('')}</div>`,
@@ -560,16 +570,16 @@ const D={
 const col=(k,t,arr)=>`<div class="mc"><a class="mh" onclick="go('${k}')">${t}</a>${arr.map((x,j)=>`<a onclick="go('${k}-${j}')">${x}</a>`).join('')}</div>`;
 function nav(act){
  const s=(k,l,to)=>`<div class="nv ${act===k?'on':''}"><a class="nl" tabindex="0" onclick="go('${to}')">${l}</a></div>`;
- return `<div class="nv ${act==='nfs'?'on':''}"><a class="nl" tabindex="0" onclick="go('nfs')">Фасады</a><div class="mega"><div class="wrap mg2">${col('nfs','Навесные фасадные системы',NFS)}</div></div></div>
+ return `<div class="nv ${act==='nfs'?'on':''}"><a class="nl" tabindex="0" onclick="go('nfs')">Фасады</a><div class="mega"><div class="wrap mg2">${col('nfs','Навесные фасадные системы',NFS)}<div class="mc" style="margin-top:22px"><a class="mh" onclick="go('design')">${DES}</a></div></div></div></div>
  <div class="nv ${act==='met'?'on':''}"><a class="nl" tabindex="0" onclick="go('met')">Металлокаркасы</a><div class="mega"><div class="wrap mg2">${col('met','Металлокаркасы',MET)}</div></div></div>
  <div class="nv ${act==='light'?'on':''}"><a class="nl" tabindex="0" onclick="go('light')">Освещение FOS</a><div class="mega"><div class="wrap mg2">${col('light','Светильники FOS Group',LNAMES)}</div></div></div>`+s('objs','Объекты','objs')+s('contacts','Контакты','contacts')}
-const GRP={nfs:'nfs',met:'met',light:'light',objs:'objs',contacts:'contacts',home:'',map:''};
+const GRP={design:'nfs',nfs:'nfs',met:'met',light:'light',objs:'objs',contacts:'contacts',home:'',map:''};
 
 function theme(set){const r=document.documentElement;const d=set||(r.getAttribute('data-theme')==='dark'?'light':'dark');r.setAttribute('data-theme',d);try{localStorage.setItem('kr-theme',d)}catch(e){}themeBtn()}
 function themeBtn(){const b=$('#tg');if(b)b.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'☀ Светлая тема':'☾ Тёмная тема'}
 function toggleMenu(){const h=document.querySelector('header');h.classList.toggle('menu');$('.burger').textContent=h.classList.contains('menu')?'✕':'☰'}
 function mobNav(){const g=(k,t,a)=>`<details class="sub"><summary>${t}</summary><a onclick="go('${k}')">Все разделы: ${t}</a>${a.map((x,j)=>`<a onclick="go('${k}-${j}')">${x}</a>`).join('')}</details>`;
- return `<div class="wrap">${g('nfs','Фасады',NFS).replace('class="sub"','')}${g('met','Металлокаркасы',MET).replace('class="sub"','')}<details><summary>Освещение FOS</summary><a onclick="go('light')">Все направления</a>${LNAMES.map((x,j)=>`<a onclick="go('light-${j}')">${x}</a>`).join('')}</details><a class="top" onclick="go('objs')">Объекты</a><a class="top" onclick="go('contacts')">Контакты</a></div>`}
+ return `<div class="wrap">${g('nfs','Фасады',NFS).replace('class="sub"','').replace('</details>',`<a onclick="go('design')">${DES}</a></details>`)}${g('met','Металлокаркасы',MET).replace('class="sub"','')}<details><summary>Освещение FOS</summary><a onclick="go('light')">Все направления</a>${LNAMES.map((x,j)=>`<a onclick="go('light-${j}')">${x}</a>`).join('')}</details><a class="top" onclick="go('objs')">Объекты</a><a class="top" onclick="go('contacts')">Контакты</a></div>`}
 
 function go(id){location.hash=id;const h=document.querySelector('header');menuClose(true);h.classList.remove('menu');const bu=$('.burger');if(bu)bu.textContent='☰';if(document.activeElement)document.activeElement.blur()}
 function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(window.__tt);window.__tt=setTimeout(()=>t.style.display='none',2200)}
@@ -621,12 +631,12 @@ function blocks(t){return '<div class="rows">'+t.b.map(b=>{
  return `<section class="row ${body?'':'solo'} ${ex.wide?'wide':''} ${nohd?'nohd':''}"><div class="rh"><h3>${b[0]}</h3>${txt[0]?`<p class="note">${txt[0]}</p>`:''}${txt[1]?`<p class="note how">Как работает: ${txt[1]}</p>`:''}</div>${body?`<div class="rb">${body}</div>`:''}</section>`}).join('')+'</div>'}
 function pl(n,a,b,c){const m=n%100,d=n%10;return m>10&&m<20?c:d===1?a:d>1&&d<5?b:c}
 function mapPage(){
- const secs=[['nfs','Навесные фасадные системы',NFS],['met','Металлокаркасы',MET],['light','Освещение FOS',LNAMES],['objs','Объекты',null],['contacts','Контакты',null]];
+ const secs=[['nfs','Навесные фасадные системы',NFS.concat([DES])],['met','Металлокаркасы',MET],['light','Освещение FOS',LNAMES],['objs','Объекты',null],['contacts','Контакты',null]];
  const n3=secs.reduce((a,x)=>a+(x[2]?x[2].length:0),0),total=1+secs.length+n3;
  const node=(lv,t,to,cnt)=>`<span class="nd l${lv}" onclick="go('${to}')"><i>${lv}</i>${t}${cnt?`<em>${cnt}</em>`:''}</span>`;
- const items=secs.map(([k,t,ch],i)=>`<li${i===secs.length-1?' class="last"':''}>${node(2,t,k,ch?ch.length+' стр.':'')}${ch?`<div class="leaves">${ch.map((x,j)=>node(3,x,k+'-'+j)).join('')}</div>`:''}</li>`).join('');
+ const items=secs.map(([k,t,ch],i)=>`<li${i===secs.length-1?' class="last"':''}>${node(2,t,k,ch?ch.length+' стр.':'')}${ch?`<div class="leaves">${ch.map((x,j)=>node(3,x,x===DES?'design':k+'-'+j)).join('')}</div>`:''}</li>`).join('');
  return `<div class="crumbs"><a onclick="go('home')">← Вернуться к прототипу</a></div><div class="head"><h1>Дерево сайта: ${total} ${pl(total,'страница','страницы','страниц')}</h1></div>
- <p class="tn">Три уровня: главная, ${secs.length} разделов, ${n3} ${pl(n3,'страница','страницы','страниц')} видов. До любой страницы два клика от главной. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
+ <p class="tn">Три уровня: главная, ${secs.length} разделов, ${n3} ${pl(n3,'страница','страницы','страниц')} внутри разделов. До любой страницы два клика от главной. Форма «Связаться» — всплывающее окно, отдельной страницы у неё нет</p>
  <div class="tree"><div class="root">${node(1,'Главная','home','')}</div><ul>${items}</ul></div>`}
 function render(){
  const raw=location.hash.slice(1);const m=raw.match(/^(nfs|met|light)-(\d+)$/);
